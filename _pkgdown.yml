@@ -1,0 +1,46 @@
+url: https://almartin82.github.io/mnschooldata/
+
+template:
+  bootstrap: 5
+
+navbar:
+  structure:
+    left:  [intro, reference, articles]
+    right: [search, github]
+  components:
+    github:
+      icon: fab fa-github
+      href: https://github.com/almartin82/mnschooldata
+
+reference:
+- title: Fetch Data
+  desc: Functions for downloading enrollment data from MDE
+  contents:
+  - fetch_enr
+  - fetch_enr_multi
+  - get_available_years
+
+- title: Transform Data
+  desc: Functions for reshaping and annotating enrollment data
+  contents:
+  - tidy_enr
+  - id_enr_aggs
+  - enr_grade_aggs
+
+- title: Cache Management
+  desc: Functions for managing locally cached data
+  contents:
+  - cache_status
+  - clear_cache
+
+- title: Package
+  contents:
+  - mnschooldata-package
+
+home:
+  title: Minnesota School Data
+  description: Fetch and process school enrollment data from the Minnesota Department of Education
+
+authors:
+  Al Martin:
+    href: https://github.com/almartin82

@@ -1,0 +1,35 @@
+# R specific
+.Rproj.user
+.Rhistory
+.RData
+.Ruserdata
+*.Rproj
+
+# Package build artifacts
+src/*.o
+src/*.so
+src/*.dll
+*.tar.gz
+
+# Documentation artifacts
+docs/
+doc/
+Meta/
+
+# IDE
+.idea/
+*.swp
+*.swo
+*~
+
+# OS generated
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Cache
+inst/cache/
