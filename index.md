@@ -4,8 +4,8 @@
 **[Getting
 Started](https://almartin82.github.io/mnschooldata/articles/quickstart.html)**
 
-Fetch and analyze Minnesota public school enrollment data from the
-Minnesota Department of Education (MDE).
+Fetch and analyze Minnesota school enrollment data from the Minnesota
+Department of Education (MDE) in R or Python.
 
 ## What can you find with mnschooldata?
 
@@ -226,6 +226,8 @@ remotes::install_github("almartin82/mnschooldata")
 
 ## Quick start
 
+### R
+
 ``` r
 library(mnschooldata)
 library(dplyr)
@@ -251,6 +253,36 @@ enr_2025 %>%
   filter(grepl("Minneapolis", district_name), grade_level == "TOTAL",
          subgroup %in% c("white", "black", "hispanic", "asian")) %>%
   select(subgroup, n_students, pct)
+```
+
+### Python
+
+``` python
+import pymnschooldata as mn
+
+# Check available years
+years = mn.get_available_years()
+print(f"Data available from {years['min_year']} to {years['max_year']}")
+
+# Fetch one year
+enr_2025 = mn.fetch_enr(2025)
+
+# Fetch multiple years
+enr_multi = mn.fetch_enr_multi([2020, 2021, 2022, 2023, 2024, 2025])
+
+# State totals
+state_total = enr_2025[
+    (enr_2025['is_state'] == True) &
+    (enr_2025['subgroup'] == 'total_enrollment') &
+    (enr_2025['grade_level'] == 'TOTAL')
+]
+
+# Largest districts
+districts = enr_2025[
+    (enr_2025['is_district'] == True) &
+    (enr_2025['subgroup'] == 'total_enrollment') &
+    (enr_2025['grade_level'] == 'TOTAL')
+].sort_values('n_students', ascending=False).head(15)
 ```
 
 ## Data availability
@@ -287,17 +319,12 @@ MDEAnalytics Portal:
   official counts
 - **Suppression:** Small cell sizes may be suppressed for privacy
 
-## Part of the 50 State Schooldata Family
+## Part of the State Schooldata Project
 
-This package is part of a family of R packages providing school
-enrollment data for all 50 US states. Each package fetches data directly
-from the state’s Department of Education.
+A simple, consistent interface for accessing state-published school data
+in Python and R.
 
-**See also:**
-[njschooldata](https://github.com/almartin82/njschooldata) - The
-original state schooldata package for New Jersey.
-
-**All packages:**
+**All 50 state packages:**
 [github.com/almartin82](https://github.com/almartin82?tab=repositories&q=schooldata)
 
 ## Author
