@@ -9,12 +9,11 @@
 Source:
 [`DESCRIPTION`](https://github.com/almartin82/mnschooldata/blob/main/DESCRIPTION)
 
-Martin A (2026). *mnschooldata: Fetch and Process Minnesota School
-Data*. R package version 0.1.0,
-<https://almartin82.github.io/mnschooldata>.
+Martin A (2026). *mnschooldata: Minnesota School Data*. R package
+version 0.1.0, <https://almartin82.github.io/mnschooldata>.
 
     @Manual{,
-      title = {mnschooldata: Fetch and Process Minnesota School Data},
+      title = {mnschooldata: Minnesota School Data},
       author = {Al Martin},
       year = {2026},
       note = {R package version 0.1.0},
