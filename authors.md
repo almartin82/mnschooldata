@@ -11,12 +11,12 @@ Source:
 
 Martin A (2026). *mnschooldata: Fetch and Process Minnesota School
 Data*. R package version 0.1.0,
-<https://github.com/almartin82/mnschooldata>.
+<https://almartin82.github.io/mnschooldata>.
 
     @Manual{,
       title = {mnschooldata: Fetch and Process Minnesota School Data},
       author = {Al Martin},
       year = {2026},
       note = {R package version 0.1.0},
-      url = {https://github.com/almartin82/mnschooldata},
+      url = {https://almartin82.github.io/mnschooldata},
     }
