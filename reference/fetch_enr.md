@@ -1,0 +1,55 @@
+# Fetch Minnesota enrollment data
+
+Downloads and processes enrollment data from the Minnesota Department of
+Education's MDEAnalytics portal. Data comes from MARSS (Minnesota
+Automated Reporting Student System) and represents October 1 enrollment
+counts.
+
+## Usage
+
+``` r
+fetch_enr(end_year, tidy = TRUE, use_cache = TRUE)
+```
+
+## Arguments
+
+- end_year:
+
+  A school year end. Year is the end of the academic year - e.g.,
+  2023-24 school year is year '2024'. Valid values are 2007-2025.
+
+- tidy:
+
+  If TRUE (default), returns data in long (tidy) format with subgroup
+  column. If FALSE, returns wide format.
+
+- use_cache:
+
+  If TRUE (default), uses locally cached data when available. Set to
+  FALSE to force re-download from MDE.
+
+## Value
+
+Data frame with enrollment data. Wide format includes columns for
+district_id, campus_id, names, and enrollment counts by
+demographic/grade. Tidy format pivots these counts into subgroup and
+grade_level columns.
+
+## Examples
+
+``` r
+if (FALSE) { # \dontrun{
+# Get 2024 enrollment data (2023-24 school year)
+enr_2024 <- fetch_enr(2024)
+
+# Get wide format
+enr_wide <- fetch_enr(2024, tidy = FALSE)
+
+# Force fresh download (ignore cache)
+enr_fresh <- fetch_enr(2024, use_cache = FALSE)
+
+# Filter to specific district (Minneapolis)
+mpls <- enr_2024 %>%
+  dplyr::filter(grepl("Minneapolis", district_name, ignore.case = TRUE))
+} # }
+```
