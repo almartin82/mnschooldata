@@ -7,7 +7,7 @@
 [![Lifecycle: experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://lifecycle.r-lib.org/articles/stages.html#experimental)
 <!-- badges: end -->
 
-**[Documentation](https://almartin82.github.io/mnschooldata/)** | **[Getting Started](https://almartin82.github.io/mnschooldata/articles/quickstart.html)**
+**[Documentation](https://almartin82.github.io/mnschooldata/)** | **[Getting Started](https://almartin82.github.io/mnschooldata/articles/quickstart.html)** | **[Enrollment Trends](https://almartin82.github.io/mnschooldata/articles/enrollment-trends.html)**
 
 Fetch and analyze Minnesota school enrollment data from the Minnesota Department of Education (MDE) in R or Python.
 
@@ -15,182 +15,18 @@ Fetch and analyze Minnesota school enrollment data from the Minnesota Department
 
 **18 years of enrollment data (2007-2024).** 870,000 students. 330+ districts. Here are ten stories hiding in the numbers:
 
----
+1. [Minneapolis and St. Paul are shrinking](https://almartin82.github.io/mnschooldata/articles/enrollment-trends.html#minneapolis-and-st.-paul-are-shrinking) - Each lost over 10,000 students in the past decade
+2. [Somali students transformed Minneapolis schools](https://almartin82.github.io/mnschooldata/articles/enrollment-trends.html#somali-students-transformed-minneapolis-schools) - One of the largest Somali populations in the US
+3. [Charter schools serve 60,000+ students](https://almartin82.github.io/mnschooldata/articles/enrollment-trends.html#charter-schools-serve-60000-students) - Minnesota invented charter schools in 1991
+4. [Suburban ring is booming](https://almartin82.github.io/mnschooldata/articles/enrollment-trends.html#suburban-ring-is-booming) - Growing while core cities shrink
+5. [Minnesota is diversifying fast](https://almartin82.github.io/mnschooldata/articles/enrollment-trends.html#minnesota-is-diversifying-fast) - From 85% white to under 70% today
+6. [COVID hit kindergarten hard](https://almartin82.github.io/mnschooldata/articles/enrollment-trends.html#covid-hit-kindergarten-hard) - Lost 8% of kindergartners in 2021
+7. [Iron Range still declining](https://almartin82.github.io/mnschooldata/articles/enrollment-trends.html#iron-range-still-declining) - Mining region continues to lose students
+8. [Rochester: A growing city](https://almartin82.github.io/mnschooldata/articles/enrollment-trends.html#rochester-a-growing-city) - Mayo Clinic expansion drives growth
+9. [English learners approaching 10%](https://almartin82.github.io/mnschooldata/articles/enrollment-trends.html#english-learners-approaching-10) - Over 80,000 students in Twin Cities metro
+10. [Free/Reduced lunch shows economic divide](https://almartin82.github.io/mnschooldata/articles/enrollment-trends.html#freereduced-lunch-shows-economic-divide) - From 3% in Edina to 80%+ in some districts
 
-### 1. Minneapolis and St. Paul are shrinking
-
-The Twin Cities' two urban districts have each lost over 10,000 students in the past decade.
-
-```r
-library(mnschooldata)
-library(dplyr)
-
-enr <- fetch_enr_multi(2015:2024)
-
-enr %>%
-  filter(is_district, grepl("Minneapolis|St. Paul", district_name),
-         subgroup == "total_enrollment", grade_level == "TOTAL") %>%
-  select(end_year, district_name, n_students)
-```
-
-![Twin Cities decline](man/figures/twin-cities-decline.png)
-
----
-
-### 2. Somali students transformed Minneapolis schools
-
-Minneapolis has one of the largest Somali populations in the US, now over 20,000 students.
-
-```r
-enr %>%
-  filter(is_district, grepl("Minneapolis", district_name),
-         grade_level == "TOTAL", subgroup == "black") %>%
-  mutate(pct = round(pct * 100, 1)) %>%
-  select(end_year, n_students, pct)
-```
-
-![Minneapolis diversity](man/figures/mpls-diversity.png)
-
----
-
-### 3. Charter schools serve 60,000+ students
-
-Minnesota invented charter schools in 1991, and now over 180 charters serve nearly 7% of the state.
-
-```r
-enr_2024 <- fetch_enr(2024)
-
-# Charter schools have district type 07
-enr_2024 %>%
-  filter(is_charter, subgroup == "total_enrollment", grade_level == "TOTAL") %>%
-  summarize(
-    total_charter = sum(n_students, na.rm = TRUE),
-    n_schools = n()
-  )
-```
-
-![Charter enrollment](man/figures/charter-enrollment.png)
-
----
-
-### 4. Suburban ring is booming
-
-Districts like Anoka-Hennepin, Lakeville, and Prior Lake are growing while the core cities shrink.
-
-```r
-suburban <- c("Anoka-Hennepin", "Lakeville", "Prior Lake", "Rosemount")
-
-enr %>%
-  filter(is_district, grepl(paste(suburban, collapse = "|"), district_name),
-         subgroup == "total_enrollment", grade_level == "TOTAL") %>%
-  group_by(district_name) %>%
-  mutate(index = n_students / first(n_students) * 100) %>%
-  select(end_year, district_name, index)
-```
-
-![Suburban growth](man/figures/suburban-growth.png)
-
----
-
-### 5. Minnesota is diversifying fast
-
-From 85% white in 2007 to under 70% today - one of the fastest demographic shifts in the Midwest.
-
-```r
-enr <- fetch_enr_multi(c(2007, 2012, 2017, 2022, 2024))
-
-enr %>%
-  filter(is_state, grade_level == "TOTAL",
-         subgroup %in% c("white", "black", "hispanic", "asian")) %>%
-  mutate(pct = round(pct * 100, 1)) %>%
-  select(end_year, subgroup, pct)
-```
-
-![Demographic shift](man/figures/demographics.png)
-
----
-
-### 6. COVID hit kindergarten hard
-
-Minnesota lost 8% of kindergartners in 2021 - nearly 5,000 fewer kids.
-
-```r
-enr <- fetch_enr_multi(2018:2024)
-
-enr %>%
-  filter(is_state, subgroup == "total_enrollment",
-         grade_level %in% c("K", "01", "06", "12")) %>%
-  select(end_year, grade_level, n_students)
-```
-
-![COVID kindergarten](man/figures/covid-k.png)
-
----
-
-### 7. Iron Range still declining
-
-Districts in northern Minnesota's mining region continue to lose students as the population ages.
-
-```r
-iron_range <- c("Hibbing", "Virginia", "Eveleth", "Chisholm")
-
-enr %>%
-  filter(is_district, grepl(paste(iron_range, collapse = "|"), district_name, ignore.case = TRUE),
-         subgroup == "total_enrollment", grade_level == "TOTAL") %>%
-  select(end_year, district_name, n_students)
-```
-
-![Iron Range](man/figures/iron-range.png)
-
----
-
-### 8. Rochester: A growing city
-
-Driven by Mayo Clinic expansion, Rochester is one of the few outstate cities gaining students.
-
-```r
-enr %>%
-  filter(is_district, grepl("Rochester", district_name),
-         subgroup == "total_enrollment", grade_level == "TOTAL") %>%
-  select(end_year, n_students)
-```
-
-![Rochester growth](man/figures/rochester-growth.png)
-
----
-
-### 9. English learners approaching 10%
-
-Over 80,000 students are English learners, concentrated in the Twin Cities metro.
-
-```r
-enr_2024 %>%
-  filter(is_district, subgroup == "lep", grade_level == "TOTAL") %>%
-  arrange(desc(n_students)) %>%
-  select(district_name, n_students, pct) %>%
-  head(10)
-```
-
-![EL concentration](man/figures/el-concentration.png)
-
----
-
-### 10. Free/Reduced lunch shows economic divide
-
-From 3% in wealthy Edina to 80%+ in some urban and rural districts.
-
-```r
-enr_2024 %>%
-  filter(is_district, subgroup == "econ_disadv", grade_level == "TOTAL") %>%
-  arrange(desc(pct)) %>%
-  mutate(pct = round(pct * 100, 1)) %>%
-  select(district_name, n_students, pct) %>%
-  head(10)
-```
-
-![Economic divide](man/figures/econ-divide.png)
-
----
+See the full [Enrollment Trends](https://almartin82.github.io/mnschooldata/articles/enrollment-trends.html) article for interactive visualizations and code examples.
 
 ## Installation
 
