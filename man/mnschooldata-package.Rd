@@ -30,7 +30,7 @@ Enrollment counts are based on October 1 enrollment reported via MARSS
 
 Available data:
 \itemize{
-\item Years: 2007-2025
+\item Years: 2007-2024
 \item Levels: State, District, School (Campus)
 \item Demographics: Race/ethnicity, gender, special populations
 \item Grades: Pre-K through 12

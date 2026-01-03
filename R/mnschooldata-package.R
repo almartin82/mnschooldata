@@ -27,7 +27,7 @@ NULL
 #'
 #' Available data:
 #' \itemize{
-#'   \item Years: 2007-2025
+#'   \item Years: 2007-2024
 #'   \item Levels: State, District, School (Campus)
 #'   \item Demographics: Race/ethnicity, gender, special populations
 #'   \item Grades: Pre-K through 12

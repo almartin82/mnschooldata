@@ -13,7 +13,7 @@ Fetch and analyze Minnesota school enrollment data from the Minnesota Department
 
 ## What can you find with mnschooldata?
 
-**19 years of enrollment data (2007-2025).** 870,000 students. 330+ districts. Here are ten stories hiding in the numbers:
+**18 years of enrollment data (2007-2024).** 870,000 students. 330+ districts. Here are ten stories hiding in the numbers:
 
 ---
 
@@ -25,7 +25,7 @@ The Twin Cities' two urban districts have each lost over 10,000 students in the 
 library(mnschooldata)
 library(dplyr)
 
-enr <- fetch_enr_multi(2015:2025)
+enr <- fetch_enr_multi(2015:2024)
 
 enr %>%
   filter(is_district, grepl("Minneapolis|St. Paul", district_name),
@@ -58,10 +58,10 @@ enr %>%
 Minnesota invented charter schools in 1991, and now over 180 charters serve nearly 7% of the state.
 
 ```r
-enr_2025 <- fetch_enr(2025)
+enr_2024 <- fetch_enr(2024)
 
 # Charter schools have district type 07
-enr_2025 %>%
+enr_2024 %>%
   filter(is_charter, subgroup == "total_enrollment", grade_level == "TOTAL") %>%
   summarize(
     total_charter = sum(n_students, na.rm = TRUE),
@@ -97,7 +97,7 @@ enr %>%
 From 85% white in 2007 to under 70% today - one of the fastest demographic shifts in the Midwest.
 
 ```r
-enr <- fetch_enr_multi(c(2007, 2012, 2017, 2022, 2025))
+enr <- fetch_enr_multi(c(2007, 2012, 2017, 2022, 2024))
 
 enr %>%
   filter(is_state, grade_level == "TOTAL",
@@ -115,7 +115,7 @@ enr %>%
 Minnesota lost 8% of kindergartners in 2021 - nearly 5,000 fewer kids.
 
 ```r
-enr <- fetch_enr_multi(2018:2025)
+enr <- fetch_enr_multi(2018:2024)
 
 enr %>%
   filter(is_state, subgroup == "total_enrollment",
@@ -164,7 +164,7 @@ enr %>%
 Over 80,000 students are English learners, concentrated in the Twin Cities metro.
 
 ```r
-enr_2025 %>%
+enr_2024 %>%
   filter(is_district, subgroup == "lep", grade_level == "TOTAL") %>%
   arrange(desc(n_students)) %>%
   select(district_name, n_students, pct) %>%
@@ -180,7 +180,7 @@ enr_2025 %>%
 From 3% in wealthy Edina to 80%+ in some urban and rural districts.
 
 ```r
-enr_2025 %>%
+enr_2024 %>%
   filter(is_district, subgroup == "econ_disadv", grade_level == "TOTAL") %>%
   arrange(desc(pct)) %>%
   mutate(pct = round(pct * 100, 1)) %>%
@@ -208,23 +208,23 @@ library(mnschooldata)
 library(dplyr)
 
 # Fetch one year
-enr_2025 <- fetch_enr(2025)
+enr_2024 <- fetch_enr(2024)
 
 # Fetch multiple years
-enr_multi <- fetch_enr_multi(2020:2025)
+enr_multi <- fetch_enr_multi(2020:2024)
 
 # State totals
-enr_2025 %>%
+enr_2024 %>%
   filter(is_state, subgroup == "total_enrollment", grade_level == "TOTAL")
 
 # Largest districts
-enr_2025 %>%
+enr_2024 %>%
   filter(is_district, subgroup == "total_enrollment", grade_level == "TOTAL") %>%
   arrange(desc(n_students)) %>%
   head(15)
 
 # Minneapolis demographics
-enr_2025 %>%
+enr_2024 %>%
   filter(grepl("Minneapolis", district_name), grade_level == "TOTAL",
          subgroup %in% c("white", "black", "hispanic", "asian")) %>%
   select(subgroup, n_students, pct)
@@ -240,23 +240,23 @@ years = mn.get_available_years()
 print(f"Data available from {years['min_year']} to {years['max_year']}")
 
 # Fetch one year
-enr_2025 = mn.fetch_enr(2025)
+enr_2024 = mn.fetch_enr(2024)
 
 # Fetch multiple years
-enr_multi = mn.fetch_enr_multi([2020, 2021, 2022, 2023, 2024, 2025])
+enr_multi = mn.fetch_enr_multi([2020, 2021, 2022, 2023, 2024])
 
 # State totals
-state_total = enr_2025[
-    (enr_2025['is_state'] == True) &
-    (enr_2025['subgroup'] == 'total_enrollment') &
-    (enr_2025['grade_level'] == 'TOTAL')
+state_total = enr_2024[
+    (enr_2024['is_state'] == True) &
+    (enr_2024['subgroup'] == 'total_enrollment') &
+    (enr_2024['grade_level'] == 'TOTAL')
 ]
 
 # Largest districts
-districts = enr_2025[
-    (enr_2025['is_district'] == True) &
-    (enr_2025['subgroup'] == 'total_enrollment') &
-    (enr_2025['grade_level'] == 'TOTAL')
+districts = enr_2024[
+    (enr_2024['is_district'] == True) &
+    (enr_2024['subgroup'] == 'total_enrollment') &
+    (enr_2024['grade_level'] == 'TOTAL')
 ].sort_values('n_students', ascending=False).head(15)
 ```
 
@@ -264,7 +264,7 @@ districts = enr_2025[
 
 | Years | Source | Notes |
 |-------|--------|-------|
-| **2017-2025** | MDEAnalytics Modern | Current format with standardized columns |
+| **2017-2024** | MDEAnalytics Modern | Current format with standardized columns |
 | **2007-2016** | MDEAnalytics Legacy | Earlier format with different column naming |
 
 Data is sourced from the Minnesota Department of Education:

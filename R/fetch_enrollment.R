@@ -14,7 +14,7 @@
 #' Reporting Student System) and represents October 1 enrollment counts.
 #'
 #' @param end_year A school year end. Year is the end of the academic year - e.g.,
-#'   2023-24 school year is year '2024'. Valid values are 2007-2025.
+#'   2023-24 school year is year '2024'. Valid values are 2007-2024.
 #' @param tidy If TRUE (default), returns data in long (tidy) format with subgroup
 #'   column. If FALSE, returns wide format.
 #' @param use_cache If TRUE (default), uses locally cached data when available.

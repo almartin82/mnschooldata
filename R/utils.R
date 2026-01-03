@@ -41,5 +41,5 @@ safe_numeric <- function(x) {
 get_available_years <- function() {
   # MDE provides enrollment data from 2007 onwards
   # Data is based on October 1 enrollment reported via MARSS
-  2007:2025
+  2007:2024
 }
