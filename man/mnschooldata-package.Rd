@@ -3,9 +3,9 @@
 \docType{package}
 \name{mnschooldata-package}
 \alias{mnschooldata-package}
-\title{mnschooldata: Fetch and Process Minnesota School Data}
+\title{mnschooldata: Minnesota School Data}
 \description{
-Downloads and processes school data from the Minnesota Department of Education (MDE). Provides functions for fetching enrollment data from MARSS (Minnesota Automated Reporting Student System) and transforming it into tidy format for analysis.
+A simple, consistent interface for accessing Minnesota school data in Python and R.
 
 Downloads and processes school enrollment data from the Minnesota
 Department of Education (MDE). Provides functions for fetching data
@@ -50,6 +50,7 @@ Minnesota uses a district type + number system:
 \seealso{
 Useful links:
 \itemize{
+  \item \url{https://almartin82.github.io/mnschooldata}
   \item \url{https://github.com/almartin82/mnschooldata}
   \item Report bugs at \url{https://github.com/almartin82/mnschooldata/issues}
 }
@@ -57,6 +58,7 @@ Useful links:
 
 Useful links:
 \itemize{
+  \item \url{https://almartin82.github.io/mnschooldata}
   \item \url{https://github.com/almartin82/mnschooldata}
   \item Report bugs at \url{https://github.com/almartin82/mnschooldata/issues}
 }
