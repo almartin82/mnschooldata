@@ -36,7 +36,7 @@ MARSS (Minnesota Automated Reporting Student System).
 
 Available data:
 
-- Years: 2007-2025
+- Years: 2007-2024
 
 - Levels: State, District, School (Campus)
 
