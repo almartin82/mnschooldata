@@ -33,6 +33,8 @@ enr %>%
   select(end_year, district_name, n_students)
 ```
 
+![Twin Cities decline](man/figures/twin-cities-decline.png)
+
 ---
 
 ### 2. Somali students transformed Minneapolis schools
@@ -46,6 +48,8 @@ enr %>%
   mutate(pct = round(pct * 100, 1)) %>%
   select(end_year, n_students, pct)
 ```
+
+![Minneapolis diversity](man/figures/mpls-diversity.png)
 
 ---
 
@@ -65,6 +69,8 @@ enr_2025 %>%
   )
 ```
 
+![Charter enrollment](man/figures/charter-enrollment.png)
+
 ---
 
 ### 4. Suburban ring is booming
@@ -82,6 +88,8 @@ enr %>%
   select(end_year, district_name, index)
 ```
 
+![Suburban growth](man/figures/suburban-growth.png)
+
 ---
 
 ### 5. Minnesota is diversifying fast
@@ -98,6 +106,8 @@ enr %>%
   select(end_year, subgroup, pct)
 ```
 
+![Demographic shift](man/figures/demographics.png)
+
 ---
 
 ### 6. COVID hit kindergarten hard
@@ -112,6 +122,8 @@ enr %>%
          grade_level %in% c("K", "01", "06", "12")) %>%
   select(end_year, grade_level, n_students)
 ```
+
+![COVID kindergarten](man/figures/covid-k.png)
 
 ---
 
@@ -128,6 +140,8 @@ enr %>%
   select(end_year, district_name, n_students)
 ```
 
+![Iron Range](man/figures/iron-range.png)
+
 ---
 
 ### 8. Rochester: A growing city
@@ -140,6 +154,8 @@ enr %>%
          subgroup == "total_enrollment", grade_level == "TOTAL") %>%
   select(end_year, n_students)
 ```
+
+![Rochester growth](man/figures/rochester-growth.png)
 
 ---
 
@@ -155,6 +171,8 @@ enr_2025 %>%
   head(10)
 ```
 
+![EL concentration](man/figures/el-concentration.png)
+
 ---
 
 ### 10. Free/Reduced lunch shows economic divide
@@ -169,6 +187,8 @@ enr_2025 %>%
   select(district_name, n_students, pct) %>%
   head(10)
 ```
+
+![Economic divide](man/figures/econ-divide.png)
 
 ---
 
