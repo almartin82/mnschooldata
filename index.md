@@ -31,6 +31,10 @@ enr %>%
   select(end_year, district_name, n_students)
 ```
 
+![Twin Cities decline](reference/figures/twin-cities-decline.png)
+
+Twin Cities decline
+
 ------------------------------------------------------------------------
 
 ### 2. Somali students transformed Minneapolis schools
@@ -45,6 +49,10 @@ enr %>%
   mutate(pct = round(pct * 100, 1)) %>%
   select(end_year, n_students, pct)
 ```
+
+![Minneapolis diversity](reference/figures/mpls-diversity.png)
+
+Minneapolis diversity
 
 ------------------------------------------------------------------------
 
@@ -65,6 +73,10 @@ enr_2025 %>%
   )
 ```
 
+![Charter enrollment](reference/figures/charter-enrollment.png)
+
+Charter enrollment
+
 ------------------------------------------------------------------------
 
 ### 4. Suburban ring is booming
@@ -83,6 +95,10 @@ enr %>%
   select(end_year, district_name, index)
 ```
 
+![Suburban growth](reference/figures/suburban-growth.png)
+
+Suburban growth
+
 ------------------------------------------------------------------------
 
 ### 5. Minnesota is diversifying fast
@@ -100,6 +116,10 @@ enr %>%
   select(end_year, subgroup, pct)
 ```
 
+![Demographic shift](reference/figures/demographics.png)
+
+Demographic shift
+
 ------------------------------------------------------------------------
 
 ### 6. COVID hit kindergarten hard
@@ -114,6 +134,10 @@ enr %>%
          grade_level %in% c("K", "01", "06", "12")) %>%
   select(end_year, grade_level, n_students)
 ```
+
+![COVID kindergarten](reference/figures/covid-k.png)
+
+COVID kindergarten
 
 ------------------------------------------------------------------------
 
@@ -131,6 +155,10 @@ enr %>%
   select(end_year, district_name, n_students)
 ```
 
+![Iron Range](reference/figures/iron-range.png)
+
+Iron Range
+
 ------------------------------------------------------------------------
 
 ### 8. Rochester: A growing city
@@ -144,6 +172,10 @@ enr %>%
          subgroup == "total_enrollment", grade_level == "TOTAL") %>%
   select(end_year, n_students)
 ```
+
+![Rochester growth](reference/figures/rochester-growth.png)
+
+Rochester growth
 
 ------------------------------------------------------------------------
 
@@ -160,6 +192,10 @@ enr_2025 %>%
   head(10)
 ```
 
+![EL concentration](reference/figures/el-concentration.png)
+
+EL concentration
+
 ------------------------------------------------------------------------
 
 ### 10. Free/Reduced lunch shows economic divide
@@ -174,6 +210,10 @@ enr_2025 %>%
   select(district_name, n_students, pct) %>%
   head(10)
 ```
+
+![Economic divide](reference/figures/econ-divide.png)
+
+Economic divide
 
 ------------------------------------------------------------------------
 
