@@ -5,6 +5,12 @@
 ## usethis namespace: end
 NULL
 
+# Global variables used in dplyr pipelines
+utils::globalVariables(c(
+
+"grade_level", "n_students", "row_total", "subgroup", "type"
+))
+
 #' mnschooldata: Fetch and Process Minnesota School Data
 #'
 #' Downloads and processes school enrollment data from the Minnesota
