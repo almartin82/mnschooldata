@@ -34,4 +34,4 @@ Functions for managing locally cached data
 ## Package
 
 - [`mnschooldata-package`](https://almartin82.github.io/mnschooldata/reference/mnschooldata-package.md)
-  : mnschooldata: Fetch and Process Minnesota School Data
+  : mnschooldata: Minnesota School Data

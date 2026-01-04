@@ -1,9 +1,7 @@
-# mnschooldata: Fetch and Process Minnesota School Data
+# mnschooldata: Minnesota School Data
 
-Downloads and processes school data from the Minnesota Department of
-Education (MDE). Provides functions for fetching enrollment data from
-MARSS (Minnesota Automated Reporting Student System) and transforming it
-into tidy format for analysis.
+A simple, consistent interface for accessing Minnesota school data in
+Python and R.
 
 Downloads and processes school enrollment data from the Minnesota
 Department of Education (MDE). Provides functions for fetching data from
@@ -59,11 +57,15 @@ Minnesota uses a district type + number system:
 
 Useful links:
 
+- <https://almartin82.github.io/mnschooldata>
+
 - <https://github.com/almartin82/mnschooldata>
 
 - Report bugs at <https://github.com/almartin82/mnschooldata/issues>
 
 Useful links:
+
+- <https://almartin82.github.io/mnschooldata>
 
 - <https://github.com/almartin82/mnschooldata>
 
