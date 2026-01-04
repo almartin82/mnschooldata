@@ -12,3 +12,5 @@
 ^CLAUDE\.md$
 ^PRD\.md$
 ^py.*schooldata$
+^TODO\.md$
+^generate_readme_figs\.R$

@@ -15,9 +15,12 @@ knitr::opts_chunk$set(
   fig.height = 6,
   out.width = "100%",
   message = FALSE,
-  warning = FALSE
+  warning = FALSE,
+  eval = FALSE
 )
 ```
+
+**Note:** This vignette demonstrates how to analyze Minnesota enrollment data using the `mnschooldata` package. Code chunks are not evaluated during package build; run interactively to see results.
 
 ```{r load-packages}
 library(mnschooldata)
