@@ -32,4 +32,4 @@ data(enr_2024_example)
 head(enr_2024_example)
 }
 }
-\keyword{datasets}
+\keyword{internal}

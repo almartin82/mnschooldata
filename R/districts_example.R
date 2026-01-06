@@ -17,4 +17,5 @@
 #' data(districts_example)
 #' head(districts_example)
 #' }
+#' @keywords internal
 "districts_example"

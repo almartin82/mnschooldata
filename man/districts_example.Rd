@@ -28,4 +28,4 @@ data(districts_example)
 head(districts_example)
 }
 }
-\keyword{datasets}
+\keyword{internal}

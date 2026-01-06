@@ -35,4 +35,4 @@ data(enr_multi_example)
 head(enr_multi_example)
 }
 }
-\keyword{datasets}
+\keyword{internal}

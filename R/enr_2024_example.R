@@ -21,4 +21,5 @@
 #' data(enr_2024_example)
 #' head(enr_2024_example)
 #' }
+#' @keywords internal
 "enr_2024_example"
