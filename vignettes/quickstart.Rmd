@@ -7,7 +7,7 @@ vignette: >
   %\VignetteEncoding{UTF-8}
 ---
 
-```{r setup, include=FALSE}
+```{r setup, eval = TRUE, include=FALSE}
 knitr::opts_chunk$set(
   echo = TRUE,
   message = FALSE,
