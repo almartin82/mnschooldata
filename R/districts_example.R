@@ -18,4 +18,4 @@
 #' head(districts_example)
 #' }
 #' @keywords internal
-"districts_example"
+NULL

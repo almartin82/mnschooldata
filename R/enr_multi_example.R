@@ -25,4 +25,4 @@
 #' head(enr_multi_example)
 #' }
 #' @keywords internal
-"enr_multi_example"
+NULL
