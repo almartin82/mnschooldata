@@ -189,3 +189,268 @@ test_that("enr_grade_aggs creates correct aggregations", {
   k12_row <- aggs[aggs$grade_level == "K12", ]
   expect_equal(k12_row$n_students, 300)
 })
+
+
+test_that("tidy_enr produces all required columns", {
+  # Create comprehensive test data
+  test_wide <- data.frame(
+    end_year = 2024,
+    type = "Campus",
+    district_id = "000001",
+    campus_id = "000001001",
+    district_name = "Test District",
+    campus_name = "Test School",
+    county = "Test County",
+    row_total = 500,
+    white = 300,
+    black = 100,
+    hispanic = 50,
+    asian = 25,
+    native_american = 10,
+    pacific_islander = 5,
+    multiracial = 10,
+    male = 260,
+    female = 240,
+    special_ed = 50,
+    lep = 75,
+    econ_disadv = 200,
+    homeless = 10,
+    grade_pk = 40,
+    grade_k = 45,
+    grade_01 = 42,
+    grade_02 = 40,
+    grade_03 = 41,
+    grade_04 = 39,
+    grade_05 = 40,
+    grade_06 = 38,
+    grade_07 = 37,
+    grade_08 = 36,
+    grade_09 = 35,
+    grade_10 = 34,
+    grade_11 = 33,
+    grade_12 = 30
+  )
+
+  tidy_result <- tidy_enr(test_wide)
+
+  # Check all required columns are present
+  required_cols <- c(
+    "end_year", "type", "district_id", "campus_id",
+    "district_name", "campus_name", "grade_level", "subgroup",
+    "n_students", "pct"
+  )
+  for (col in required_cols) {
+    expect_true(col %in% names(tidy_result),
+                info = paste("Missing required column:", col))
+  }
+
+  # Check bonus columns
+  expect_true("county" %in% names(tidy_result))
+})
+
+
+test_that("tidy_enr produces all expected subgroups", {
+  test_wide <- data.frame(
+    end_year = 2024,
+    type = "Campus",
+    district_id = "000001",
+    campus_id = "000001001",
+    district_name = "Test District",
+    campus_name = "Test School",
+    county = "Test County",
+    row_total = 500,
+    white = 300,
+    black = 100,
+    hispanic = 50,
+    asian = 25,
+    native_american = 10,
+    pacific_islander = 5,
+    multiracial = 10,
+    male = 260,
+    female = 240,
+    special_ed = 50,
+    lep = 75,
+    econ_disadv = 200,
+    homeless = 10,
+    grade_k = 45,
+    grade_01 = 42
+  )
+
+  tidy_result <- tidy_enr(test_wide)
+
+  # Check all expected subgroups are present
+  expected_subgroups <- c(
+    "total_enrollment",
+    "white", "black", "hispanic", "asian",
+    "native_american", "pacific_islander", "multiracial",
+    "male", "female",
+    "special_ed", "lep", "econ_disadv", "homeless"
+  )
+
+  actual_subgroups <- unique(tidy_result$subgroup)
+
+  for (subgrp in expected_subgroups) {
+    expect_true(subgrp %in% actual_subgroups,
+                info = paste("Missing expected subgroup:", subgrp))
+  }
+})
+
+
+test_that("tidy_enr produces all expected grade levels", {
+  test_wide <- data.frame(
+    end_year = 2024,
+    type = "Campus",
+    district_id = "000001",
+    campus_id = "000001001",
+    district_name = "Test District",
+    campus_name = "Test School",
+    county = "Test County",
+    row_total = 500,
+    white = 300,
+    grade_pk = 40,
+    grade_k = 45,
+    grade_01 = 42,
+    grade_02 = 40,
+    grade_03 = 41,
+    grade_04 = 39,
+    grade_05 = 40,
+    grade_06 = 38,
+    grade_07 = 37,
+    grade_08 = 36,
+    grade_09 = 35,
+    grade_10 = 34,
+    grade_11 = 33,
+    grade_12 = 30
+  )
+
+  tidy_result <- tidy_enr(test_wide)
+
+  # Check that we have TOTAL grade level
+  expect_true("TOTAL" %in% unique(tidy_result$grade_level))
+
+  # Check that we have individual grade levels
+  expected_grades <- c("PK", "K", "01", "02", "03", "04", "05",
+                       "06", "07", "08", "09", "10", "11", "12")
+
+  # Filter to only total_enrollment subgroup for grade-level checks
+  grade_rows <- tidy_result[tidy_result$subgroup == "total_enrollment", ]
+  actual_grades <- unique(grade_rows$grade_level)
+
+  for (grd in expected_grades) {
+    expect_true(grd %in% actual_grades,
+                info = paste("Missing expected grade level:", grd))
+  }
+})
+
+
+test_that("tidy_enr maintains long format structure", {
+  test_wide <- data.frame(
+    end_year = 2024,
+    type = "Campus",
+    district_id = "000001",
+    campus_id = "000001001",
+    district_name = "Test District",
+    campus_name = "Test School",
+    county = "Test County",
+    row_total = 100,
+    white = 50,
+    black = 20,
+    grade_k = 20,
+    grade_01 = 18
+  )
+
+  tidy_result <- tidy_enr(test_wide)
+
+  # Check that we have multiple rows (one per grade_level-subgroup combination)
+  expect_true(nrow(tidy_result) > 1)
+
+  # Check that each row represents a unique combination
+  # Total rows should equal: (demographic + gender subgroups) + grade levels
+  # With 2 demographic (white, black) + 2 grade levels (K, 01) + total = 5+ rows
+  expect_true(nrow(tidy_result) >= 5)
+
+  # Verify grade_level = "TOTAL" for demographic subgroups
+  demo_rows <- tidy_result[tidy_result$subgroup %in% c("white", "black"), ]
+  expect_true(all(demo_rows$grade_level == "TOTAL"),
+              info = "Demographic subgroups should have grade_level = TOTAL")
+
+  # Verify subgroup = "total_enrollment" for grade levels
+  grade_rows <- tidy_result[tidy_result$grade_level %in% c("K", "01"), ]
+  expect_true(all(grade_rows$subgroup == "total_enrollment"),
+              info = "Grade-level rows should have subgroup = total_enrollment")
+})
+
+
+test_that("tidy_enr produces valid percentages", {
+  test_wide <- data.frame(
+    end_year = 2024,
+    type = "Campus",
+    district_id = "000001",
+    campus_id = "000001001",
+    district_name = "Test District",
+    campus_name = "Test School",
+    county = "Test County",
+    row_total = 100,
+    white = 50,
+    black = 30,
+    male = 55,
+    female = 45,
+    grade_k = 25,
+    grade_01 = 20
+  )
+
+  tidy_result <- tidy_enr(test_wide)
+
+  # All percentages should be between 0 and 1
+  expect_true(all(tidy_result$pct >= 0, na.rm = TRUE),
+              info = "All percentages should be >= 0")
+  expect_true(all(tidy_result$pct <= 1, na.rm = TRUE),
+              info = "All percentages should be <= 1")
+
+  # Check specific percentages
+  # white = 50/100 = 0.5
+  white_row <- tidy_result[tidy_result$subgroup == "white" & tidy_result$grade_level == "TOTAL", ]
+  expect_equal(white_row$pct, 0.5, tolerance = 0.01)
+
+  # black = 30/100 = 0.3
+  black_row <- tidy_result[tidy_result$subgroup == "black" & tidy_result$grade_level == "TOTAL", ]
+  expect_equal(black_row$pct, 0.3, tolerance = 0.01)
+
+  # grade_k = 25/100 = 0.25
+  grade_k_row <- tidy_result[tidy_result$subgroup == "total_enrollment" & tidy_result$grade_level == "K", ]
+  expect_equal(grade_k_row$pct, 0.25, tolerance = 0.01)
+})
+
+
+test_that("tidy_enr has no Inf or NaN values", {
+  test_wide <- data.frame(
+    end_year = 2024,
+    type = "Campus",
+    district_id = "000001",
+    campus_id = "000001001",
+    district_name = "Test District",
+    campus_name = "Test School",
+    county = "Test County",
+    row_total = 100,
+    white = 50,
+    grade_k = 25
+  )
+
+  tidy_result <- tidy_enr(test_wide)
+
+  # Check for Inf values in n_students
+  expect_false(any(is.infinite(tidy_result$n_students)),
+               info = "n_students should not contain Inf values")
+
+  # Check for NaN values in n_students
+  expect_false(any(is.nan(tidy_result$n_students)),
+               info = "n_students should not contain NaN values")
+
+  # Check for Inf values in pct
+  expect_false(any(is.infinite(tidy_result$pct)),
+               info = "pct should not contain Inf values")
+
+  # Check for NaN values in pct
+  expect_false(any(is.nan(tidy_result$pct)),
+               info = "pct should not contain NaN values")
+})

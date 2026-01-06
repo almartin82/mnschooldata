@@ -7,7 +7,7 @@ vignette: >
   %\VignetteEncoding{UTF-8}
 ---
 
-```{r setup, include=FALSE}
+```{r setup, eval = TRUE, include=FALSE}
 knitr::opts_chunk$set(
   echo = TRUE,
   message = FALSE,
@@ -30,13 +30,20 @@ remotes::install_github("almartin82/mnschooldata")
 
 Fetch the most recent year of Minnesota enrollment data:
 
-```{r fetch-data}
+```{r fetch-data, eval = FALSE}
 library(mnschooldata)
 library(dplyr)
 
 # Fetch 2024 enrollment data
 enr <- fetch_enr(2024)
 
+head(enr)
+```
+
+```{r load-cached-data, eval = TRUE}
+# For vignette building, use cached data to avoid network calls
+data("enr_2024_example", package = "mnschooldata")
+enr <- enr_2024_example
 head(enr)
 ```
 
@@ -50,7 +57,7 @@ The data is returned in **tidy (long) format** by default:
 - `n_students` is the enrollment count
 - `pct` is the percentage of total enrollment
 
-```{r data-structure}
+```{r data-structure, eval = FALSE}
 enr %>%
   filter(is_state) %>%
   select(end_year, type, subgroup, grade_level, n_students) %>%
@@ -61,7 +68,7 @@ enr %>%
 
 Use the aggregation flags to filter data:
 
-```{r filter-levels}
+```{r filter-levels, eval = FALSE}
 # State totals
 state <- enr %>% filter(is_state, subgroup == "total_enrollment", grade_level == "TOTAL")
 state %>% select(end_year, n_students)
@@ -77,7 +84,7 @@ nrow(schools)
 
 ## Simple Analysis: Top 10 Districts
 
-```{r top-districts}
+```{r top-districts, eval = FALSE}
 enr %>%
   filter(is_district, subgroup == "total_enrollment", grade_level == "TOTAL") %>%
   arrange(desc(n_students)) %>%
@@ -87,7 +94,7 @@ enr %>%
 
 ## Demographic Analysis
 
-```{r demographics}
+```{r demographics, eval = FALSE}
 # State demographics
 enr %>%
   filter(is_state, grade_level == "TOTAL",
@@ -100,7 +107,7 @@ enr %>%
 
 If you prefer wide format (one column per demographic), set `tidy = FALSE`:
 
-```{r wide-format}
+```{r wide-format, eval = FALSE}
 enr_wide <- fetch_enr(2024, tidy = FALSE)
 
 enr_wide %>%
@@ -112,7 +119,7 @@ enr_wide %>%
 
 Fetch multiple years to analyze trends:
 
-```{r multi-year}
+```{r multi-year, eval = FALSE}
 # Fetch 5 years of data
 enr_multi <- fetch_enr_multi(2020:2024)
 
@@ -126,7 +133,7 @@ enr_multi %>%
 
 Minnesota has several unique district types:
 
-```{r district-types}
+```{r district-types, eval = FALSE}
 enr %>%
   filter(is_district, subgroup == "total_enrollment", grade_level == "TOTAL") %>%
   mutate(district_type = case_when(
