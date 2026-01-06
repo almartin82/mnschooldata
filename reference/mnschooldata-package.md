@@ -63,14 +63,6 @@ Useful links:
 
 - Report bugs at <https://github.com/almartin82/mnschooldata/issues>
 
-Useful links:
-
-- <https://almartin82.github.io/mnschooldata>
-
-- <https://github.com/almartin82/mnschooldata>
-
-- Report bugs at <https://github.com/almartin82/mnschooldata/issues>
-
 ## Author
 
 **Maintainer**: Al Martin <almartin@example.com>

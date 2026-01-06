@@ -19,6 +19,7 @@
 <li class="nav-item dropdown">
   <button class="nav-link dropdown-toggle" type="button" id="dropdown-articles" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Articles</button>
   <ul class="dropdown-menu" aria-labelledby="dropdown-articles"><li><a class="dropdown-item" href="articles/enrollment-trends.html">Minnesota Enrollment Trends</a></li>
+    <li><a class="dropdown-item" href="articles/quickstart.html">Getting Started with mnschooldata</a></li>
   </ul></li>
       </ul><ul class="navbar-nav"><li class="nav-item"><form class="form-inline" role="search">
  <input class="form-control" type="search" name="search-input" id="search-input" autocomplete="off" aria-label="Search site" placeholder="Search for" data-search-index="search.json"></form></li>
@@ -37,6 +38,17 @@
 
 <div id="todo" class="section level1">
 
+<div class="section level2">
+<h2 id="critical-fix-mde-data-source-urls-2026-01-04">Critical: Fix MDE Data Source URLs (2026-01-04)<a class="anchor" aria-label="anchor" href="#critical-fix-mde-data-source-urls-2026-01-04"></a></h2>
+<p>The Minnesota Department of Education (MDE) has changed their MDEAnalytics data portal. The current URL patterns in <code>get_raw_enrollment.R</code> are returning 404 errors:</p>
+<ul><li>Direct file URLs like <code>/MDEAnalytics/DataDownload/Enrollment_2024_School.xlsx</code> no longer exist</li>
+<li>The portal now uses a WebFOCUS/Information Builders application with JavaScript-based downloads</li>
+<li>Downloads require navigating through the iframe at <code>/ibi_apps/WFServlet?IBIF_ex=...</code>
+</li>
+</ul><p><strong>Required changes</strong>: 1. Research the new WebFOCUS API or find alternative download method 2. Update <code><a href="reference/download_mde_enrollment.html">download_mde_enrollment()</a></code> and <code><a href="reference/download_mde_via_cgi.html">download_mde_via_cgi()</a></code> in <code>R/get_raw_enrollment.R</code> 3. Test with all available years (2007-2024) 4. Remove <code>eval = FALSE</code> from vignette once data fetch works</p>
+<p><strong>MDE Portal URLs</strong>: - Main portal: <a href="https://pub.education.mn.gov/MDEAnalytics/Data.jsp" class="external-link uri">https://pub.education.mn.gov/MDEAnalytics/Data.jsp</a> - WebFOCUS entry: <code>/ibi_apps/WFServlet?IBIF_ex=mdea_ddl_topic_select_drilldown</code> - Schools &amp; Districts topic: <code>/MDEAnalytics/DataTopic.jsp?TOPICID=4</code></p>
+<p><strong>Alternative sources to investigate</strong>: - Minnesota Report Card: <a href="https://rc.education.mn.gov/" class="external-link uri">https://rc.education.mn.gov/</a> - SLEDS: <a href="http://sleds.mn.gov/" class="external-link uri">http://sleds.mn.gov/</a></p>
+</div>
 <div class="section level2">
 <h2 id="pkgdown-build-issues">pkgdown Build Issues<a class="anchor" aria-label="anchor" href="#pkgdown-build-issues"></a></h2>
 <div class="section level3">

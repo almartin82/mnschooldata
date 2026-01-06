@@ -36,6 +36,7 @@
   <button class="nav-link dropdown-toggle" type="button" id="dropdown-articles" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Articles</button>
   <ul class="dropdown-menu" aria-labelledby="dropdown-articles">
 <li><a class="dropdown-item" href="articles/enrollment-trends.html">Minnesota Enrollment Trends</a></li>
+    <li><a class="dropdown-item" href="articles/quickstart.html">Getting Started with mnschooldata</a></li>
   </ul>
 </li>
       </ul>
@@ -61,35 +62,257 @@
 <div class="section level2">
 <h2 id="what-can-you-find-with-mnschooldata">What can you find with mnschooldata?<a class="anchor" aria-label="anchor" href="#what-can-you-find-with-mnschooldata"></a>
 </h2>
-<p><strong>18 years of enrollment data (2007-2024).</strong> 870,000 students. 330+ districts. Here are ten stories hiding in the numbers:</p>
-<ol style="list-style-type: decimal">
-<li>
-<a href="https://almartin82.github.io/mnschooldata/articles/enrollment-trends.html#minneapolis-and-st.-paul-are-shrinking">Minneapolis and St. Paul are shrinking</a> - Each lost over 10,000 students in the past decade</li>
-<li>
-<a href="https://almartin82.github.io/mnschooldata/articles/enrollment-trends.html#somali-students-transformed-minneapolis-schools">Somali students transformed Minneapolis schools</a> - One of the largest Somali populations in the US</li>
-<li>
-<a href="https://almartin82.github.io/mnschooldata/articles/enrollment-trends.html#charter-schools-serve-60000-students">Charter schools serve 60,000+ students</a> - Minnesota invented charter schools in 1991</li>
-<li>
-<a href="https://almartin82.github.io/mnschooldata/articles/enrollment-trends.html#suburban-ring-is-booming">Suburban ring is booming</a> - Growing while core cities shrink</li>
-<li>
-<a href="https://almartin82.github.io/mnschooldata/articles/enrollment-trends.html#minnesota-is-diversifying-fast">Minnesota is diversifying fast</a> - From 85% white to under 70% today</li>
-<li>
-<a href="https://almartin82.github.io/mnschooldata/articles/enrollment-trends.html#covid-hit-kindergarten-hard">COVID hit kindergarten hard</a> - Lost 8% of kindergartners in 2021</li>
-<li>
-<a href="https://almartin82.github.io/mnschooldata/articles/enrollment-trends.html#iron-range-still-declining">Iron Range still declining</a> - Mining region continues to lose students</li>
-<li>
-<a href="https://almartin82.github.io/mnschooldata/articles/enrollment-trends.html#rochester-a-growing-city">Rochester: A growing city</a> - Mayo Clinic expansion drives growth</li>
-<li>
-<a href="https://almartin82.github.io/mnschooldata/articles/enrollment-trends.html#english-learners-approaching-10">English learners approaching 10%</a> - Over 80,000 students in Twin Cities metro</li>
-<li>
-<a href="https://almartin82.github.io/mnschooldata/articles/enrollment-trends.html#freereduced-lunch-shows-economic-divide">Free/Reduced lunch shows economic divide</a> - From 3% in Edina to 80%+ in some districts</li>
-</ol>
-<p>See the full <a href="https://almartin82.github.io/mnschooldata/articles/enrollment-trends.html">Enrollment Trends</a> article for interactive visualizations and code examples.</p>
+<p><strong>18 years of enrollment data (2007-2024).</strong> 870,000 students. 330+ districts. Here are fifteen stories hiding in the numbers:</p>
+<hr>
+<div class="section level3">
+<h3 id="id_1-minneapolis-and-st-paul-are-shrinking">1. Minneapolis and St. Paul are shrinking<a class="anchor" aria-label="anchor" href="#id_1-minneapolis-and-st-paul-are-shrinking"></a>
+</h3>
+<p>The Twin Cities’ two largest urban districts have each lost over 10,000 students in the past decade, driven by declining birth rates, rising housing costs, and competition from charters and suburbs.</p>
+<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://almartin82.github.io/mnschooldata">mnschooldata</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org" class="external-link">dplyr</a></span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">enr</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/fetch_enr_multi.html">fetch_enr_multi</a></span><span class="op">(</span><span class="fl">2015</span><span class="op">:</span><span class="fl">2024</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">enr</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">is_district</span>, <span class="fu"><a href="https://rdrr.io/r/base/grep.html" class="external-link">grepl</a></span><span class="op">(</span><span class="st">"Minneapolis|St. Paul"</span>, <span class="va">district_name</span><span class="op">)</span>,</span>
+<span>         <span class="va">subgroup</span> <span class="op">==</span> <span class="st">"total_enrollment"</span>, <span class="va">grade_level</span> <span class="op">==</span> <span class="st">"TOTAL"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="va">end_year</span>, <span class="va">district_name</span>, <span class="va">n_students</span><span class="op">)</span></span></code></pre></div>
+<div class="float">
+<img src="https://almartin82.github.io/mnschooldata/articles/enrollment-trends_files/figure-html/twin-cities-decline-1.png" alt="Twin Cities decline"><div class="figcaption">Twin Cities decline</div>
+</div>
+<hr>
+</div>
+<div class="section level3">
+<h3 id="id_2-somali-students-transformed-minneapolis-schools">2. Somali students transformed Minneapolis schools<a class="anchor" aria-label="anchor" href="#id_2-somali-students-transformed-minneapolis-schools"></a>
+</h3>
+<p>Minneapolis has one of the largest Somali populations in the United States, fundamentally changing the city’s schools over two decades. Black students now make up approximately 35% of Minneapolis enrollment.</p>
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">enr</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">is_district</span>, <span class="fu"><a href="https://rdrr.io/r/base/grep.html" class="external-link">grepl</a></span><span class="op">(</span><span class="st">"Minneapolis"</span>, <span class="va">district_name</span><span class="op">)</span>,</span>
+<span>         <span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/grep.html" class="external-link">grepl</a></span><span class="op">(</span><span class="st">"Special"</span>, <span class="va">district_name</span><span class="op">)</span>,</span>
+<span>         <span class="va">grade_level</span> <span class="op">==</span> <span class="st">"TOTAL"</span>,</span>
+<span>         <span class="va">subgroup</span> <span class="op"><a href="https://rdrr.io/r/base/match.html" class="external-link">%in%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"white"</span>, <span class="st">"black"</span>, <span class="st">"hispanic"</span>, <span class="st">"asian"</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>pct <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Round.html" class="external-link">round</a></span><span class="op">(</span><span class="va">pct</span> <span class="op">*</span> <span class="fl">100</span>, <span class="fl">1</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="va">end_year</span>, <span class="va">subgroup</span>, <span class="va">pct</span><span class="op">)</span></span></code></pre></div>
+<div class="float">
+<img src="https://almartin82.github.io/mnschooldata/articles/enrollment-trends_files/figure-html/mpls-demographics-1.png" alt="Minneapolis demographics"><div class="figcaption">Minneapolis demographics</div>
+</div>
+<hr>
+</div>
+<div class="section level3">
+<h3 id="id_3-charter-schools-serve-60000-students">3. Charter schools serve 60,000+ students<a class="anchor" aria-label="anchor" href="#id_3-charter-schools-serve-60000-students"></a>
+</h3>
+<p>Minnesota invented charter schools in 1991 - the first state to do so. Today, over 180 charter schools serve nearly 7% of the state’s students.</p>
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># Charter schools have district IDs starting with "07"</span></span>
+<span><span class="va">enr</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">is_district</span>, <span class="fu"><a href="https://rdrr.io/r/base/grep.html" class="external-link">grepl</a></span><span class="op">(</span><span class="st">"^07"</span>, <span class="va">district_id</span><span class="op">)</span>,</span>
+<span>         <span class="va">subgroup</span> <span class="op">==</span> <span class="st">"total_enrollment"</span>, <span class="va">grade_level</span> <span class="op">==</span> <span class="st">"TOTAL"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html" class="external-link">group_by</a></span><span class="op">(</span><span class="va">end_year</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/summarise.html" class="external-link">summarize</a></span><span class="op">(</span>total_charter <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="va">n_students</span>, na.rm <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>,</span>
+<span>            n_charters <span class="op">=</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/n_distinct.html" class="external-link">n_distinct</a></span><span class="op">(</span><span class="va">district_id</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<div class="float">
+<img src="https://almartin82.github.io/mnschooldata/articles/enrollment-trends_files/figure-html/charter-enrollment-1.png" alt="Charter enrollment"><div class="figcaption">Charter enrollment</div>
+</div>
+<hr>
+</div>
+<div class="section level3">
+<h3 id="id_4-suburban-ring-is-booming">4. Suburban ring is booming<a class="anchor" aria-label="anchor" href="#id_4-suburban-ring-is-booming"></a>
+</h3>
+<p>While Minneapolis and St. Paul shrink, the suburban ring continues to grow. Districts like Anoka-Hennepin (the state’s largest), Lakeville, and Rosemount-Apple Valley-Eagan have absorbed families leaving the urban core.</p>
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">enr</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">is_district</span>,</span>
+<span>         <span class="fu"><a href="https://rdrr.io/r/base/grep.html" class="external-link">grepl</a></span><span class="op">(</span><span class="st">"Anoka-Hennepin|Lakeville|Rosemount|Prior Lake"</span>, <span class="va">district_name</span><span class="op">)</span>,</span>
+<span>         <span class="va">subgroup</span> <span class="op">==</span> <span class="st">"total_enrollment"</span>, <span class="va">grade_level</span> <span class="op">==</span> <span class="st">"TOTAL"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="va">end_year</span>, <span class="va">district_name</span>, <span class="va">n_students</span><span class="op">)</span></span></code></pre></div>
+<div class="float">
+<img src="https://almartin82.github.io/mnschooldata/articles/enrollment-trends_files/figure-html/suburban-growth-1.png" alt="Suburban growth"><div class="figcaption">Suburban growth</div>
+</div>
+<hr>
+</div>
+<div class="section level3">
+<h3 id="id_5-minnesota-is-diversifying-fast">5. Minnesota is diversifying fast<a class="anchor" aria-label="anchor" href="#id_5-minnesota-is-diversifying-fast"></a>
+</h3>
+<p>From 85% white in 2007 to under 70% today, Minnesota is experiencing one of the fastest demographic shifts in the Midwest.</p>
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">enr</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">is_state</span>, <span class="va">grade_level</span> <span class="op">==</span> <span class="st">"TOTAL"</span>,</span>
+<span>         <span class="va">subgroup</span> <span class="op"><a href="https://rdrr.io/r/base/match.html" class="external-link">%in%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"white"</span>, <span class="st">"black"</span>, <span class="st">"hispanic"</span>, <span class="st">"asian"</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>pct <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Round.html" class="external-link">round</a></span><span class="op">(</span><span class="va">pct</span> <span class="op">*</span> <span class="fl">100</span>, <span class="fl">1</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="va">end_year</span>, <span class="va">subgroup</span>, <span class="va">pct</span><span class="op">)</span></span></code></pre></div>
+<div class="float">
+<img src="https://almartin82.github.io/mnschooldata/articles/enrollment-trends_files/figure-html/demographics-shift-1.png" alt="Demographics shift"><div class="figcaption">Demographics shift</div>
+</div>
+<hr>
+</div>
+<div class="section level3">
+<h3 id="id_6-covid-hit-kindergarten-hard">6. COVID hit kindergarten hard<a class="anchor" aria-label="anchor" href="#id_6-covid-hit-kindergarten-hard"></a>
+</h3>
+<p>The pandemic caused an 8% drop in Minnesota kindergarten enrollment in 2021 - nearly 5,000 fewer children.</p>
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">enr</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">is_state</span>, <span class="va">subgroup</span> <span class="op">==</span> <span class="st">"total_enrollment"</span>,</span>
+<span>         <span class="va">grade_level</span> <span class="op"><a href="https://rdrr.io/r/base/match.html" class="external-link">%in%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"K"</span>, <span class="st">"01"</span>, <span class="st">"06"</span>, <span class="st">"12"</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="va">end_year</span>, <span class="va">grade_level</span>, <span class="va">n_students</span><span class="op">)</span></span></code></pre></div>
+<div class="float">
+<img src="https://almartin82.github.io/mnschooldata/articles/enrollment-trends_files/figure-html/covid-kindergarten-1.png" alt="COVID kindergarten"><div class="figcaption">COVID kindergarten</div>
+</div>
+<hr>
+</div>
+<div class="section level3">
+<h3 id="id_7-iron-range-still-declining">7. Iron Range still declining<a class="anchor" aria-label="anchor" href="#id_7-iron-range-still-declining"></a>
+</h3>
+<p>Minnesota’s Iron Range - the mining region in the northeast - continues its decades-long population decline. Districts like Hibbing, Virginia, and Eveleth-Gilbert have lost students as mining employment decreases.</p>
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">enr</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">is_district</span>,</span>
+<span>         <span class="fu"><a href="https://rdrr.io/r/base/grep.html" class="external-link">grepl</a></span><span class="op">(</span><span class="st">"Hibbing|Virginia|Eveleth|Chisholm|Mountain Iron"</span>, <span class="va">district_name</span><span class="op">)</span>,</span>
+<span>         <span class="va">subgroup</span> <span class="op">==</span> <span class="st">"total_enrollment"</span>, <span class="va">grade_level</span> <span class="op">==</span> <span class="st">"TOTAL"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html" class="external-link">group_by</a></span><span class="op">(</span><span class="va">end_year</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/summarise.html" class="external-link">summarize</a></span><span class="op">(</span>total <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="va">n_students</span>, na.rm <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<div class="float">
+<img src="https://almartin82.github.io/mnschooldata/articles/enrollment-trends_files/figure-html/iron-range-decline-1.png" alt="Iron Range decline"><div class="figcaption">Iron Range decline</div>
+</div>
+<hr>
+</div>
+<div class="section level3">
+<h3 id="id_8-rochester-a-growing-city">8. Rochester: A growing city<a class="anchor" aria-label="anchor" href="#id_8-rochester-a-growing-city"></a>
+</h3>
+<p>Driven by the Mayo Clinic and its $5 billion expansion (Destination Medical Center), Rochester is one of the few outstate cities gaining students.</p>
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">enr</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">is_district</span>, <span class="fu"><a href="https://rdrr.io/r/base/grep.html" class="external-link">grepl</a></span><span class="op">(</span><span class="st">"Rochester"</span>, <span class="va">district_name</span><span class="op">)</span>,</span>
+<span>         <span class="va">subgroup</span> <span class="op">==</span> <span class="st">"total_enrollment"</span>, <span class="va">grade_level</span> <span class="op">==</span> <span class="st">"TOTAL"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="va">end_year</span>, <span class="va">district_name</span>, <span class="va">n_students</span><span class="op">)</span></span></code></pre></div>
+<div class="float">
+<img src="https://almartin82.github.io/mnschooldata/articles/enrollment-trends_files/figure-html/rochester-growth-1.png" alt="Rochester growth"><div class="figcaption">Rochester growth</div>
+</div>
+<hr>
+</div>
+<div class="section level3">
+<h3 id="id_9-english-learners-approaching-10">9. English learners approaching 10%<a class="anchor" aria-label="anchor" href="#id_9-english-learners-approaching-10"></a>
+</h3>
+<p>Over 80,000 Minnesota students are English learners, concentrated heavily in the Twin Cities metro.</p>
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">enr_2024</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/fetch_enr.html">fetch_enr</a></span><span class="op">(</span><span class="fl">2024</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">enr_2024</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">is_district</span>, <span class="va">subgroup</span> <span class="op">==</span> <span class="st">"lep"</span>, <span class="va">grade_level</span> <span class="op">==</span> <span class="st">"TOTAL"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/arrange.html" class="external-link">arrange</a></span><span class="op">(</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/desc.html" class="external-link">desc</a></span><span class="op">(</span><span class="va">n_students</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="va">district_name</span>, <span class="va">n_students</span>, <span class="va">pct</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="fl">10</span><span class="op">)</span></span></code></pre></div>
+<div class="float">
+<img src="https://almartin82.github.io/mnschooldata/articles/enrollment-trends_files/figure-html/el-concentration-1.png" alt="EL concentration"><div class="figcaption">EL concentration</div>
+</div>
+<hr>
+</div>
+<div class="section level3">
+<h3 id="id_10-freereduced-lunch-shows-economic-divide">10. Free/Reduced lunch shows economic divide<a class="anchor" aria-label="anchor" href="#id_10-freereduced-lunch-shows-economic-divide"></a>
+</h3>
+<p>Minnesota’s economic inequality is stark: from under 5% free/reduced lunch in wealthy districts like Edina to over 70% in urban and rural districts.</p>
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">enr_2024</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">is_district</span>, <span class="va">subgroup</span> <span class="op">==</span> <span class="st">"econ_disadv"</span>, <span class="va">grade_level</span> <span class="op">==</span> <span class="st">"TOTAL"</span>,</span>
+<span>         <span class="va">n_students</span> <span class="op">&gt;</span> <span class="fl">500</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/arrange.html" class="external-link">arrange</a></span><span class="op">(</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/desc.html" class="external-link">desc</a></span><span class="op">(</span><span class="va">pct</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>pct <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Round.html" class="external-link">round</a></span><span class="op">(</span><span class="va">pct</span> <span class="op">*</span> <span class="fl">100</span>, <span class="fl">1</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="va">district_name</span>, <span class="va">n_students</span>, <span class="va">pct</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="fl">10</span><span class="op">)</span></span></code></pre></div>
+<div class="float">
+<img src="https://almartin82.github.io/mnschooldata/articles/enrollment-trends_files/figure-html/economic-divide-1.png" alt="Economic divide"><div class="figcaption">Economic divide</div>
+</div>
+<hr>
+</div>
+<div class="section level3">
+<h3 id="id_11-duluth-slow-decline-in-the-northland">11. Duluth: Slow decline in the Northland<a class="anchor" aria-label="anchor" href="#id_11-duluth-slow-decline-in-the-northland"></a>
+</h3>
+<p>Minnesota’s fourth-largest city has seen steady enrollment decline as the regional economy has struggled.</p>
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">enr</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">is_district</span>, <span class="fu"><a href="https://rdrr.io/r/base/grep.html" class="external-link">grepl</a></span><span class="op">(</span><span class="st">"Duluth"</span>, <span class="va">district_name</span><span class="op">)</span>,</span>
+<span>         <span class="va">subgroup</span> <span class="op">==</span> <span class="st">"total_enrollment"</span>, <span class="va">grade_level</span> <span class="op">==</span> <span class="st">"TOTAL"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="va">end_year</span>, <span class="va">district_name</span>, <span class="va">n_students</span><span class="op">)</span></span></code></pre></div>
+<div class="float">
+<img src="https://almartin82.github.io/mnschooldata/articles/enrollment-trends_files/figure-html/duluth-decline-1.png" alt="Duluth decline"><div class="figcaption">Duluth decline</div>
+</div>
+<hr>
+</div>
+<div class="section level3">
+<h3 id="id_12-native-american-students-concentrated-in-specific-regions">12. Native American students: concentrated in specific regions<a class="anchor" aria-label="anchor" href="#id_12-native-american-students-concentrated-in-specific-regions"></a>
+</h3>
+<p>Minnesota has significant Native American student populations, concentrated in districts near reservations including Red Lake, Cass Lake-Bena, and Fond du Lac.</p>
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">enr_2024</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">is_district</span>, <span class="va">subgroup</span> <span class="op">==</span> <span class="st">"native_american"</span>, <span class="va">grade_level</span> <span class="op">==</span> <span class="st">"TOTAL"</span>,</span>
+<span>         <span class="va">n_students</span> <span class="op">&gt;=</span> <span class="fl">50</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/arrange.html" class="external-link">arrange</a></span><span class="op">(</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/desc.html" class="external-link">desc</a></span><span class="op">(</span><span class="va">pct</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>pct <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Round.html" class="external-link">round</a></span><span class="op">(</span><span class="va">pct</span> <span class="op">*</span> <span class="fl">100</span>, <span class="fl">1</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="va">district_name</span>, <span class="va">n_students</span>, <span class="va">pct</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="fl">10</span><span class="op">)</span></span></code></pre></div>
+<div class="float">
+<img src="https://almartin82.github.io/mnschooldata/articles/enrollment-trends_files/figure-html/native-american-concentration-1.png" alt="Native American concentration"><div class="figcaption">Native American concentration</div>
+</div>
+<hr>
+</div>
+<div class="section level3">
+<h3 id="id_13-anoka-hennepin-the-states-largest-district">13. Anoka-Hennepin: The state’s largest district<a class="anchor" aria-label="anchor" href="#id_13-anoka-hennepin-the-states-largest-district"></a>
+</h3>
+<p>Anoka-Hennepin serves over 37,000 students across 42 schools, making it by far Minnesota’s largest district.</p>
+<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">enr</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">is_district</span>, <span class="fu"><a href="https://rdrr.io/r/base/grep.html" class="external-link">grepl</a></span><span class="op">(</span><span class="st">"Anoka-Hennepin"</span>, <span class="va">district_name</span><span class="op">)</span>,</span>
+<span>         <span class="va">subgroup</span> <span class="op">==</span> <span class="st">"total_enrollment"</span>, <span class="va">grade_level</span> <span class="op">==</span> <span class="st">"TOTAL"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="va">end_year</span>, <span class="va">district_name</span>, <span class="va">n_students</span><span class="op">)</span></span></code></pre></div>
+<div class="float">
+<img src="https://almartin82.github.io/mnschooldata/articles/enrollment-trends_files/figure-html/anoka-hennepin-1.png" alt="Anoka-Hennepin"><div class="figcaption">Anoka-Hennepin</div>
+</div>
+<hr>
+</div>
+<div class="section level3">
+<h3 id="id_14-rural-consolidation-continues">14. Rural consolidation continues<a class="anchor" aria-label="anchor" href="#id_14-rural-consolidation-continues"></a>
+</h3>
+<p>Small rural districts across Minnesota continue to consolidate or share services as enrollment declines. Many districts now have fewer than 500 students.</p>
+<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">enr_2024</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">is_district</span>, <span class="va">subgroup</span> <span class="op">==</span> <span class="st">"total_enrollment"</span>, <span class="va">grade_level</span> <span class="op">==</span> <span class="st">"TOTAL"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>size_category <span class="op">=</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/case_when.html" class="external-link">case_when</a></span><span class="op">(</span></span>
+<span>    <span class="va">n_students</span> <span class="op">&lt;</span> <span class="fl">250</span> <span class="op">~</span> <span class="st">"Under 250"</span>,</span>
+<span>    <span class="va">n_students</span> <span class="op">&lt;</span> <span class="fl">500</span> <span class="op">~</span> <span class="st">"250-500"</span>,</span>
+<span>    <span class="va">n_students</span> <span class="op">&lt;</span> <span class="fl">1000</span> <span class="op">~</span> <span class="st">"500-1,000"</span>,</span>
+<span>    <span class="va">n_students</span> <span class="op">&lt;</span> <span class="fl">5000</span> <span class="op">~</span> <span class="st">"1,000-5,000"</span>,</span>
+<span>    <span class="cn">TRUE</span> <span class="op">~</span> <span class="st">"5,000+"</span></span>
+<span>  <span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html" class="external-link">group_by</a></span><span class="op">(</span><span class="va">size_category</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/summarise.html" class="external-link">summarize</a></span><span class="op">(</span>n_districts <span class="op">=</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/context.html" class="external-link">n</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<div class="float">
+<img src="https://almartin82.github.io/mnschooldata/articles/enrollment-trends_files/figure-html/rural-small-districts-1.png" alt="Rural districts"><div class="figcaption">Rural districts</div>
+</div>
+<hr>
+</div>
+<div class="section level3">
+<h3 id="id_15-special-education-rates-vary-by-district">15. Special education rates vary by district<a class="anchor" aria-label="anchor" href="#id_15-special-education-rates-vary-by-district"></a>
+</h3>
+<p>Special education identification rates vary significantly across Minnesota districts, from under 10% to over 20%.</p>
+<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">enr_2024</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">is_district</span>, <span class="va">subgroup</span> <span class="op">==</span> <span class="st">"special_ed"</span>, <span class="va">grade_level</span> <span class="op">==</span> <span class="st">"TOTAL"</span>,</span>
+<span>         <span class="va">n_students</span> <span class="op">&gt;</span> <span class="fl">100</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/arrange.html" class="external-link">arrange</a></span><span class="op">(</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/desc.html" class="external-link">desc</a></span><span class="op">(</span><span class="va">pct</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>pct <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Round.html" class="external-link">round</a></span><span class="op">(</span><span class="va">pct</span> <span class="op">*</span> <span class="fl">100</span>, <span class="fl">1</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="va">district_name</span>, <span class="va">n_students</span>, <span class="va">pct</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="fl">15</span><span class="op">)</span></span></code></pre></div>
+<div class="float">
+<img src="https://almartin82.github.io/mnschooldata/articles/enrollment-trends_files/figure-html/sped-variation-1.png" alt="SPED variation"><div class="figcaption">SPED variation</div>
+</div>
+<hr>
+</div>
 </div>
 <div class="section level2">
 <h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
 </h2>
-<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># install.packages("remotes")</span></span>
 <span><span class="fu">remotes</span><span class="fu">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html" class="external-link">install_github</a></span><span class="op">(</span><span class="st">"almartin82/mnschooldata"</span><span class="op">)</span></span></code></pre></div>
 </div>
@@ -99,7 +322,7 @@
 <div class="section level3">
 <h3 id="r">R<a class="anchor" aria-label="anchor" href="#r"></a>
 </h3>
-<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://almartin82.github.io/mnschooldata">mnschooldata</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org" class="external-link">dplyr</a></span><span class="op">)</span></span>
 <span></span>
@@ -128,31 +351,31 @@
 <div class="section level3">
 <h3 id="python">Python<a class="anchor" aria-label="anchor" href="#python"></a>
 </h3>
-<div class="sourceCode" id="cb3"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a><span class="im">import</span> pymnschooldata <span class="im">as</span> mn</span>
-<span id="cb3-2"><a href="#cb3-2" tabindex="-1"></a></span>
-<span id="cb3-3"><a href="#cb3-3" tabindex="-1"></a><span class="co"># Check available years</span></span>
-<span id="cb3-4"><a href="#cb3-4" tabindex="-1"></a>years <span class="op">=</span> mn.get_available_years()</span>
-<span id="cb3-5"><a href="#cb3-5" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Data available from </span><span class="sc">{</span>years[<span class="st">'min_year'</span>]<span class="sc">}</span><span class="ss"> to </span><span class="sc">{</span>years[<span class="st">'max_year'</span>]<span class="sc">}</span><span class="ss">"</span>)</span>
-<span id="cb3-6"><a href="#cb3-6" tabindex="-1"></a></span>
-<span id="cb3-7"><a href="#cb3-7" tabindex="-1"></a><span class="co"># Fetch one year</span></span>
-<span id="cb3-8"><a href="#cb3-8" tabindex="-1"></a>enr_2024 <span class="op">=</span> mn.fetch_enr(<span class="dv">2024</span>)</span>
-<span id="cb3-9"><a href="#cb3-9" tabindex="-1"></a></span>
-<span id="cb3-10"><a href="#cb3-10" tabindex="-1"></a><span class="co"># Fetch multiple years</span></span>
-<span id="cb3-11"><a href="#cb3-11" tabindex="-1"></a>enr_multi <span class="op">=</span> mn.fetch_enr_multi([<span class="dv">2020</span>, <span class="dv">2021</span>, <span class="dv">2022</span>, <span class="dv">2023</span>, <span class="dv">2024</span>])</span>
-<span id="cb3-12"><a href="#cb3-12" tabindex="-1"></a></span>
-<span id="cb3-13"><a href="#cb3-13" tabindex="-1"></a><span class="co"># State totals</span></span>
-<span id="cb3-14"><a href="#cb3-14" tabindex="-1"></a>state_total <span class="op">=</span> enr_2024[</span>
-<span id="cb3-15"><a href="#cb3-15" tabindex="-1"></a>    (enr_2024[<span class="st">'is_state'</span>] <span class="op">==</span> <span class="va">True</span>) <span class="op">&amp;</span></span>
-<span id="cb3-16"><a href="#cb3-16" tabindex="-1"></a>    (enr_2024[<span class="st">'subgroup'</span>] <span class="op">==</span> <span class="st">'total_enrollment'</span>) <span class="op">&amp;</span></span>
-<span id="cb3-17"><a href="#cb3-17" tabindex="-1"></a>    (enr_2024[<span class="st">'grade_level'</span>] <span class="op">==</span> <span class="st">'TOTAL'</span>)</span>
-<span id="cb3-18"><a href="#cb3-18" tabindex="-1"></a>]</span>
-<span id="cb3-19"><a href="#cb3-19" tabindex="-1"></a></span>
-<span id="cb3-20"><a href="#cb3-20" tabindex="-1"></a><span class="co"># Largest districts</span></span>
-<span id="cb3-21"><a href="#cb3-21" tabindex="-1"></a>districts <span class="op">=</span> enr_2024[</span>
-<span id="cb3-22"><a href="#cb3-22" tabindex="-1"></a>    (enr_2024[<span class="st">'is_district'</span>] <span class="op">==</span> <span class="va">True</span>) <span class="op">&amp;</span></span>
-<span id="cb3-23"><a href="#cb3-23" tabindex="-1"></a>    (enr_2024[<span class="st">'subgroup'</span>] <span class="op">==</span> <span class="st">'total_enrollment'</span>) <span class="op">&amp;</span></span>
-<span id="cb3-24"><a href="#cb3-24" tabindex="-1"></a>    (enr_2024[<span class="st">'grade_level'</span>] <span class="op">==</span> <span class="st">'TOTAL'</span>)</span>
-<span id="cb3-25"><a href="#cb3-25" tabindex="-1"></a>].sort_values(<span class="st">'n_students'</span>, ascending<span class="op">=</span><span class="va">False</span>).head(<span class="dv">15</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb18"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" tabindex="-1"></a><span class="im">import</span> pymnschooldata <span class="im">as</span> mn</span>
+<span id="cb18-2"><a href="#cb18-2" tabindex="-1"></a></span>
+<span id="cb18-3"><a href="#cb18-3" tabindex="-1"></a><span class="co"># Check available years</span></span>
+<span id="cb18-4"><a href="#cb18-4" tabindex="-1"></a>years <span class="op">=</span> mn.get_available_years()</span>
+<span id="cb18-5"><a href="#cb18-5" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Data available from </span><span class="sc">{</span>years[<span class="st">'min_year'</span>]<span class="sc">}</span><span class="ss"> to </span><span class="sc">{</span>years[<span class="st">'max_year'</span>]<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb18-6"><a href="#cb18-6" tabindex="-1"></a></span>
+<span id="cb18-7"><a href="#cb18-7" tabindex="-1"></a><span class="co"># Fetch one year</span></span>
+<span id="cb18-8"><a href="#cb18-8" tabindex="-1"></a>enr_2024 <span class="op">=</span> mn.fetch_enr(<span class="dv">2024</span>)</span>
+<span id="cb18-9"><a href="#cb18-9" tabindex="-1"></a></span>
+<span id="cb18-10"><a href="#cb18-10" tabindex="-1"></a><span class="co"># Fetch multiple years</span></span>
+<span id="cb18-11"><a href="#cb18-11" tabindex="-1"></a>enr_multi <span class="op">=</span> mn.fetch_enr_multi([<span class="dv">2020</span>, <span class="dv">2021</span>, <span class="dv">2022</span>, <span class="dv">2023</span>, <span class="dv">2024</span>])</span>
+<span id="cb18-12"><a href="#cb18-12" tabindex="-1"></a></span>
+<span id="cb18-13"><a href="#cb18-13" tabindex="-1"></a><span class="co"># State totals</span></span>
+<span id="cb18-14"><a href="#cb18-14" tabindex="-1"></a>state_total <span class="op">=</span> enr_2024[</span>
+<span id="cb18-15"><a href="#cb18-15" tabindex="-1"></a>    (enr_2024[<span class="st">'is_state'</span>] <span class="op">==</span> <span class="va">True</span>) <span class="op">&amp;</span></span>
+<span id="cb18-16"><a href="#cb18-16" tabindex="-1"></a>    (enr_2024[<span class="st">'subgroup'</span>] <span class="op">==</span> <span class="st">'total_enrollment'</span>) <span class="op">&amp;</span></span>
+<span id="cb18-17"><a href="#cb18-17" tabindex="-1"></a>    (enr_2024[<span class="st">'grade_level'</span>] <span class="op">==</span> <span class="st">'TOTAL'</span>)</span>
+<span id="cb18-18"><a href="#cb18-18" tabindex="-1"></a>]</span>
+<span id="cb18-19"><a href="#cb18-19" tabindex="-1"></a></span>
+<span id="cb18-20"><a href="#cb18-20" tabindex="-1"></a><span class="co"># Largest districts</span></span>
+<span id="cb18-21"><a href="#cb18-21" tabindex="-1"></a>districts <span class="op">=</span> enr_2024[</span>
+<span id="cb18-22"><a href="#cb18-22" tabindex="-1"></a>    (enr_2024[<span class="st">'is_district'</span>] <span class="op">==</span> <span class="va">True</span>) <span class="op">&amp;</span></span>
+<span id="cb18-23"><a href="#cb18-23" tabindex="-1"></a>    (enr_2024[<span class="st">'subgroup'</span>] <span class="op">==</span> <span class="st">'total_enrollment'</span>) <span class="op">&amp;</span></span>
+<span id="cb18-24"><a href="#cb18-24" tabindex="-1"></a>    (enr_2024[<span class="st">'grade_level'</span>] <span class="op">==</span> <span class="st">'TOTAL'</span>)</span>
+<span id="cb18-25"><a href="#cb18-25" tabindex="-1"></a>].sort_values(<span class="st">'n_students'</span>, ascending<span class="op">=</span><span class="va">False</span>).head(<span class="dv">15</span>)</span></code></pre></div>
 </div>
 </div>
 <div class="section level2">
