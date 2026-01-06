@@ -4,23 +4,13 @@
 \alias{districts_example}
 \title{Example district-level enrollment data}
 \format{
-A data frame with 10 rows and 5 columns:
-\describe{
-\item{end_year}{School year end (e.g., 2024 for 2023-24 school year)}
-\item{type}{Geographic type ("District")}
-\item{district_name}{District name}
-\item{subgroup}{Demographic subgroup}
-\item{grade_level}{Grade level ("TOTAL" for all grades combined)}
-\item{n_students}{Enrollment count}
-}
+A data frame with 10 rows and 5 columns
 }
 \description{
 Example district-level enrollment data
 }
 \examples{
-\dontrun{
 data(districts_example)
 head(districts_example)
-}
 }
 \keyword{internal}
