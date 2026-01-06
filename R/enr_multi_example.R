@@ -1,5 +1,8 @@
 #' Example multi-year enrollment data (2022-2024)
 #'
+#' @name enr_multi_example
+#' @docType data
+#'
 #' A minimal example dataset for vignette illustration.
 #' Contains enrollment data for Minneapolis and Saint Paul public schools
 #' across three school years (2022, 2023, 2024), plus Minnesota state totals.

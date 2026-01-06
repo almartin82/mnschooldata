@@ -1,5 +1,8 @@
 #' Example district-level enrollment data
 #'
+#' @name districts_example
+#' @docType data
+#'
 #' A minimal example dataset for vignette illustration.
 #' Contains district-level enrollment data for Minneapolis and Saint Paul.
 #'
