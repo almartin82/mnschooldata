@@ -30,13 +30,20 @@ remotes::install_github("almartin82/mnschooldata")
 
 Fetch the most recent year of Minnesota enrollment data:
 
-```{r fetch-data}
+```{r fetch-data, eval = FALSE}
 library(mnschooldata)
 library(dplyr)
 
 # Fetch 2024 enrollment data
 enr <- fetch_enr(2024)
 
+head(enr)
+```
+
+```{r load-cached-data}
+# For vignette building, use cached data to avoid network calls
+data("enr_2024_example", package = "mnschooldata")
+enr <- enr_2024_example
 head(enr)
 ```
 

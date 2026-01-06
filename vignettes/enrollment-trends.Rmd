@@ -41,10 +41,21 @@ colors <- c("total" = "#2C3E50", "white" = "#3498DB", "black" = "#E74C3C",
             "hispanic" = "#F39C12", "asian" = "#9B59B6", "native" = "#1ABC9C")
 ```
 
-```{r fetch-data, cache = TRUE}
+```{r fetch-data, eval = FALSE}
 # Fetch multi-year data for trends
+# NOTE: This code is for illustration only. In practice, use cached data.
 enr <- fetch_enr_multi(2015:2024)
 enr_current <- fetch_enr(2024)
+```
+
+```{r load-cached-data}
+# Load cached data for vignette building
+# This prevents network calls during CRAN checks and pkgdown builds
+data("enr_multi_example", package = "mnschooldata")
+data("enr_2024_example", package = "mnschooldata")
+
+enr <- enr_multi_example
+enr_current <- enr_2024_example
 ```
 
 ## 1. Minneapolis and St. Paul are shrinking
