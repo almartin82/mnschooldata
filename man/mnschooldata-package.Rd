@@ -2,6 +2,7 @@
 % Please edit documentation in R/mnschooldata-package.R
 \docType{package}
 \name{mnschooldata-package}
+\alias{mnschooldata}
 \alias{mnschooldata-package}
 \title{mnschooldata: Minnesota School Data}
 \description{
@@ -48,14 +49,6 @@ Minnesota uses a district type + number system:
 }
 
 \seealso{
-Useful links:
-\itemize{
-  \item \url{https://almartin82.github.io/mnschooldata}
-  \item \url{https://github.com/almartin82/mnschooldata}
-  \item Report bugs at \url{https://github.com/almartin82/mnschooldata/issues}
-}
-
-
 Useful links:
 \itemize{
   \item \url{https://almartin82.github.io/mnschooldata}

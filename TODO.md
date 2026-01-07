@@ -1,5 +1,28 @@
 # TODO
 
+## Critical: Fix MDE Data Source URLs (2026-01-04)
+
+The Minnesota Department of Education (MDE) has changed their MDEAnalytics data portal. The current URL patterns in `get_raw_enrollment.R` are returning 404 errors:
+
+- Direct file URLs like `/MDEAnalytics/DataDownload/Enrollment_2024_School.xlsx` no longer exist
+- The portal now uses a WebFOCUS/Information Builders application with JavaScript-based downloads
+- Downloads require navigating through the iframe at `/ibi_apps/WFServlet?IBIF_ex=...`
+
+**Required changes**:
+1. Research the new WebFOCUS API or find alternative download method
+2. Update `download_mde_enrollment()` and `download_mde_via_cgi()` in `R/get_raw_enrollment.R`
+3. Test with all available years (2007-2024)
+4. Remove `eval = FALSE` from vignette once data fetch works
+
+**MDE Portal URLs**:
+- Main portal: https://pub.education.mn.gov/MDEAnalytics/Data.jsp
+- WebFOCUS entry: `/ibi_apps/WFServlet?IBIF_ex=mdea_ddl_topic_select_drilldown`
+- Schools & Districts topic: `/MDEAnalytics/DataTopic.jsp?TOPICID=4`
+
+**Alternative sources to investigate**:
+- Minnesota Report Card: https://rc.education.mn.gov/
+- SLEDS: http://sleds.mn.gov/
+
 ## pkgdown Build Issues
 
 ### Network Timeout Error (2026-01-01)

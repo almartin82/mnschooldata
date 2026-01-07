@@ -16,3 +16,5 @@
 ^generate_readme_figs\.R$
 ^\.venv$
 ^vignettes/.*_cache$
+^data-raw$
+^EXPANSION\.md$

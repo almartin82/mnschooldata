@@ -47,6 +47,5 @@ utils::globalVariables(c(
 #'   \item School Number: Additional digits for schools within districts
 #' }
 #'
-#' @docType package
 #' @name mnschooldata-package
 NULL
