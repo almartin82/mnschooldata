@@ -25,8 +25,8 @@ colors <- c("total" = "#2C3E50", "white" = "#3498DB", "black" = "#E74C3C",
 ``` r
 # Fetch multi-year data for trends
 # NOTE: This code is for illustration only. In practice, use cached data.
-enr <- fetch_enr_multi(2015:2024)
-enr_current <- fetch_enr(2024)
+enr <- fetch_enr_multi(2015:2024, use_cache = TRUE)
+enr_current <- fetch_enr(2024, use_cache = TRUE)
 ```
 
 ``` r

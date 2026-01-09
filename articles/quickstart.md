@@ -18,7 +18,7 @@ library(mnschooldata)
 library(dplyr)
 
 # Fetch 2024 enrollment data
-enr <- fetch_enr(2024)
+enr <- fetch_enr(2024, use_cache = TRUE)
 
 head(enr)
 ```
@@ -115,7 +115,7 @@ If you prefer wide format (one column per demographic), set
 `tidy = FALSE`:
 
 ``` r
-enr_wide <- fetch_enr(2024, tidy = FALSE)
+enr_wide <- fetch_enr(2024, tidy = FALSE, use_cache = TRUE)
 
 enr_wide %>%
   filter(type == "State") %>%
@@ -128,7 +128,7 @@ Fetch multiple years to analyze trends:
 
 ``` r
 # Fetch 5 years of data
-enr_multi <- fetch_enr_multi(2020:2024)
+enr_multi <- fetch_enr_multi(2020:2024, use_cache = TRUE)
 
 # State enrollment trend
 enr_multi %>%
