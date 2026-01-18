@@ -152,3 +152,9 @@ enr %>%
 
 - See `vignette("enrollment-trends")` for 15 stories Minnesota enrollment data
 - Use `?fetch_enr` for full function documentation
+
+## Session Info
+
+```{r session-info}
+sessionInfo()
+```

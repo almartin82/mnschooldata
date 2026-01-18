@@ -1,7 +1,5 @@
 ^.*\.Rproj$
 ^\.Rproj\.user$
-^LICENSE\.md$
-^README\.Rmd$
 ^README\.md$
 ^\.github$
 ^_pkgdown\.yml$
@@ -10,11 +8,9 @@
 ^doc$
 ^Meta$
 ^CLAUDE\.md$
-^PRD\.md$
 ^py.*schooldata$
 ^TODO\.md$
 ^generate_readme_figs\.R$
 ^\.venv$
-^vignettes/.*_cache$
 ^data-raw$
 ^EXPANSION\.md$

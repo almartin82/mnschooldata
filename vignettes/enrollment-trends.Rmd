@@ -380,3 +380,9 @@ ggplot(sped, aes(x = district_label, y = pct * 100)) +
        x = "", y = "Percent Special Education") +
   theme_readme()
 ```
+
+## Session Info
+
+```{r session-info}
+sessionInfo()
+```
