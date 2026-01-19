@@ -11,15 +11,16 @@ A data frame with 45 rows and 12 columns
 ``` r
 data(enr_multi_example)
 head(enr_multi_example)
-#> # A tibble: 6 × 12
-#>   end_year state district_name school_name level subgroup grade_level n_students
-#>      <dbl> <chr> <chr>         <chr>       <chr> <chr>    <chr>            <dbl>
-#> 1     2022 MN    Minneapolis … Minneapoli… dist… total_e… TOTAL            27645
-#> 2     2022 MN    Minneapolis … Minneapoli… dist… white    TOTAL             9215
-#> 3     2022 MN    Minneapolis … Minneapoli… dist… black    TOTAL            12125
-#> 4     2022 MN    Minneapolis … Minneapoli… dist… hispanic TOTAL             3104
-#> 5     2022 MN    Minneapolis … Minneapoli… dist… asian    TOTAL             2037
-#> 6     2022 MN    Saint Paul P… Saint Paul… dist… total_e… TOTAL            32204
-#> # ℹ 4 more variables: aggregation_flag <chr>, is_district <lgl>,
-#> #   is_state <lgl>, type <chr>
+#> # A tibble: 6 × 15
+#>   end_year state district_id district_name school_name level subgroup       
+#>      <dbl> <chr> <chr>       <chr>         <chr>       <chr> <chr>          
+#> 1     2015 MN    NA          NA            Minnesota   state asian          
+#> 2     2015 MN    NA          NA            Minnesota   state black          
+#> 3     2015 MN    NA          NA            Minnesota   state econ_disadv    
+#> 4     2015 MN    NA          NA            Minnesota   state hispanic       
+#> 5     2015 MN    NA          NA            Minnesota   state lep            
+#> 6     2015 MN    NA          NA            Minnesota   state native_american
+#> # ℹ 8 more variables: grade_level <chr>, n_students <dbl>, pct <dbl>,
+#> #   aggregation_flag <chr>, is_district <lgl>, is_state <lgl>, is_school <lgl>,
+#> #   type <chr>
 ```

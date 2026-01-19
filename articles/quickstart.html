@@ -90,27 +90,27 @@
 <span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"enr_2024_example"</span>, package <span class="op">=</span> <span class="st">"mnschooldata"</span><span class="op">)</span></span>
 <span><span class="va">enr</span> <span class="op">&lt;-</span> <span class="va">enr_2024_example</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">enr</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">##   end_year state              district_name                school_name    level</span></span>
-<span><span class="co">## 1     2024    MN Minneapolis Public Schools Minneapolis Public Schools district</span></span>
-<span><span class="co">## 2     2024    MN Minneapolis Public Schools Minneapolis Public Schools district</span></span>
-<span><span class="co">## 3     2024    MN Minneapolis Public Schools Minneapolis Public Schools district</span></span>
-<span><span class="co">## 4     2024    MN Minneapolis Public Schools Minneapolis Public Schools district</span></span>
-<span><span class="co">## 5     2024    MN Minneapolis Public Schools Minneapolis Public Schools district</span></span>
-<span><span class="co">## 6     2024    MN  Saint Paul Public Schools  Saint Paul Public Schools district</span></span>
-<span><span class="co">##           subgroup grade_level n_students aggregation_flag is_district is_state</span></span>
-<span><span class="co">## 1 total_enrollment       TOTAL      28500         official        TRUE    FALSE</span></span>
-<span><span class="co">## 2            white       TOTAL       9500         official        TRUE    FALSE</span></span>
-<span><span class="co">## 3            black       TOTAL      12500         official        TRUE    FALSE</span></span>
-<span><span class="co">## 4         hispanic       TOTAL       3200         official        TRUE    FALSE</span></span>
-<span><span class="co">## 5            asian       TOTAL       2100         official        TRUE    FALSE</span></span>
-<span><span class="co">## 6 total_enrollment       TOTAL      33200         official        TRUE    FALSE</span></span>
-<span><span class="co">##       type</span></span>
-<span><span class="co">## 1 District</span></span>
-<span><span class="co">## 2 District</span></span>
-<span><span class="co">## 3 District</span></span>
-<span><span class="co">## 4 District</span></span>
-<span><span class="co">## 5 District</span></span>
-<span><span class="co">## 6 District</span></span></code></pre>
+<pre><code><span><span class="co">##   end_year state district_id district_name school_name level        subgroup</span></span>
+<span><span class="co">## 1     2024    MN        &lt;NA&gt;          &lt;NA&gt;   Minnesota state           asian</span></span>
+<span><span class="co">## 2     2024    MN        &lt;NA&gt;          &lt;NA&gt;   Minnesota state           black</span></span>
+<span><span class="co">## 3     2024    MN        &lt;NA&gt;          &lt;NA&gt;   Minnesota state     econ_disadv</span></span>
+<span><span class="co">## 4     2024    MN        &lt;NA&gt;          &lt;NA&gt;   Minnesota state        hispanic</span></span>
+<span><span class="co">## 5     2024    MN        &lt;NA&gt;          &lt;NA&gt;   Minnesota state             lep</span></span>
+<span><span class="co">## 6     2024    MN        &lt;NA&gt;          &lt;NA&gt;   Minnesota state native_american</span></span>
+<span><span class="co">##   grade_level n_students        pct aggregation_flag is_district is_state</span></span>
+<span><span class="co">## 1       TOTAL      13976 0.02798228         official       FALSE     TRUE</span></span>
+<span><span class="co">## 2       TOTAL      27846 0.05575232         official       FALSE     TRUE</span></span>
+<span><span class="co">## 3       TOTAL     101640 0.20350019         official       FALSE     TRUE</span></span>
+<span><span class="co">## 4       TOTAL      18560 0.03716021         official       FALSE     TRUE</span></span>
+<span><span class="co">## 5       TOTAL      43373 0.08683996         official       FALSE     TRUE</span></span>
+<span><span class="co">## 6       TOTAL       6059 0.01213113         official       FALSE     TRUE</span></span>
+<span><span class="co">##   is_school  type</span></span>
+<span><span class="co">## 1     FALSE State</span></span>
+<span><span class="co">## 2     FALSE State</span></span>
+<span><span class="co">## 3     FALSE State</span></span>
+<span><span class="co">## 4     FALSE State</span></span>
+<span><span class="co">## 5     FALSE State</span></span>
+<span><span class="co">## 6     FALSE State</span></span></code></pre>
 </div>
 <div class="section level2">
 <h2 id="understanding-the-data">Understanding the Data<a class="anchor" aria-label="anchor" href="#understanding-the-data"></a>

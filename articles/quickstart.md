@@ -30,27 +30,27 @@ enr <- enr_2024_example
 head(enr)
 ```
 
-    ##   end_year state              district_name                school_name    level
-    ## 1     2024    MN Minneapolis Public Schools Minneapolis Public Schools district
-    ## 2     2024    MN Minneapolis Public Schools Minneapolis Public Schools district
-    ## 3     2024    MN Minneapolis Public Schools Minneapolis Public Schools district
-    ## 4     2024    MN Minneapolis Public Schools Minneapolis Public Schools district
-    ## 5     2024    MN Minneapolis Public Schools Minneapolis Public Schools district
-    ## 6     2024    MN  Saint Paul Public Schools  Saint Paul Public Schools district
-    ##           subgroup grade_level n_students aggregation_flag is_district is_state
-    ## 1 total_enrollment       TOTAL      28500         official        TRUE    FALSE
-    ## 2            white       TOTAL       9500         official        TRUE    FALSE
-    ## 3            black       TOTAL      12500         official        TRUE    FALSE
-    ## 4         hispanic       TOTAL       3200         official        TRUE    FALSE
-    ## 5            asian       TOTAL       2100         official        TRUE    FALSE
-    ## 6 total_enrollment       TOTAL      33200         official        TRUE    FALSE
-    ##       type
-    ## 1 District
-    ## 2 District
-    ## 3 District
-    ## 4 District
-    ## 5 District
-    ## 6 District
+    ##   end_year state district_id district_name school_name level        subgroup
+    ## 1     2024    MN        <NA>          <NA>   Minnesota state           asian
+    ## 2     2024    MN        <NA>          <NA>   Minnesota state           black
+    ## 3     2024    MN        <NA>          <NA>   Minnesota state     econ_disadv
+    ## 4     2024    MN        <NA>          <NA>   Minnesota state        hispanic
+    ## 5     2024    MN        <NA>          <NA>   Minnesota state             lep
+    ## 6     2024    MN        <NA>          <NA>   Minnesota state native_american
+    ##   grade_level n_students        pct aggregation_flag is_district is_state
+    ## 1       TOTAL      13976 0.02798228         official       FALSE     TRUE
+    ## 2       TOTAL      27846 0.05575232         official       FALSE     TRUE
+    ## 3       TOTAL     101640 0.20350019         official       FALSE     TRUE
+    ## 4       TOTAL      18560 0.03716021         official       FALSE     TRUE
+    ## 5       TOTAL      43373 0.08683996         official       FALSE     TRUE
+    ## 6       TOTAL       6059 0.01213113         official       FALSE     TRUE
+    ##   is_school  type
+    ## 1     FALSE State
+    ## 2     FALSE State
+    ## 3     FALSE State
+    ## 4     FALSE State
+    ## 5     FALSE State
+    ## 6     FALSE State
 
 ## Understanding the Data
 
