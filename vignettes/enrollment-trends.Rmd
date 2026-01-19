@@ -7,7 +7,7 @@ vignette: >
   %\VignetteEncoding{UTF-8}
 ---
 
-```{r setup, eval = TRUE, include = FALSE}
+```{r setup, include = FALSE}
 knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>",
@@ -20,14 +20,14 @@ knitr::opts_chunk$set(
 )
 ```
 
-```{r load-packages, eval = TRUE}
+```{r load-packages}
 library(mnschooldata)
 library(ggplot2)
 library(dplyr)
 library(scales)
 ```
 
-```{r theme, eval = TRUE}
+```{r theme}
 theme_readme <- function() {
   theme_minimal(base_size = 14) +
     theme(
@@ -44,26 +44,32 @@ colors <- c("total" = "#2C3E50", "white" = "#3498DB", "black" = "#E74C3C",
 
 ```{r fetch-data, eval = FALSE}
 # Fetch multi-year data for trends
-# NOTE: This code is for illustration only. In practice, use cached data.
 enr <- fetch_enr_multi(2015:2024, use_cache = TRUE)
-enr_current <- fetch_enr(2024, use_cache = TRUE)
+enr_2024 <- fetch_enr(2024, use_cache = TRUE)
 ```
 
-```{r load-cached-data, eval = TRUE}
+```{r load-cached-data}
 # Load cached data for vignette building
 # This prevents network calls during CRAN checks and pkgdown builds
 data("enr_multi_example", package = "mnschooldata")
 data("enr_2024_example", package = "mnschooldata")
 
 enr <- enr_multi_example
-enr_current <- enr_2024_example
+enr_2024 <- enr_2024_example
 ```
 
 ## 1. Minneapolis and St. Paul are shrinking
 
 The Twin Cities' two largest urban districts have each lost over 10,000 students in the past decade, driven by declining birth rates, rising housing costs, and competition from charters and suburbs.
 
-```{r twin-cities-decline, eval = FALSE}
+```{r twin-cities-data}
+enr %>%
+  filter(is_district, grepl("Minneapolis|St. Paul", district_name),
+         subgroup == "total_enrollment", grade_level == "TOTAL") %>%
+  select(end_year, district_name, n_students)
+```
+
+```{r twin-cities-decline}
 tc <- enr %>%
   filter(is_district, grepl("Minneapolis|St. Paul", district_name, ignore.case = TRUE),
          subgroup == "total_enrollment", grade_level == "TOTAL")
@@ -82,7 +88,17 @@ ggplot(tc, aes(x = end_year, y = n_students, color = district_name)) +
 
 Minneapolis has one of the largest Somali populations in the United States, fundamentally changing the city's schools over two decades. Black students now make up approximately 35% of Minneapolis enrollment.
 
-```{r mpls-demographics, eval = FALSE}
+```{r mpls-demographics-data}
+enr %>%
+  filter(is_district, grepl("Minneapolis", district_name),
+         !grepl("Special", district_name),
+         grade_level == "TOTAL",
+         subgroup %in% c("white", "black", "hispanic", "asian")) %>%
+  mutate(pct = round(pct * 100, 1)) %>%
+  select(end_year, subgroup, pct)
+```
+
+```{r mpls-demographics}
 mpls <- enr %>%
   filter(is_district, grepl("Minneapolis", district_name, ignore.case = TRUE),
          !grepl("Special", district_name),
@@ -104,7 +120,17 @@ ggplot(mpls, aes(x = end_year, y = pct * 100, color = subgroup)) +
 
 Minnesota invented charter schools in 1991 - the first state to do so. Today, over 180 charter schools serve nearly 7% of the state's students. Charter enrollment has grown steadily while traditional district enrollment has declined.
 
-```{r charter-enrollment, eval = FALSE}
+```{r charter-data}
+# Charter schools have district IDs starting with "07"
+enr %>%
+  filter(is_district, grepl("^07", district_id),
+         subgroup == "total_enrollment", grade_level == "TOTAL") %>%
+  group_by(end_year) %>%
+  summarize(total_charter = sum(n_students, na.rm = TRUE),
+            n_charters = n_distinct(district_id))
+```
+
+```{r charter-enrollment}
 # Charter schools in Minnesota have district IDs starting with "07"
 charter <- enr %>%
   filter(is_district, grepl("^07", district_id),
@@ -128,7 +154,15 @@ ggplot(charter, aes(x = end_year, y = n_students)) +
 
 While Minneapolis and St. Paul shrink, the suburban ring continues to grow. Districts like Anoka-Hennepin (the state's largest), Lakeville, and Rosemount-Apple Valley-Eagan have absorbed families leaving the urban core.
 
-```{r suburban-growth, eval = FALSE}
+```{r suburban-data}
+enr %>%
+  filter(is_district,
+         grepl("Anoka-Hennepin|Lakeville|Rosemount|Prior Lake", district_name),
+         subgroup == "total_enrollment", grade_level == "TOTAL") %>%
+  select(end_year, district_name, n_students)
+```
+
+```{r suburban-growth}
 suburban <- enr %>%
   filter(is_district,
          grepl("Anoka-Hennepin|Lakeville|Rosemount|Prior Lake", district_name, ignore.case = TRUE),
@@ -148,7 +182,15 @@ ggplot(suburban, aes(x = end_year, y = n_students, color = district_name)) +
 
 From 85% white in 2007 to under 70% today, Minnesota is experiencing one of the fastest demographic shifts in the Midwest. Hispanic and Asian populations are growing rapidly, while the white student share declines.
 
-```{r demographics-shift, eval = FALSE}
+```{r demographics-data}
+enr %>%
+  filter(is_state, grade_level == "TOTAL",
+         subgroup %in% c("white", "black", "hispanic", "asian")) %>%
+  mutate(pct = round(pct * 100, 1)) %>%
+  select(end_year, subgroup, pct)
+```
+
+```{r demographics-shift}
 demo <- enr %>%
   filter(is_state, grade_level == "TOTAL",
          subgroup %in% c("white", "black", "hispanic", "asian"))
@@ -168,7 +210,14 @@ ggplot(demo, aes(x = end_year, y = pct * 100, color = subgroup)) +
 
 The pandemic caused an 8% drop in Minnesota kindergarten enrollment in 2021 - nearly 5,000 fewer children. This "COVID cohort" is smaller than surrounding grades as it moves through the system.
 
-```{r covid-kindergarten, eval = FALSE}
+```{r covid-data}
+enr %>%
+  filter(is_state, subgroup == "total_enrollment",
+         grade_level %in% c("K", "01", "06", "12")) %>%
+  select(end_year, grade_level, n_students)
+```
+
+```{r covid-kindergarten}
 k_trend <- enr %>%
   filter(is_state, subgroup == "total_enrollment",
          grade_level %in% c("K", "01", "06", "12")) %>%
@@ -194,7 +243,16 @@ ggplot(k_trend, aes(x = end_year, y = n_students, color = grade_label)) +
 
 Minnesota's Iron Range - the mining region in the northeast - continues its decades-long population decline. Districts like Hibbing, Virginia, and Eveleth-Gilbert have lost students as mining employment decreases and young families move away.
 
-```{r iron-range-decline, eval = FALSE}
+```{r iron-range-data}
+enr %>%
+  filter(is_district,
+         grepl("Hibbing|Virginia|Eveleth|Chisholm|Mountain Iron", district_name),
+         subgroup == "total_enrollment", grade_level == "TOTAL") %>%
+  group_by(end_year) %>%
+  summarize(total = sum(n_students, na.rm = TRUE))
+```
+
+```{r iron-range-decline}
 iron_range <- enr %>%
   filter(is_district,
          grepl("Hibbing|Virginia|Eveleth|Chisholm|Mountain Iron", district_name, ignore.case = TRUE),
@@ -216,7 +274,14 @@ ggplot(iron_range, aes(x = end_year, y = n_students)) +
 
 Driven by the Mayo Clinic and its $5 billion expansion (Destination Medical Center), Rochester is one of the few outstate cities gaining students. The district has added over 2,000 students in the past decade.
 
-```{r rochester-growth, eval = FALSE}
+```{r rochester-data}
+enr %>%
+  filter(is_district, grepl("Rochester", district_name),
+         subgroup == "total_enrollment", grade_level == "TOTAL") %>%
+  select(end_year, district_name, n_students)
+```
+
+```{r rochester-growth}
 rochester <- enr %>%
   filter(is_district, grepl("Rochester", district_name, ignore.case = TRUE),
          subgroup == "total_enrollment", grade_level == "TOTAL")
@@ -235,8 +300,16 @@ ggplot(rochester, aes(x = end_year, y = n_students)) +
 
 Over 80,000 Minnesota students are English learners, concentrated heavily in the Twin Cities metro. Minneapolis, St. Paul, and suburban districts like Brooklyn Center and Richfield have EL populations exceeding 30%.
 
-```{r el-concentration, eval = FALSE}
-el <- enr_current %>%
+```{r el-data}
+enr_2024 %>%
+  filter(is_district, subgroup == "lep", grade_level == "TOTAL") %>%
+  arrange(desc(n_students)) %>%
+  select(district_name, n_students, pct) %>%
+  head(10)
+```
+
+```{r el-concentration}
+el <- enr_2024 %>%
   filter(is_district, subgroup == "lep", grade_level == "TOTAL") %>%
   arrange(desc(n_students)) %>%
   head(10) %>%
@@ -256,8 +329,18 @@ ggplot(el, aes(x = district_label, y = n_students)) +
 
 Minnesota's economic inequality is stark: from under 5% free/reduced lunch in wealthy districts like Edina and Minnetonka to over 70% in urban and rural districts. This gap has widened over the past decade.
 
-```{r economic-divide, eval = FALSE}
-econ <- enr_current %>%
+```{r econ-data}
+enr_2024 %>%
+  filter(is_district, subgroup == "econ_disadv", grade_level == "TOTAL",
+         n_students > 500) %>%
+  arrange(desc(pct)) %>%
+  mutate(pct = round(pct * 100, 1)) %>%
+  select(district_name, n_students, pct) %>%
+  head(10)
+```
+
+```{r economic-divide}
+econ <- enr_2024 %>%
   filter(is_district, subgroup == "econ_disadv", grade_level == "TOTAL",
          n_students > 500) %>%
   arrange(desc(pct)) %>%
@@ -277,7 +360,14 @@ ggplot(econ, aes(x = district_label, y = pct * 100)) +
 
 Minnesota's fourth-largest city has seen steady enrollment decline as the regional economy has struggled. The Duluth school district has closed several schools and faces ongoing budget pressures.
 
-```{r duluth-decline, eval = FALSE}
+```{r duluth-data}
+enr %>%
+  filter(is_district, grepl("Duluth", district_name),
+         subgroup == "total_enrollment", grade_level == "TOTAL") %>%
+  select(end_year, district_name, n_students)
+```
+
+```{r duluth-decline}
 duluth <- enr %>%
   filter(is_district, grepl("Duluth", district_name, ignore.case = TRUE),
          subgroup == "total_enrollment", grade_level == "TOTAL")
@@ -296,8 +386,18 @@ ggplot(duluth, aes(x = end_year, y = n_students)) +
 
 Minnesota has significant Native American student populations, concentrated in districts near reservations including Red Lake, Cass Lake-Bena, and Fond du Lac. These districts often face unique funding and resource challenges.
 
-```{r native-american-concentration, eval = FALSE}
-native <- enr_current %>%
+```{r native-data}
+enr_2024 %>%
+  filter(is_district, subgroup == "native_american", grade_level == "TOTAL",
+         n_students >= 50) %>%
+  arrange(desc(pct)) %>%
+  mutate(pct = round(pct * 100, 1)) %>%
+  select(district_name, n_students, pct) %>%
+  head(10)
+```
+
+```{r native-american-concentration}
+native <- enr_2024 %>%
   filter(is_district, subgroup == "native_american", grade_level == "TOTAL") %>%
   arrange(desc(pct)) %>%
   filter(n_students >= 50) %>%
@@ -317,7 +417,14 @@ ggplot(native, aes(x = district_label, y = pct * 100)) +
 
 Anoka-Hennepin serves over 37,000 students across 42 schools, making it by far Minnesota's largest district. It has remained relatively stable while urban districts have declined, absorbing families from Minneapolis.
 
-```{r anoka-hennepin, eval = FALSE}
+```{r anoka-data}
+enr %>%
+  filter(is_district, grepl("Anoka-Hennepin", district_name),
+         subgroup == "total_enrollment", grade_level == "TOTAL") %>%
+  select(end_year, district_name, n_students)
+```
+
+```{r anoka-hennepin}
 ah <- enr %>%
   filter(is_district, grepl("Anoka-Hennepin", district_name, ignore.case = TRUE),
          subgroup == "total_enrollment", grade_level == "TOTAL")
@@ -336,8 +443,22 @@ ggplot(ah, aes(x = end_year, y = n_students)) +
 
 Small rural districts across Minnesota continue to consolidate or share services as enrollment declines. Many districts now have fewer than 500 students, making it difficult to offer comprehensive programming.
 
-```{r rural-small-districts, eval = FALSE}
-small_districts <- enr_current %>%
+```{r rural-data}
+enr_2024 %>%
+  filter(is_district, subgroup == "total_enrollment", grade_level == "TOTAL") %>%
+  mutate(size_category = case_when(
+    n_students < 250 ~ "Under 250",
+    n_students < 500 ~ "250-500",
+    n_students < 1000 ~ "500-1,000",
+    n_students < 5000 ~ "1,000-5,000",
+    TRUE ~ "5,000+"
+  )) %>%
+  group_by(size_category) %>%
+  summarize(n_districts = n())
+```
+
+```{r rural-small-districts}
+small_districts <- enr_2024 %>%
   filter(is_district, subgroup == "total_enrollment", grade_level == "TOTAL") %>%
   mutate(size_category = case_when(
     n_students < 250 ~ "Under 250",
@@ -364,8 +485,18 @@ ggplot(small_districts, aes(x = size_category, y = n_districts)) +
 
 Special education identification rates vary significantly across Minnesota districts, from under 10% to over 20%. Larger urban districts tend to have higher identification rates, reflecting both student need and assessment capacity.
 
-```{r sped-variation, eval = FALSE}
-sped <- enr_current %>%
+```{r sped-data}
+enr_2024 %>%
+  filter(is_district, subgroup == "special_ed", grade_level == "TOTAL",
+         n_students > 100) %>%
+  arrange(desc(pct)) %>%
+  mutate(pct = round(pct * 100, 1)) %>%
+  select(district_name, n_students, pct) %>%
+  head(15)
+```
+
+```{r sped-variation}
+sped <- enr_2024 %>%
   filter(is_district, subgroup == "special_ed", grade_level == "TOTAL",
          n_students > 100) %>%
   arrange(desc(pct)) %>%
