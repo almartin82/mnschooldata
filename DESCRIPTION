@@ -30,3 +30,4 @@ VignetteBuilder: knitr
 Config/testthat/edition: 3
 URL: https://almartin82.github.io/mnschooldata, https://github.com/almartin82/mnschooldata
 BugReports: https://github.com/almartin82/mnschooldata/issues
+LazyData: true
