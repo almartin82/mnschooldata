@@ -3,7 +3,14 @@
 # ==============================================================================
 
 #' @importFrom rlang .data
+#' @importFrom utils globalVariables
 NULL
+
+# Declare global variables used in dplyr pipelines to avoid R CMD check notes
+utils::globalVariables(c(
+  "proficiency_level", "n_tested", "pct", "n_students",
+  "type", "is_state", "is_district", "is_school"
+))
 
 
 #' Convert to numeric, handling suppression markers
