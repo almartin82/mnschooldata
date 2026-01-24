@@ -17,25 +17,39 @@ navbar:
       href: https://github.com/almartin82/mnschooldata
 
 reference:
-- title: Fetch Data
+- title: Fetch Enrollment Data
   desc: Functions for downloading enrollment data from MDE
   contents:
   - fetch_enr
   - fetch_enr_multi
   - get_available_years
 
+- title: Fetch Assessment Data
+  desc: Functions for downloading MCA assessment data from MDE
+  contents:
+  - fetch_assessment
+  - fetch_assessment_multi
+  - fetch_district_assessment
+  - fetch_school_assessment
+  - get_available_assessment_years
+
 - title: Transform Data
-  desc: Functions for reshaping and annotating enrollment data
+  desc: Functions for reshaping and annotating data
   contents:
   - tidy_enr
   - id_enr_aggs
   - enr_grade_aggs
+  - tidy_assessment
+  - id_assessment_aggs
+  - assessment_summary
+  - calc_proficiency
 
 - title: Cache Management
   desc: Functions for managing locally cached data
   contents:
   - cache_status
   - clear_cache
+  - clear_assessment_cache
 
 - title: Package
   contents:
