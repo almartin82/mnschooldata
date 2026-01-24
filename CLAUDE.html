@@ -308,7 +308,48 @@ enr_multi &lt;- fetch_enr_multi(2020:2024, use_cache = TRUE)</code></pre>
 </div>
 <div class="section level1">
 <h1 id="mnschooldata">mnschooldata<a class="anchor" aria-label="anchor" href="#mnschooldata"></a></h1>
-<p>No Minnesota-specific instructions at this time.</p>
+<div class="section level2">
+<h2 id="assessment-data-implementation-status">Assessment Data Implementation Status<a class="anchor" aria-label="anchor" href="#assessment-data-implementation-status"></a></h2>
+<p><strong>Status: Function infrastructure complete, data download pending</strong></p>
+<div class="section level3">
+<h3 id="whats-implemented">What’s Implemented<a class="anchor" aria-label="anchor" href="#whats-implemented"></a></h3>
+<ul><li>Assessment fetch functions: <code><a href="reference/fetch_assessment.html">fetch_assessment()</a></code>, <code><a href="reference/fetch_assessment_multi.html">fetch_assessment_multi()</a></code>
+</li>
+<li>District/school convenience functions: <code><a href="reference/fetch_district_assessment.html">fetch_district_assessment()</a></code>, <code><a href="reference/fetch_school_assessment.html">fetch_school_assessment()</a></code>
+</li>
+<li>Data processing pipeline: <code><a href="reference/get_raw_assessment.html">get_raw_assessment()</a></code> -&gt; <code><a href="reference/process_assessment.html">process_assessment()</a></code> -&gt; <code><a href="reference/tidy_assessment.html">tidy_assessment()</a></code>
+</li>
+<li>Helper functions: <code><a href="reference/calc_proficiency.html">calc_proficiency()</a></code>, <code><a href="reference/assessment_summary.html">assessment_summary()</a></code>, <code><a href="reference/id_assessment_aggs.html">id_assessment_aggs()</a></code>
+</li>
+<li>Caching support: <code><a href="reference/clear_assessment_cache.html">clear_assessment_cache()</a></code>
+</li>
+<li>Test suite with skip-if-unavailable logic</li>
+</ul></div>
+<div class="section level3">
+<h3 id="current-limitation">Current Limitation<a class="anchor" aria-label="anchor" href="#current-limitation"></a></h3>
+<p>MDE uses WebFOCUS (ibi_apps) for their data portal at <code>pub.education.mn.gov/MDEAnalytics/</code>. This system doesn’t provide simple direct download URLs like other state DOEs. The data download portion needs further work to either: 1. Implement WebFOCUS portal interaction (form submission, session handling) 2. Find alternative data access methods 3. Contact MDE for programmatic data access options</p>
+</div>
+<div class="section level3">
+<h3 id="available-assessment-years">Available Assessment Years<a class="anchor" aria-label="anchor" href="#available-assessment-years"></a></h3>
+<ul><li>MCA-III: 2019, 2021-2023</li>
+<li>MCA-IV: 2024-2025</li>
+<li>No 2020 data (COVID testing waiver)</li>
+</ul></div>
+<div class="section level3">
+<h3 id="proficiency-levels">Proficiency Levels<a class="anchor" aria-label="anchor" href="#proficiency-levels"></a></h3>
+<ul><li>MCA-III: Does Not Meet, Partially Meets, Meets, Exceeds</li>
+<li>MCA-IV (2025+): Beginning, Intermediate, Meets, Advanced</li>
+</ul></div>
+<div class="section level3">
+<h3 id="mde-data-portal-urls">MDE Data Portal URLs<a class="anchor" aria-label="anchor" href="#mde-data-portal-urls"></a></h3>
+<ul><li>Assessment Files: <code>https://pub.education.mn.gov/MDEAnalytics/DataTopic.jsp?TOPICID=79</code>
+</li>
+<li>Data Reports: <code>https://pub.education.mn.gov/MDEAnalytics/Data.jsp</code>
+</li>
+<li>Minnesota Report Card: <code>https://rc.education.mn.gov/</code>
+</li>
+</ul></div>
+</div>
 </div>
 
 

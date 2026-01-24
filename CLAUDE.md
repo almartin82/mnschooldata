@@ -360,4 +360,55 @@ sessionInfo()
 
 # mnschooldata
 
-No Minnesota-specific instructions at this time.
+## Assessment Data Implementation Status
+
+**Status: Function infrastructure complete, data download pending**
+
+### What’s Implemented
+
+- Assessment fetch functions:
+  [`fetch_assessment()`](https://almartin82.github.io/mnschooldata/reference/fetch_assessment.md),
+  [`fetch_assessment_multi()`](https://almartin82.github.io/mnschooldata/reference/fetch_assessment_multi.md)
+- District/school convenience functions:
+  [`fetch_district_assessment()`](https://almartin82.github.io/mnschooldata/reference/fetch_district_assessment.md),
+  [`fetch_school_assessment()`](https://almartin82.github.io/mnschooldata/reference/fetch_school_assessment.md)
+- Data processing pipeline:
+  [`get_raw_assessment()`](https://almartin82.github.io/mnschooldata/reference/get_raw_assessment.md)
+  -\>
+  [`process_assessment()`](https://almartin82.github.io/mnschooldata/reference/process_assessment.md)
+  -\>
+  [`tidy_assessment()`](https://almartin82.github.io/mnschooldata/reference/tidy_assessment.md)
+- Helper functions:
+  [`calc_proficiency()`](https://almartin82.github.io/mnschooldata/reference/calc_proficiency.md),
+  [`assessment_summary()`](https://almartin82.github.io/mnschooldata/reference/assessment_summary.md),
+  [`id_assessment_aggs()`](https://almartin82.github.io/mnschooldata/reference/id_assessment_aggs.md)
+- Caching support:
+  [`clear_assessment_cache()`](https://almartin82.github.io/mnschooldata/reference/clear_assessment_cache.md)
+- Test suite with skip-if-unavailable logic
+
+### Current Limitation
+
+MDE uses WebFOCUS (ibi_apps) for their data portal at
+`pub.education.mn.gov/MDEAnalytics/`. This system doesn’t provide simple
+direct download URLs like other state DOEs. The data download portion
+needs further work to either: 1. Implement WebFOCUS portal interaction
+(form submission, session handling) 2. Find alternative data access
+methods 3. Contact MDE for programmatic data access options
+
+### Available Assessment Years
+
+- MCA-III: 2019, 2021-2023
+- MCA-IV: 2024-2025
+- No 2020 data (COVID testing waiver)
+
+### Proficiency Levels
+
+- MCA-III: Does Not Meet, Partially Meets, Meets, Exceeds
+- MCA-IV (2025+): Beginning, Intermediate, Meets, Advanced
+
+### MDE Data Portal URLs
+
+- Assessment Files:
+  `https://pub.education.mn.gov/MDEAnalytics/DataTopic.jsp?TOPICID=79`
+- Data Reports: `https://pub.education.mn.gov/MDEAnalytics/Data.jsp`
+- Minnesota Report Card: `https://rc.education.mn.gov/`
