@@ -412,3 +412,36 @@ methods 3. Contact MDE for programmatic data access options
   `https://pub.education.mn.gov/MDEAnalytics/DataTopic.jsp?TOPICID=79`
 - Data Reports: `https://pub.education.mn.gov/MDEAnalytics/Data.jsp`
 - Minnesota Report Card: `https://rc.education.mn.gov/`
+
+------------------------------------------------------------------------
+
+## Valid Filter Values (tidy enrollment via `fetch_enr(tidy = TRUE)`)
+
+### subgroup
+
+`total_enrollment`, `white`, `black`, `hispanic`, `asian`,
+`native_american`, `pacific_islander`, `multiracial`, `special_ed`,
+`lep`, `econ_disadv`, `homeless`
+
+**NOT in tidy enrollment:** `male`, `female` – gender columns are not
+included in the MN tidy subgroups (they are not listed in
+`all_subgroups` in
+[`tidy_enr()`](https://almartin82.github.io/mnschooldata/reference/tidy_enr.md)).
+
+### grade_level
+
+`PK`, `K`, `01`, `02`, `03`, `04`, `05`, `06`, `07`, `08`, `09`, `10`,
+`11`, `12`, `TOTAL`
+
+Grade aggregates from
+[`enr_grade_aggs()`](https://almartin82.github.io/mnschooldata/reference/enr_grade_aggs.md):
+`K8`, `HS`, `K12`
+
+### entity flags
+
+`is_state`, `is_district`, `is_campus`, `is_charter`
+
+Entity types in `type` column: `"State"`, `"District"`, `"Campus"`
+
+**Note:** `is_charter` is derived from the `charter_flag` column (values
+`"Y"`, `"Yes"`, `"TRUE"`, `"1"`).
