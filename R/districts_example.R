@@ -1,14 +1,10 @@
-#' Example district-level enrollment data
+#' Example districts list
+#'
+#' Total enrollment by district for the 2022-23 school year from MDE.
 #'
 #' @name districts_example
 #' @docType data
-#'
-#' A minimal example dataset for vignette illustration.
-#' Contains district-level enrollment data for Minneapolis and Saint Paul.
-#'
-#' @format A data frame with 10 rows and 5 columns
-#' @examples
-#' data(districts_example)
-#' head(districts_example)
+#' @format A data frame with district names and enrollment counts
+#' @source Minnesota Department of Education, MARSS enrollment data
 #' @keywords internal
 NULL
