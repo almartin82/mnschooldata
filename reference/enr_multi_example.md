@@ -1,12 +1,26 @@
-# Example multi-year enrollment data
+# Example multi-year enrollment data (2022-2024)
 
-Real enrollment data from the Minnesota Department of Education.
-Currently contains 2022-23 school year data.
+Example multi-year enrollment data (2022-2024)
 
 ## Format
 
-A data frame with enrollment data
+A data frame with 45 rows and 12 columns
 
-## Source
+## Examples
 
-Minnesota Department of Education, MARSS enrollment data
+``` r
+data(enr_multi_example)
+head(enr_multi_example)
+#> # A tibble: 6 × 15
+#>   end_year state district_id district_name school_name level subgroup       
+#>      <dbl> <chr> <chr>       <chr>         <chr>       <chr> <chr>          
+#> 1     2015 MN    NA          NA            Minnesota   state asian          
+#> 2     2015 MN    NA          NA            Minnesota   state black          
+#> 3     2015 MN    NA          NA            Minnesota   state econ_disadv    
+#> 4     2015 MN    NA          NA            Minnesota   state hispanic       
+#> 5     2015 MN    NA          NA            Minnesota   state lep            
+#> 6     2015 MN    NA          NA            Minnesota   state native_american
+#> # ℹ 8 more variables: grade_level <chr>, n_students <dbl>, pct <dbl>,
+#> #   aggregation_flag <chr>, is_district <lgl>, is_state <lgl>, is_school <lgl>,
+#> #   type <chr>
+```
