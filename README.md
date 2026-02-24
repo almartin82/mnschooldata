@@ -402,9 +402,9 @@ duluth
 
 ---
 
-### 12. Columbia Heights: The most diverse district in Minnesota
+### 12. Columbia Heights: 51% Hispanic, 26% Black in a tiny suburb
 
-Columbia Heights Public Schools, a small inner-ring suburb of Minneapolis, enrolled 3,449 students with the most evenly distributed demographics of any district in the state: 51% Hispanic, 13% white, 13% multiracial, 12% Black, and 10% Asian. No single group dominates.
+Columbia Heights Public Schools, a small inner-ring suburb of Minneapolis, enrolled 3,449 students with a majority-Hispanic student body: 51% Hispanic, 26% Black, 13% white, 6% multiracial, and 3% Asian. The district reflects the immigrant and refugee communities that have settled in Minneapolis's first-ring suburbs.
 
 ```r
 colhts <- enr %>%
@@ -417,16 +417,16 @@ colhts <- enr %>%
 stopifnot(nrow(colhts) > 0)
 colhts
 #> # A tibble: 8 x 3
-#>   subgroup         n_students      pct
-#>   <chr>                 <dbl>    <dbl>
-#> 1 total_enrollment       3449 1       
-#> 2 hispanic               1774 0.514   
-#> 3 multiracial             448 0.130   
-#> 4 white                   448 0.130   
-#> 5 black                   421 0.122   
-#> 6 asian                   336 0.0974  
-#> 7 native_american          18 0.00522 
-#> 8 pacific_islander          4 0.00116 
+#>   subgroup         n_students       pct
+#>   <chr>                 <dbl>     <dbl>
+#> 1 total_enrollment       3449 1
+#> 2 hispanic               1774 0.514
+#> 3 black                   901 0.261
+#> 4 white                   448 0.130
+#> 5 multiracial             205 0.0594
+#> 6 asian                   107 0.0310
+#> 7 native_american          13 0.00377
+#> 8 pacific_islander          1 0.000290
 ```
 
 ![Columbia Heights demographics](https://almartin82.github.io/mnschooldata/articles/enrollment_hooks_files/figure-html/columbia-heights-chart-1.png)
@@ -475,7 +475,7 @@ size_dist
 
 ### 14. The top 10 most diverse large districts
 
-Among districts with over 3,000 students, the least-white are Columbia Heights (13% white), Richfield (22%), Burnsville (35%), St. Paul (22%), and Brooklyn Center (20%). Several of these inner-ring suburbs diversified rapidly as immigrant and refugee families moved out of Minneapolis and St. Paul.
+Among districts with over 3,000 students, the least-white are Columbia Heights (13% white), North St. Paul-Maplewood (22%), St. Paul (22%), Burnsville (26%), Worthington (27%), and Richfield (29%). Several of these inner-ring suburbs diversified rapidly as immigrant and refugee families moved out of Minneapolis and St. Paul.
 
 ```r
 diverse_large <- enr %>%
@@ -494,18 +494,18 @@ diverse_large <- enr %>%
 stopifnot(nrow(diverse_large) > 0)
 diverse_large
 #> # A tibble: 10 x 4
-#>    district_name                       n_students    pct total
-#>    <chr>                                    <dbl>  <dbl> <dbl>
-#>  1 COLUMBIA HEIGHTS PUBLIC SCHOOL DIST        448 0.130   3449
-#>  2 BROOKLYN CENTER SCHOOL DISTRICT            424 0.204   2074  
-#>  3 ST. PAUL PUBLIC SCHOOL DISTRICT           7348 0.224  32750
-#>  4 RICHFIELD PUBLIC SCHOOL DISTRICT           876 0.220   3984
-#>  5 BURNSVILLE PUBLIC SCHOOL DISTRICT         2644 0.351   7536
-#>  6 MINNEAPOLIS PUBLIC SCHOOL DISTRICT       10935 0.364  30079
-#>  7 ST. CLOUD PUBLIC SCHOOL DISTRICT          3462 0.338  10232
-#>  8 ROBBINSDALE PUBLIC SCHOOL DISTRICT        4429 0.429  10326
-#>  9 WILLMAR PUBLIC SCHOOL DISTRICT            1297 0.317   4091
-#> 10 FARIBAULT PUBLIC SCHOOL DISTRICT          1297 0.417   3111
+#>    district_name                        n_students   pct total
+#>    <chr>                                     <dbl> <dbl> <dbl>
+#>  1 COLUMBIA HEIGHTS PUBLIC SCHOOL DIST         448 0.130  3449
+#>  2 NORTH ST. PAUL-MAPLEWOOD OAKDALE           2387 0.224 10666
+#>  3 ST. PAUL PUBLIC SCHOOL DISTRICT            7348 0.224 32750
+#>  4 BURNSVILLE PUBLIC SCHOOL DISTRICT          1970 0.261  7536
+#>  5 WORTHINGTON PUBLIC SCHOOL DISTRICT         1083 0.274  3958
+#>  6 RICHFIELD PUBLIC SCHOOL DISTRICT           1147 0.288  3984
+#>  7 WILLMAR PUBLIC SCHOOL DISTRICT             1297 0.317  4091
+#>  8 ROBBINSDALE PUBLIC SCHOOL DISTRICT         3351 0.325 10326
+#>  9 ST. CLOUD PUBLIC SCHOOL DISTRICT           3462 0.338 10232
+#> 10 FARIBAULT PUBLIC SCHOOL DISTRICT           1075 0.346  3111
 ```
 
 ![Most diverse large districts](https://almartin82.github.io/mnschooldata/articles/enrollment_hooks_files/figure-html/diverse-large-chart-1.png)
