@@ -676,12 +676,13 @@ Minnesota.</p>
 <p><img src="enrollment_hooks_files/figure-html/duluth-chart-1.png" class="r-plt" alt="" width="100%"></p>
 </div>
 <div class="section level2">
-<h2 id="columbia-heights-the-most-diverse-district-in-minnesota">12. Columbia Heights: The most diverse district in Minnesota<a class="anchor" aria-label="anchor" href="#columbia-heights-the-most-diverse-district-in-minnesota"></a>
+<h2 id="columbia-heights-51-hispanic-26-black-in-a-tiny-suburb">12. Columbia Heights: 51% Hispanic, 26% Black in a tiny suburb<a class="anchor" aria-label="anchor" href="#columbia-heights-51-hispanic-26-black-in-a-tiny-suburb"></a>
 </h2>
 <p>Columbia Heights Public Schools, a small inner-ring suburb of
-Minneapolis, enrolled 3,449 students with the most evenly distributed
-demographics of any district in the state: 51% Hispanic, 13% white, 13%
-multiracial, 12% Black, and 10% Asian. No single group dominates.</p>
+Minneapolis, enrolled 3,449 students with a majority-Hispanic student
+body: 51% Hispanic, 26% Black, 13% white, 6% multiracial, and 3% Asian.
+The district reflects the immigrant and refugee communities that have
+settled in Minneapolis’s first-ring suburbs.</p>
 <div class="sourceCode" id="cb26"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">colhts</span> <span class="op">&lt;-</span> <span class="va">enr</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">is_district</span>,</span>
@@ -718,8 +719,8 @@ multiracial, 12% Black, and 10% Asian. No single group dominates.</p>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_manual.html" class="external-link">scale_fill_manual</a></span><span class="op">(</span>values <span class="op">=</span> <span class="va">mn_colors</span>, guide <span class="op">=</span> <span class="st">"none"</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_continuous.html" class="external-link">scale_y_continuous</a></span><span class="op">(</span>labels <span class="op">=</span> <span class="va">comma</span>, expand <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/expansion.html" class="external-link">expansion</a></span><span class="op">(</span>mult <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">0.15</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></span><span class="op">(</span></span>
-<span>    title <span class="op">=</span> <span class="st">"Columbia Heights: Minnesota's Most Diverse District (2022-23)"</span>,</span>
-<span>    subtitle <span class="op">=</span> <span class="st">"3,449 students with no single racial majority"</span>,</span>
+<span>    title <span class="op">=</span> <span class="st">"Columbia Heights Demographics (2022-23)"</span>,</span>
+<span>    subtitle <span class="op">=</span> <span class="st">"3,449 students -- 51% Hispanic, 26% Black"</span>,</span>
 <span>    x <span class="op">=</span> <span class="st">""</span>, y <span class="op">=</span> <span class="st">"Students"</span></span>
 <span>  <span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu">theme_mn</span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
@@ -785,10 +786,10 @@ largest districts serve 294,000 students (34% of the state), while the
 <h2 id="the-top-10-most-diverse-large-districts">14. The top 10 most diverse large districts<a class="anchor" aria-label="anchor" href="#the-top-10-most-diverse-large-districts"></a>
 </h2>
 <p>Among districts with over 3,000 students, the least-white are
-Columbia Heights (13% white), Richfield (22%), Burnsville (35%),
-St. Paul (22%), and Brooklyn Center (20%). Several of these inner-ring
-suburbs diversified rapidly as immigrant and refugee families moved out
-of Minneapolis and St. Paul.</p>
+Columbia Heights (13% white), North St. Paul-Maplewood (22%), St. Paul
+(22%), Burnsville (26%), Worthington (27%), and Richfield (29%). Several
+of these inner-ring suburbs diversified rapidly as immigrant and refugee
+families moved out of Minneapolis and St. Paul.</p>
 <div class="sourceCode" id="cb30"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">diverse_large</span> <span class="op">&lt;-</span> <span class="va">enr</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">is_district</span>, <span class="va">subgroup</span> <span class="op">==</span> <span class="st">"white"</span>, <span class="va">grade_level</span> <span class="op">==</span> <span class="st">"TOTAL"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>

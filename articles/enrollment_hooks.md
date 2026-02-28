@@ -654,12 +654,13 @@ ggplot(duluth_plot, aes(x = subgroup_label, y = n_students, fill = subgroup)) +
 
 ![](enrollment_hooks_files/figure-html/duluth-chart-1.png)
 
-## 12. Columbia Heights: The most diverse district in Minnesota
+## 12. Columbia Heights: 51% Hispanic, 26% Black in a tiny suburb
 
 Columbia Heights Public Schools, a small inner-ring suburb of
-Minneapolis, enrolled 3,449 students with the most evenly distributed
-demographics of any district in the state: 51% Hispanic, 13% white, 13%
-multiracial, 12% Black, and 10% Asian. No single group dominates.
+Minneapolis, enrolled 3,449 students with a majority-Hispanic student
+body: 51% Hispanic, 26% Black, 13% white, 6% multiracial, and 3% Asian.
+The district reflects the immigrant and refugee communities that have
+settled in Minneapolis’s first-ring suburbs.
 
 ``` r
 colhts <- enr %>%
@@ -699,8 +700,8 @@ ggplot(colhts_plot, aes(x = subgroup_label, y = n_students, fill = subgroup)) +
   scale_fill_manual(values = mn_colors, guide = "none") +
   scale_y_continuous(labels = comma, expand = expansion(mult = c(0, 0.15))) +
   labs(
-    title = "Columbia Heights: Minnesota's Most Diverse District (2022-23)",
-    subtitle = "3,449 students with no single racial majority",
+    title = "Columbia Heights Demographics (2022-23)",
+    subtitle = "3,449 students -- 51% Hispanic, 26% Black",
     x = "", y = "Students"
   ) +
   theme_mn()
@@ -771,10 +772,10 @@ ggplot(size_plot, aes(x = size_cat, y = n_districts)) +
 ## 14. The top 10 most diverse large districts
 
 Among districts with over 3,000 students, the least-white are Columbia
-Heights (13% white), Richfield (22%), Burnsville (35%), St. Paul (22%),
-and Brooklyn Center (20%). Several of these inner-ring suburbs
-diversified rapidly as immigrant and refugee families moved out of
-Minneapolis and St. Paul.
+Heights (13% white), North St. Paul-Maplewood (22%), St. Paul (22%),
+Burnsville (26%), Worthington (27%), and Richfield (29%). Several of
+these inner-ring suburbs diversified rapidly as immigrant and refugee
+families moved out of Minneapolis and St. Paul.
 
 ``` r
 diverse_large <- enr %>%
