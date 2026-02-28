@@ -57,18 +57,12 @@
 </h1></div>
 <!-- badges: start -->
 
-<p><strong><a href="https://almartin82.github.io/mnschooldata/">Documentation</a></strong> | <strong><a href="https://almartin82.github.io/mnschooldata/articles/quickstart.html">Getting Started</a></strong> | <strong><a href="https://almartin82.github.io/mnschooldata/articles/enrollment_hooks.html">Enrollment Stories</a></strong></p>
-<p>Fetch and analyze Minnesota school enrollment data from the Minnesota Department of Education (MDE) in R or Python.</p>
-<p>This package is part of the <a href="https://github.com/almartin82?tab=repositories&amp;q=schooldata" class="external-link">state-schooldata project</a>, inspired by <a href="https://github.com/almartin82/njschooldata" class="external-link">njschooldata</a> – providing a simple, consistent interface for accessing state-published school data across all 50 states.</p>
+<p><strong>873,175 students. 389 districts. 68 charter schools.</strong> Minnesota is far more diverse than most people think – 41% students of color, major Hmong and Somali communities, meatpacking towns that are majority-Hispanic, and tribal schools that are 96% Native American.</p>
+<p>Part of the <a href="https://github.com/almartin82/njschooldata" class="external-link">njschooldata</a> family.</p>
+<p><strong><a href="https://almartin82.github.io/mnschooldata/">Full documentation</a></strong> – all 15 stories with interactive charts, getting-started guide, and complete function reference.</p>
 <div class="section level2">
-<h2 id="what-can-you-find-with-mnschooldata">What can you find with mnschooldata?<a class="anchor" aria-label="anchor" href="#what-can-you-find-with-mnschooldata"></a>
+<h2 id="highlights">Highlights<a class="anchor" aria-label="anchor" href="#highlights"></a>
 </h2>
-<p><strong>873,175 students. 389 districts. 68 charter schools.</strong> Minnesota is far more diverse than most people think – 41% students of color, major Hmong and Somali communities, meatpacking towns that are majority-Hispanic, and tribal schools that are 96% Native American. Here are fifteen stories hiding in the numbers:</p>
-<hr>
-<div class="section level3">
-<h3 id="id_1-minnesotas-873000-students-are-41-students-of-color">1. Minnesota’s 873,000 students are 41% students of color<a class="anchor" aria-label="anchor" href="#id_1-minnesotas-873000-students-are-41-students-of-color"></a>
-</h3>
-<p>Minnesota enrolled 873,175 students in 2022-23 across 389 districts. While still majority-white at 59%, the state’s schools are far more diverse than many assume – 41% of students identify as Black, Hispanic, Asian, Native American, multiracial, or Pacific Islander.</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://almartin82.github.io/mnschooldata">mnschooldata</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org" class="external-link">dplyr</a></span><span class="op">)</span></span>
@@ -76,66 +70,13 @@
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://scales.r-lib.org" class="external-link">scales</a></span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"enr_multi_example"</span>, package <span class="op">=</span> <span class="st">"mnschooldata"</span><span class="op">)</span></span>
-<span><span class="va">enr</span> <span class="op">&lt;-</span> <span class="va">enr_multi_example</span></span>
-<span></span>
-<span><span class="va">state_demo</span> <span class="op">&lt;-</span> <span class="va">enr</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
-<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">is_state</span>, <span class="va">grade_level</span> <span class="op">==</span> <span class="st">"TOTAL"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
-<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="va">subgroup</span>, <span class="va">n_students</span>, <span class="va">pct</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
-<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/arrange.html" class="external-link">arrange</a></span><span class="op">(</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/desc.html" class="external-link">desc</a></span><span class="op">(</span><span class="va">n_students</span><span class="op">)</span><span class="op">)</span></span>
-<span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/stopifnot.html" class="external-link">stopifnot</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="va">state_demo</span><span class="op">)</span> <span class="op">&gt;</span> <span class="fl">0</span><span class="op">)</span></span>
-<span><span class="va">state_demo</span></span>
-<span><span class="co">#&gt; # A tibble: 8 x 3</span></span>
-<span><span class="co">#&gt;   subgroup         n_students     pct</span></span>
-<span><span class="co">#&gt;   &lt;chr&gt;                 &lt;dbl&gt;   &lt;dbl&gt;</span></span>
-<span><span class="co">#&gt; 1 total_enrollment     873175 1      </span></span>
-<span><span class="co">#&gt; 2 white                518783 0.594  </span></span>
-<span><span class="co">#&gt; 3 black                110312 0.126  </span></span>
-<span><span class="co">#&gt; 4 hispanic             105538 0.121  </span></span>
-<span><span class="co">#&gt; 5 asian                 62538 0.0716 </span></span>
-<span><span class="co">#&gt; 6 multiracial           59516 0.0682 </span></span>
-<span><span class="co">#&gt; 7 native_american       15372 0.0176 </span></span>
-<span><span class="co">#&gt; 8 pacific_islander       1116 0.00128</span></span></code></pre></div>
-<div class="float">
-<img src="https://almartin82.github.io/mnschooldata/articles/enrollment_hooks_files/figure-html/state-demographics-chart-1.png" alt="State demographics"><div class="figcaption">State demographics</div>
-</div>
+<span><span class="va">enr</span> <span class="op">&lt;-</span> <span class="va">enr_multi_example</span></span></code></pre></div>
 <hr>
-</div>
 <div class="section level3">
-<h3 id="id_2-st-paul-schools-are-28-asian--the-hmong-capital-of-america">2. St. Paul schools are 28% Asian – the Hmong capital of America<a class="anchor" aria-label="anchor" href="#id_2-st-paul-schools-are-28-asian--the-hmong-capital-of-america"></a>
-</h3>
-<p>St. Paul has the largest Hmong community in the United States. In the St. Paul Public School District, 9,022 students (27.5%) are Asian – more than any other racial group except Black (24.1%) and White (22.4%). Two charter schools, Hmong College Prep Academy (96% Asian, 2,456 students) and Prairie Seeds Academy (88% Asian, 942 students), serve primarily Hmong families.</p>
-<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">stpaul</span> <span class="op">&lt;-</span> <span class="va">enr</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
-<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">is_district</span>,</span>
-<span>         <span class="va">district_name</span> <span class="op">==</span> <span class="st">"ST. PAUL PUBLIC SCHOOL DISTRICT"</span>,</span>
-<span>         <span class="va">grade_level</span> <span class="op">==</span> <span class="st">"TOTAL"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
-<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="va">subgroup</span>, <span class="va">n_students</span>, <span class="va">pct</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
-<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/arrange.html" class="external-link">arrange</a></span><span class="op">(</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/desc.html" class="external-link">desc</a></span><span class="op">(</span><span class="va">n_students</span><span class="op">)</span><span class="op">)</span></span>
-<span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/stopifnot.html" class="external-link">stopifnot</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="va">stpaul</span><span class="op">)</span> <span class="op">&gt;</span> <span class="fl">0</span><span class="op">)</span></span>
-<span><span class="va">stpaul</span></span>
-<span><span class="co">#&gt; # A tibble: 8 x 3</span></span>
-<span><span class="co">#&gt;   subgroup         n_students      pct</span></span>
-<span><span class="co">#&gt;   &lt;chr&gt;                 &lt;dbl&gt;    &lt;dbl&gt;</span></span>
-<span><span class="co">#&gt; 1 total_enrollment      32750 1       </span></span>
-<span><span class="co">#&gt; 2 asian                  9022 0.275   </span></span>
-<span><span class="co">#&gt; 3 black                  7886 0.241   </span></span>
-<span><span class="co">#&gt; 4 white                  7348 0.224   </span></span>
-<span><span class="co">#&gt; 5 hispanic               5077 0.155   </span></span>
-<span><span class="co">#&gt; 6 multiracial            3155 0.0963  </span></span>
-<span><span class="co">#&gt; 7 native_american         254 0.00776 </span></span>
-<span><span class="co">#&gt; 8 pacific_islander          8 0.000244</span></span></code></pre></div>
-<div class="float">
-<img src="https://almartin82.github.io/mnschooldata/articles/enrollment_hooks_files/figure-html/stpaul-demographics-chart-1.png" alt="St. Paul demographics"><div class="figcaption">St. Paul demographics</div>
-</div>
-<hr>
-</div>
-<div class="section level3">
-<h3 id="id_3-st-cloud-is-43-black--somali-refugees-reshaped-a-rural-city">3. St. Cloud is 43% Black – Somali refugees reshaped a rural city<a class="anchor" aria-label="anchor" href="#id_3-st-cloud-is-43-black--somali-refugees-reshaped-a-rural-city"></a>
+<h3 id="id_1-st-cloud-is-43-black--somali-refugees-reshaped-a-rural-city">1. St. Cloud is 43% Black – Somali refugees reshaped a rural city<a class="anchor" aria-label="anchor" href="#id_1-st-cloud-is-43-black--somali-refugees-reshaped-a-rural-city"></a>
 </h3>
 <p>St. Cloud, a city of 70,000 in central Minnesota, saw dramatic demographic change as Somali refugees settled there starting in the late 1990s. Today 4,399 Black students make up 43% of the district’s enrollment of 10,232, making it one of the most demographically transformed districts in the country.</p>
-<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">stcloud</span> <span class="op">&lt;-</span> <span class="va">enr</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">is_district</span>,</span>
 <span>         <span class="fu"><a href="https://rdrr.io/r/base/grep.html" class="external-link">grepl</a></span><span class="op">(</span><span class="st">"ST. CLOUD PUBLIC"</span>, <span class="va">district_name</span><span class="op">)</span>,</span>
@@ -148,54 +89,25 @@
 <span><span class="co">#&gt; # A tibble: 8 x 3</span></span>
 <span><span class="co">#&gt;   subgroup         n_students     pct</span></span>
 <span><span class="co">#&gt;   &lt;chr&gt;                 &lt;dbl&gt;   &lt;dbl&gt;</span></span>
-<span><span class="co">#&gt; 1 total_enrollment      10232 1      </span></span>
-<span><span class="co">#&gt; 2 black                  4399 0.430  </span></span>
-<span><span class="co">#&gt; 3 white                  3462 0.338  </span></span>
-<span><span class="co">#&gt; 4 hispanic               1248 0.122  </span></span>
-<span><span class="co">#&gt; 5 multiracial             800 0.0782 </span></span>
-<span><span class="co">#&gt; 6 asian                   245 0.0239 </span></span>
+<span><span class="co">#&gt; 1 total_enrollment      10232 1</span></span>
+<span><span class="co">#&gt; 2 black                  4399 0.430</span></span>
+<span><span class="co">#&gt; 3 white                  3462 0.338</span></span>
+<span><span class="co">#&gt; 4 hispanic               1248 0.122</span></span>
+<span><span class="co">#&gt; 5 multiracial             800 0.0782</span></span>
+<span><span class="co">#&gt; 6 asian                   245 0.0239</span></span>
 <span><span class="co">#&gt; 7 native_american          47 0.00459</span></span>
 <span><span class="co">#&gt; 8 pacific_islander         31 0.00303</span></span></code></pre></div>
 <div class="float">
 <img src="https://almartin82.github.io/mnschooldata/articles/enrollment_hooks_files/figure-html/stcloud-demographics-chart-1.png" alt="St. Cloud demographics"><div class="figcaption">St. Cloud demographics</div>
 </div>
+<p><a href="https://almartin82.github.io/mnschooldata/articles/enrollment_hooks.html#st.-cloud-is-43-black----somali-refugees-reshaped-a-rural-city">(source)</a></p>
 <hr>
 </div>
 <div class="section level3">
-<h3 id="id_4-anoka-hennepin-is-minnesotas-largest-district-at-38336-students">4. Anoka-Hennepin is Minnesota’s largest district at 38,336 students<a class="anchor" aria-label="anchor" href="#id_4-anoka-hennepin-is-minnesotas-largest-district-at-38336-students"></a>
-</h3>
-<p>Anoka-Hennepin School District, north of Minneapolis, serves more students than any other Minnesota district. At 38,336 students, it is larger than Minneapolis (30,079) and St. Paul (32,750). The suburban district is 53.5% white, with growing Black (17.6%), Asian (11.6%), and multiracial (8.9%) populations.</p>
-<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">anoka</span> <span class="op">&lt;-</span> <span class="va">enr</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
-<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">is_district</span>,</span>
-<span>         <span class="fu"><a href="https://rdrr.io/r/base/grep.html" class="external-link">grepl</a></span><span class="op">(</span><span class="st">"ANOKA-HENNEPIN"</span>, <span class="va">district_name</span><span class="op">)</span>,</span>
-<span>         <span class="va">grade_level</span> <span class="op">==</span> <span class="st">"TOTAL"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
-<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="va">subgroup</span>, <span class="va">n_students</span>, <span class="va">pct</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
-<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/arrange.html" class="external-link">arrange</a></span><span class="op">(</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/desc.html" class="external-link">desc</a></span><span class="op">(</span><span class="va">n_students</span><span class="op">)</span><span class="op">)</span></span>
-<span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/stopifnot.html" class="external-link">stopifnot</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="va">anoka</span><span class="op">)</span> <span class="op">&gt;</span> <span class="fl">0</span><span class="op">)</span></span>
-<span><span class="va">anoka</span></span>
-<span><span class="co">#&gt; # A tibble: 8 x 3</span></span>
-<span><span class="co">#&gt;   subgroup         n_students      pct</span></span>
-<span><span class="co">#&gt;   &lt;chr&gt;                 &lt;dbl&gt;    &lt;dbl&gt;</span></span>
-<span><span class="co">#&gt; 1 total_enrollment      38336 1       </span></span>
-<span><span class="co">#&gt; 2 white                 20520 0.535   </span></span>
-<span><span class="co">#&gt; 3 black                  6737 0.176   </span></span>
-<span><span class="co">#&gt; 4 asian                  4437 0.116   </span></span>
-<span><span class="co">#&gt; 5 multiracial            3405 0.0888  </span></span>
-<span><span class="co">#&gt; 6 hispanic               3005 0.0784  </span></span>
-<span><span class="co">#&gt; 7 native_american         207 0.00540 </span></span>
-<span><span class="co">#&gt; 8 pacific_islander         25 0.000652</span></span></code></pre></div>
-<div class="float">
-<img src="https://almartin82.github.io/mnschooldata/articles/enrollment_hooks_files/figure-html/anoka-chart-1.png" alt="Anoka-Hennepin demographics"><div class="figcaption">Anoka-Hennepin demographics</div>
-</div>
-<hr>
-</div>
-<div class="section level3">
-<h3 id="id_5-worthington-is-57-hispanic--meatpacking-built-a-new-minnesota">5. Worthington is 57% Hispanic – meatpacking built a new Minnesota<a class="anchor" aria-label="anchor" href="#id_5-worthington-is-57-hispanic--meatpacking-built-a-new-minnesota"></a>
+<h3 id="id_2-worthington-is-57-hispanic--meatpacking-built-a-new-minnesota">2. Worthington is 57% Hispanic – meatpacking built a new Minnesota<a class="anchor" aria-label="anchor" href="#id_2-worthington-is-57-hispanic--meatpacking-built-a-new-minnesota"></a>
 </h3>
 <p>Worthington, a city of 14,000 in southwest Minnesota, is home to a JBS pork processing plant that attracted immigrants from Latin America and East Africa. Today 57% of the district’s 3,958 students are Hispanic, making it one of the most Latino school districts in the Upper Midwest.</p>
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">worthington</span> <span class="op">&lt;-</span> <span class="va">enr</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">is_district</span>,</span>
 <span>         <span class="fu"><a href="https://rdrr.io/r/base/grep.html" class="external-link">grepl</a></span><span class="op">(</span><span class="st">"WORTHINGTON"</span>, <span class="va">district_name</span><span class="op">)</span>,</span>
@@ -208,54 +120,25 @@
 <span><span class="co">#&gt; # A tibble: 8 x 3</span></span>
 <span><span class="co">#&gt;   subgroup         n_students      pct</span></span>
 <span><span class="co">#&gt;   &lt;chr&gt;                 &lt;dbl&gt;    &lt;dbl&gt;</span></span>
-<span><span class="co">#&gt; 1 total_enrollment       3958 1       </span></span>
-<span><span class="co">#&gt; 2 hispanic               2263 0.572   </span></span>
-<span><span class="co">#&gt; 3 white                  1083 0.274   </span></span>
-<span><span class="co">#&gt; 4 asian                   281 0.0710  </span></span>
-<span><span class="co">#&gt; 5 black                   196 0.0495  </span></span>
-<span><span class="co">#&gt; 6 multiracial             106 0.0268  </span></span>
-<span><span class="co">#&gt; 7 pacific_islander         26 0.00657 </span></span>
+<span><span class="co">#&gt; 1 total_enrollment       3958 1</span></span>
+<span><span class="co">#&gt; 2 hispanic               2263 0.572</span></span>
+<span><span class="co">#&gt; 3 white                  1083 0.274</span></span>
+<span><span class="co">#&gt; 4 asian                   281 0.0710</span></span>
+<span><span class="co">#&gt; 5 black                   196 0.0495</span></span>
+<span><span class="co">#&gt; 6 multiracial             106 0.0268</span></span>
+<span><span class="co">#&gt; 7 pacific_islander         26 0.00657</span></span>
 <span><span class="co">#&gt; 8 native_american           3 0.000758</span></span></code></pre></div>
 <div class="float">
 <img src="https://almartin82.github.io/mnschooldata/articles/enrollment_hooks_files/figure-html/worthington-chart-1.png" alt="Worthington demographics"><div class="figcaption">Worthington demographics</div>
 </div>
+<p><a href="https://almartin82.github.io/mnschooldata/articles/enrollment_hooks.html#worthington-is-57-hispanic----meatpacking-built-a-new-minnesota">(source)</a></p>
 <hr>
 </div>
 <div class="section level3">
-<h3 id="id_6-minneapolis-is-minority-majority-64-students-of-color">6. Minneapolis is minority-majority: 64% students of color<a class="anchor" aria-label="anchor" href="#id_6-minneapolis-is-minority-majority-64-students-of-color"></a>
-</h3>
-<p>Minneapolis Public Schools enrolled 30,079 students in 2022-23, with white students making up just 36%. Black students are the largest group at 27%, followed by Hispanic (22%), multiracial (8%), and Asian (3%). The city’s schools reflect decades of immigration from Somalia, Latin America, and Southeast Asia.</p>
-<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">mpls</span> <span class="op">&lt;-</span> <span class="va">enr</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
-<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">is_district</span>,</span>
-<span>         <span class="va">district_name</span> <span class="op">==</span> <span class="st">"MINNEAPOLIS PUBLIC SCHOOL DISTRICT"</span>,</span>
-<span>         <span class="va">grade_level</span> <span class="op">==</span> <span class="st">"TOTAL"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
-<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="va">subgroup</span>, <span class="va">n_students</span>, <span class="va">pct</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
-<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/arrange.html" class="external-link">arrange</a></span><span class="op">(</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/desc.html" class="external-link">desc</a></span><span class="op">(</span><span class="va">n_students</span><span class="op">)</span><span class="op">)</span></span>
-<span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/stopifnot.html" class="external-link">stopifnot</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="va">mpls</span><span class="op">)</span> <span class="op">&gt;</span> <span class="fl">0</span><span class="op">)</span></span>
-<span><span class="va">mpls</span></span>
-<span><span class="co">#&gt; # A tibble: 8 x 3</span></span>
-<span><span class="co">#&gt;   subgroup         n_students      pct</span></span>
-<span><span class="co">#&gt;   &lt;chr&gt;                 &lt;dbl&gt;    &lt;dbl&gt;</span></span>
-<span><span class="co">#&gt; 1 total_enrollment      30079 1       </span></span>
-<span><span class="co">#&gt; 2 white                 10935 0.364   </span></span>
-<span><span class="co">#&gt; 3 black                  8056 0.268   </span></span>
-<span><span class="co">#&gt; 4 hispanic               6723 0.224   </span></span>
-<span><span class="co">#&gt; 5 multiracial            2326 0.0773  </span></span>
-<span><span class="co">#&gt; 6 native_american        1080 0.0359  </span></span>
-<span><span class="co">#&gt; 7 asian                   940 0.0313  </span></span>
-<span><span class="co">#&gt; 8 pacific_islander         19 0.000632</span></span></code></pre></div>
-<div class="float">
-<img src="https://almartin82.github.io/mnschooldata/articles/enrollment_hooks_files/figure-html/mpls-demographics-chart-1.png" alt="Minneapolis demographics"><div class="figcaption">Minneapolis demographics</div>
-</div>
-<hr>
-</div>
-<div class="section level3">
-<h3 id="id_7-red-lake-is-96-native-american">7. Red Lake is 96% Native American<a class="anchor" aria-label="anchor" href="#id_7-red-lake-is-96-native-american"></a>
+<h3 id="id_3-red-lake-is-96-native-american">3. Red Lake is 96% Native American<a class="anchor" aria-label="anchor" href="#id_3-red-lake-is-96-native-american"></a>
 </h3>
 <p>Red Lake Public School District, on the Red Lake Band of Chippewa reservation in northern Minnesota, enrolls 1,517 students – 1,455 of whom (96%) are Native American. Nearby Cass Lake-Bena (94% Native American) and Waubun-Ogema-White Earth (81%) serve similarly concentrated Indigenous communities. Together, 15,372 Native American students attend Minnesota schools statewide.</p>
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">native</span> <span class="op">&lt;-</span> <span class="va">enr</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">is_district</span>, <span class="va">subgroup</span> <span class="op">==</span> <span class="st">"native_american"</span>,</span>
 <span>         <span class="va">grade_level</span> <span class="op">==</span> <span class="st">"TOTAL"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
@@ -288,316 +171,100 @@
 <div class="float">
 <img src="https://almartin82.github.io/mnschooldata/articles/enrollment_hooks_files/figure-html/native-chart-1.png" alt="Native American concentrations"><div class="figcaption">Native American concentrations</div>
 </div>
-<hr>
-</div>
-<div class="section level3">
-<h3 id="id_8-68-charter-schools-serve-37782-students">8. 68 charter schools serve 37,782 students<a class="anchor" aria-label="anchor" href="#id_8-68-charter-schools-serve-37782-students"></a>
-</h3>
-<p>Minnesota passed the nation’s first charter school law in 1991. Today 68 charter school districts serve 37,782 students (4.3% of the state total). The largest is Minnesota Transitions Charter School (6,425 students), followed by Hmong College Prep Academy (2,456). Many charters serve specific immigrant communities.</p>
-<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">charter</span> <span class="op">&lt;-</span> <span class="va">enr</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
-<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">is_charter</span>, <span class="va">subgroup</span> <span class="op">==</span> <span class="st">"total_enrollment"</span>,</span>
-<span>         <span class="va">grade_level</span> <span class="op">==</span> <span class="st">"TOTAL"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
-<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/arrange.html" class="external-link">arrange</a></span><span class="op">(</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/desc.html" class="external-link">desc</a></span><span class="op">(</span><span class="va">n_students</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
-<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="va">district_name</span>, <span class="va">n_students</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
-<span>  <span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="fl">15</span><span class="op">)</span></span>
-<span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/stopifnot.html" class="external-link">stopifnot</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="va">charter</span><span class="op">)</span> <span class="op">&gt;</span> <span class="fl">0</span><span class="op">)</span></span>
-<span><span class="va">charter</span></span>
-<span><span class="co">#&gt; # A tibble: 15 x 2</span></span>
-<span><span class="co">#&gt;    district_name                          n_students</span></span>
-<span><span class="co">#&gt;    &lt;chr&gt;                                       &lt;dbl&gt;</span></span>
-<span><span class="co">#&gt;  1 MINNESOTA TRANSITIONS CHARTER SCH            6425</span></span>
-<span><span class="co">#&gt;  2 HMONG COLLEGE PREP ACADEMY                   2456</span></span>
-<span><span class="co">#&gt;  3 HIAWATHA ACADEMIES                           1683</span></span>
-<span><span class="co">#&gt;  4 METRO SCHOOLS CHARTER                        1643</span></span>
-<span><span class="co">#&gt;  5 EAGLE RIDGE ACADEMY CHARTER SCHOOL           1538</span></span>
-<span><span class="co">#&gt;  6 PACT CHARTER SCHOOL                          1457</span></span>
-<span><span class="co">#&gt;  7 PARNASSUS PREPARATORY CHARTER SCH            1362</span></span>
-<span><span class="co">#&gt;  8 LAKES INTERNATIONAL LANGUAGE ACADEM          1315</span></span>
-<span><span class="co">#&gt;  9 ST. CROIX PREPARATORY ACADEMY                1229</span></span>
-<span><span class="co">#&gt; 10 HIGHER GROUND ACADEMY                        1177</span></span>
-<span><span class="co">#&gt; 11 NOVA CLASSICAL ACADEMY                       1032</span></span>
-<span><span class="co">#&gt; 12 SPECTRUM HIGH SCHOOL                          982</span></span>
-<span><span class="co">#&gt; 13 PRAIRIE SEEDS ACADEMY                         942</span></span>
-<span><span class="co">#&gt; 14 GREAT RIVER SCHOOL                            811</span></span>
-<span><span class="co">#&gt; 15 COMMUNITY OF PEACE ACADEMY                    803</span></span></code></pre></div>
-<div class="float">
-<img src="https://almartin82.github.io/mnschooldata/articles/enrollment_hooks_files/figure-html/charter-chart-1.png" alt="Largest charter schools"><div class="figcaption">Largest charter schools</div>
-</div>
-<hr>
-</div>
-<div class="section level3">
-<h3 id="id_9-the-suburban-ring-enrolls-211000-students">9. The suburban ring enrolls 211,000+ students<a class="anchor" aria-label="anchor" href="#id_9-the-suburban-ring-enrolls-211000-students"></a>
-</h3>
-<p>Thirteen suburban ring districts surrounding Minneapolis-St. Paul collectively enroll more than 211,000 students – nearly a quarter of the state total. Anoka-Hennepin (38,336), Rosemount-Apple Valley-Eagan (29,229), and Osseo (21,385) are the biggest, as families continue moving from the urban core to the suburbs.</p>
-<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">suburban_names</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span></span>
-<span>  <span class="st">"ANOKA-HENNEPIN SCHOOL DISTRICT"</span>,</span>
-<span>  <span class="st">"ROSEMOUNT-APPLE VALLEY-EAGAN"</span>,</span>
-<span>  <span class="st">"OSSEO PUBLIC SCHOOL DISTRICT"</span>,</span>
-<span>  <span class="st">"SOUTH WASHINGTON COUNTY SCHOOLS"</span>,</span>
-<span>  <span class="st">"ELK RIVER SCHOOL DISTRICT"</span>,</span>
-<span>  <span class="st">"WAYZATA PUBLIC SCHOOL DISTRICT"</span>,</span>
-<span>  <span class="st">"LAKEVILLE PUBLIC SCHOOL DISTRICT"</span>,</span>
-<span>  <span class="st">"MOUNDS VIEW PUBLIC SCHOOL DISTRICT"</span>,</span>
-<span>  <span class="st">"NORTH ST. PAUL-MAPLEWOOD OAKDALE"</span>,</span>
-<span>  <span class="st">"ROBBINSDALE PUBLIC SCHOOL DISTRICT"</span>,</span>
-<span>  <span class="st">"BLOOMINGTON PUBLIC SCHOOL DISTRICT"</span>,</span>
-<span>  <span class="st">"EDEN PRAIRIE PUBLIC SCHOOL DISTRICT"</span>,</span>
-<span>  <span class="st">"EASTERN CARVER COUNTY PUBLIC SCHOOL"</span></span>
-<span><span class="op">)</span></span>
-<span></span>
-<span><span class="va">suburban</span> <span class="op">&lt;-</span> <span class="va">enr</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
-<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">is_district</span>, <span class="va">district_name</span> <span class="op"><a href="https://rdrr.io/r/base/match.html" class="external-link">%in%</a></span> <span class="va">suburban_names</span>,</span>
-<span>         <span class="va">subgroup</span> <span class="op">==</span> <span class="st">"total_enrollment"</span>, <span class="va">grade_level</span> <span class="op">==</span> <span class="st">"TOTAL"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
-<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/arrange.html" class="external-link">arrange</a></span><span class="op">(</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/desc.html" class="external-link">desc</a></span><span class="op">(</span><span class="va">n_students</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
-<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="va">district_name</span>, <span class="va">n_students</span><span class="op">)</span></span>
-<span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/stopifnot.html" class="external-link">stopifnot</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="va">suburban</span><span class="op">)</span> <span class="op">&gt;</span> <span class="fl">0</span><span class="op">)</span></span>
-<span><span class="va">suburban</span></span>
-<span><span class="co">#&gt; # A tibble: 13 x 2</span></span>
-<span><span class="co">#&gt;    district_name                       n_students</span></span>
-<span><span class="co">#&gt;    &lt;chr&gt;                                    &lt;dbl&gt;</span></span>
-<span><span class="co">#&gt;  1 ANOKA-HENNEPIN SCHOOL DISTRICT           38336</span></span>
-<span><span class="co">#&gt;  2 ROSEMOUNT-APPLE VALLEY-EAGAN             29229</span></span>
-<span><span class="co">#&gt;  3 OSSEO PUBLIC SCHOOL DISTRICT             21385</span></span>
-<span><span class="co">#&gt;  4 SOUTH WASHINGTON COUNTY SCHOOLS          19705</span></span>
-<span><span class="co">#&gt;  5 ELK RIVER SCHOOL DISTRICT                14785</span></span>
-<span><span class="co">#&gt;  6 WAYZATA PUBLIC SCHOOL DISTRICT           13217</span></span>
-<span><span class="co">#&gt;  7 LAKEVILLE PUBLIC SCHOOL DISTRICT         12105</span></span>
-<span><span class="co">#&gt;  8 MOUNDS VIEW PUBLIC SCHOOL DISTRICT       11935</span></span>
-<span><span class="co">#&gt;  9 NORTH ST. PAUL-MAPLEWOOD OAKDALE         10666</span></span>
-<span><span class="co">#&gt; 10 ROBBINSDALE PUBLIC SCHOOL DISTRICT       10326</span></span>
-<span><span class="co">#&gt; 11 BLOOMINGTON PUBLIC SCHOOL DISTRICT       10317</span></span>
-<span><span class="co">#&gt; 12 EDEN PRAIRIE PUBLIC SCHOOL DISTRICT       9681</span></span>
-<span><span class="co">#&gt; 13 EASTERN CARVER COUNTY PUBLIC SCHOOL       9195</span></span></code></pre></div>
-<div class="float">
-<img src="https://almartin82.github.io/mnschooldata/articles/enrollment_hooks_files/figure-html/suburban-chart-1.png" alt="Suburban ring districts"><div class="figcaption">Suburban ring districts</div>
-</div>
-<hr>
-</div>
-<div class="section level3">
-<h3 id="id_10-rochesters-17320-students-reflect-mayo-clinics-global-draw">10. Rochester’s 17,320 students reflect Mayo Clinic’s global draw<a class="anchor" aria-label="anchor" href="#id_10-rochesters-17320-students-reflect-mayo-clinics-global-draw"></a>
-</h3>
-<p>Rochester Public Schools, anchored by the Mayo Clinic, enrolled 17,320 students in 2022-23. The district is remarkably diverse for an outstate city: 51% white, 17% Black, 13% Hispanic, 9% Asian, and 9% multiracial. Mayo Clinic’s global workforce brings families from around the world to southeast Minnesota.</p>
-<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">rochester</span> <span class="op">&lt;-</span> <span class="va">enr</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
-<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">is_district</span>,</span>
-<span>         <span class="va">district_name</span> <span class="op">==</span> <span class="st">"ROCHESTER PUBLIC SCHOOL DISTRICT"</span>,</span>
-<span>         <span class="va">grade_level</span> <span class="op">==</span> <span class="st">"TOTAL"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
-<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="va">subgroup</span>, <span class="va">n_students</span>, <span class="va">pct</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
-<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/arrange.html" class="external-link">arrange</a></span><span class="op">(</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/desc.html" class="external-link">desc</a></span><span class="op">(</span><span class="va">n_students</span><span class="op">)</span><span class="op">)</span></span>
-<span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/stopifnot.html" class="external-link">stopifnot</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="va">rochester</span><span class="op">)</span> <span class="op">&gt;</span> <span class="fl">0</span><span class="op">)</span></span>
-<span><span class="va">rochester</span></span>
-<span><span class="co">#&gt; # A tibble: 8 x 3</span></span>
-<span><span class="co">#&gt;   subgroup         n_students     pct</span></span>
-<span><span class="co">#&gt;   &lt;chr&gt;                 &lt;dbl&gt;   &lt;dbl&gt;</span></span>
-<span><span class="co">#&gt; 1 total_enrollment      17320 1      </span></span>
-<span><span class="co">#&gt; 2 white                  8821 0.509  </span></span>
-<span><span class="co">#&gt; 3 black                  2981 0.172  </span></span>
-<span><span class="co">#&gt; 4 hispanic               2299 0.133  </span></span>
-<span><span class="co">#&gt; 5 multiracial            1644 0.0949 </span></span>
-<span><span class="co">#&gt; 6 asian                  1486 0.0858 </span></span>
-<span><span class="co">#&gt; 7 native_american          73 0.00421</span></span>
-<span><span class="co">#&gt; 8 pacific_islander         16 0.000924</span></span></code></pre></div>
-<div class="float">
-<img src="https://almartin82.github.io/mnschooldata/articles/enrollment_hooks_files/figure-html/rochester-chart-1.png" alt="Rochester demographics"><div class="figcaption">Rochester demographics</div>
-</div>
-<hr>
-</div>
-<div class="section level3">
-<h3 id="id_11-duluth-75-white-but-diversifying-in-the-northland">11. Duluth: 75% white, but diversifying in the Northland<a class="anchor" aria-label="anchor" href="#id_11-duluth-75-white-but-diversifying-in-the-northland"></a>
-</h3>
-<p>Duluth Public Schools enrolled 8,807 students in 2022-23 in Minnesota’s third-largest city. At 75% white, it is the least diverse of the state’s large districts, but multiracial students (10.6%) are now the second-largest group, reflecting changing demographics in northern Minnesota.</p>
-<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">duluth</span> <span class="op">&lt;-</span> <span class="va">enr</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
-<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">is_district</span>,</span>
-<span>         <span class="fu"><a href="https://rdrr.io/r/base/grep.html" class="external-link">grepl</a></span><span class="op">(</span><span class="st">"DULUTH PUBLIC"</span>, <span class="va">district_name</span><span class="op">)</span>,</span>
-<span>         <span class="va">grade_level</span> <span class="op">==</span> <span class="st">"TOTAL"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
-<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="va">subgroup</span>, <span class="va">n_students</span>, <span class="va">pct</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
-<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/arrange.html" class="external-link">arrange</a></span><span class="op">(</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/desc.html" class="external-link">desc</a></span><span class="op">(</span><span class="va">n_students</span><span class="op">)</span><span class="op">)</span></span>
-<span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/stopifnot.html" class="external-link">stopifnot</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="va">duluth</span><span class="op">)</span> <span class="op">&gt;</span> <span class="fl">0</span><span class="op">)</span></span>
-<span><span class="va">duluth</span></span>
-<span><span class="co">#&gt; # A tibble: 8 x 3</span></span>
-<span><span class="co">#&gt;   subgroup         n_students      pct</span></span>
-<span><span class="co">#&gt;   &lt;chr&gt;                 &lt;dbl&gt;    &lt;dbl&gt;</span></span>
-<span><span class="co">#&gt; 1 total_enrollment       8807 1       </span></span>
-<span><span class="co">#&gt; 2 white                  6646 0.755   </span></span>
-<span><span class="co">#&gt; 3 multiracial             933 0.106   </span></span>
-<span><span class="co">#&gt; 4 black                   419 0.0476  </span></span>
-<span><span class="co">#&gt; 5 hispanic                386 0.0438  </span></span>
-<span><span class="co">#&gt; 6 native_american         338 0.0384  </span></span>
-<span><span class="co">#&gt; 7 asian                    77 0.00874 </span></span>
-<span><span class="co">#&gt; 8 pacific_islander          8 0.000908</span></span></code></pre></div>
-<div class="float">
-<img src="https://almartin82.github.io/mnschooldata/articles/enrollment_hooks_files/figure-html/duluth-chart-1.png" alt="Duluth demographics"><div class="figcaption">Duluth demographics</div>
-</div>
-<hr>
-</div>
-<div class="section level3">
-<h3 id="id_12-columbia-heights-51-hispanic-26-black-in-a-tiny-suburb">12. Columbia Heights: 51% Hispanic, 26% Black in a tiny suburb<a class="anchor" aria-label="anchor" href="#id_12-columbia-heights-51-hispanic-26-black-in-a-tiny-suburb"></a>
-</h3>
-<p>Columbia Heights Public Schools, a small inner-ring suburb of Minneapolis, enrolled 3,449 students with a majority-Hispanic student body: 51% Hispanic, 26% Black, 13% white, 6% multiracial, and 3% Asian. The district reflects the immigrant and refugee communities that have settled in Minneapolis’s first-ring suburbs.</p>
-<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">colhts</span> <span class="op">&lt;-</span> <span class="va">enr</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
-<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">is_district</span>,</span>
-<span>         <span class="fu"><a href="https://rdrr.io/r/base/grep.html" class="external-link">grepl</a></span><span class="op">(</span><span class="st">"COLUMBIA HEIGHTS"</span>, <span class="va">district_name</span><span class="op">)</span>,</span>
-<span>         <span class="va">grade_level</span> <span class="op">==</span> <span class="st">"TOTAL"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
-<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="va">subgroup</span>, <span class="va">n_students</span>, <span class="va">pct</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
-<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/arrange.html" class="external-link">arrange</a></span><span class="op">(</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/desc.html" class="external-link">desc</a></span><span class="op">(</span><span class="va">n_students</span><span class="op">)</span><span class="op">)</span></span>
-<span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/stopifnot.html" class="external-link">stopifnot</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="va">colhts</span><span class="op">)</span> <span class="op">&gt;</span> <span class="fl">0</span><span class="op">)</span></span>
-<span><span class="va">colhts</span></span>
-<span><span class="co">#&gt; # A tibble: 8 x 3</span></span>
-<span><span class="co">#&gt;   subgroup         n_students       pct</span></span>
-<span><span class="co">#&gt;   &lt;chr&gt;                 &lt;dbl&gt;     &lt;dbl&gt;</span></span>
-<span><span class="co">#&gt; 1 total_enrollment       3449 1</span></span>
-<span><span class="co">#&gt; 2 hispanic               1774 0.514</span></span>
-<span><span class="co">#&gt; 3 black                   901 0.261</span></span>
-<span><span class="co">#&gt; 4 white                   448 0.130</span></span>
-<span><span class="co">#&gt; 5 multiracial             205 0.0594</span></span>
-<span><span class="co">#&gt; 6 asian                   107 0.0310</span></span>
-<span><span class="co">#&gt; 7 native_american          13 0.00377</span></span>
-<span><span class="co">#&gt; 8 pacific_islander          1 0.000290</span></span></code></pre></div>
-<div class="float">
-<img src="https://almartin82.github.io/mnschooldata/articles/enrollment_hooks_files/figure-html/columbia-heights-chart-1.png" alt="Columbia Heights demographics"><div class="figcaption">Columbia Heights demographics</div>
-</div>
-<hr>
-</div>
-<div class="section level3">
-<h3 id="id_13-55-districts-have-fewer-than-250-students">13. 55 districts have fewer than 250 students<a class="anchor" aria-label="anchor" href="#id_13-55-districts-have-fewer-than-250-students"></a>
-</h3>
-<p>Rural Minnesota continues to consolidate. Fifty-five districts enroll fewer than 250 students, while 16 districts have over 10,000. The 16 largest districts serve 294,000 students (34% of the state), while the 55 smallest collectively serve just 8,052.</p>
-<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">size_dist</span> <span class="op">&lt;-</span> <span class="va">enr</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
-<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">is_district</span>, <span class="va">subgroup</span> <span class="op">==</span> <span class="st">"total_enrollment"</span>,</span>
-<span>         <span class="va">grade_level</span> <span class="op">==</span> <span class="st">"TOTAL"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
-<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>size_cat <span class="op">=</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/case-and-replace-when.html" class="external-link">case_when</a></span><span class="op">(</span></span>
-<span>    <span class="va">n_students</span> <span class="op">&lt;</span> <span class="fl">250</span> <span class="op">~</span> <span class="st">"Under 250"</span>,</span>
-<span>    <span class="va">n_students</span> <span class="op">&lt;</span> <span class="fl">500</span> <span class="op">~</span> <span class="st">"250-499"</span>,</span>
-<span>    <span class="va">n_students</span> <span class="op">&lt;</span> <span class="fl">1000</span> <span class="op">~</span> <span class="st">"500-999"</span>,</span>
-<span>    <span class="va">n_students</span> <span class="op">&lt;</span> <span class="fl">5000</span> <span class="op">~</span> <span class="st">"1,000-4,999"</span>,</span>
-<span>    <span class="va">n_students</span> <span class="op">&lt;</span> <span class="fl">10000</span> <span class="op">~</span> <span class="st">"5,000-9,999"</span>,</span>
-<span>    <span class="cn">TRUE</span> <span class="op">~</span> <span class="st">"10,000+"</span></span>
-<span>  <span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
-<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html" class="external-link">group_by</a></span><span class="op">(</span><span class="va">size_cat</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
-<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/summarise.html" class="external-link">summarize</a></span><span class="op">(</span></span>
-<span>    n_districts <span class="op">=</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/context.html" class="external-link">n</a></span><span class="op">(</span><span class="op">)</span>,</span>
-<span>    total_students <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="va">n_students</span><span class="op">)</span>,</span>
-<span>    .groups <span class="op">=</span> <span class="st">"drop"</span></span>
-<span>  <span class="op">)</span></span>
-<span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/stopifnot.html" class="external-link">stopifnot</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="va">size_dist</span><span class="op">)</span> <span class="op">&gt;</span> <span class="fl">0</span><span class="op">)</span></span>
-<span><span class="va">size_dist</span></span>
-<span><span class="co">#&gt; # A tibble: 6 x 3</span></span>
-<span><span class="co">#&gt;   size_cat    n_districts total_students</span></span>
-<span><span class="co">#&gt;   &lt;chr&gt;             &lt;int&gt;          &lt;dbl&gt;</span></span>
-<span><span class="co">#&gt; 1 1,000-4,999         119         253651</span></span>
-<span><span class="co">#&gt; 2 10,000+              16         293943</span></span>
-<span><span class="co">#&gt; 3 250-499              66          24322</span></span>
-<span><span class="co">#&gt; 4 5,000-9,999          24         172196</span></span>
-<span><span class="co">#&gt; 5 500-999             109          78015</span></span>
-<span><span class="co">#&gt; 6 Under 250            55           8052</span></span></code></pre></div>
-<div class="float">
-<img src="https://almartin82.github.io/mnschooldata/articles/enrollment_hooks_files/figure-html/size-distribution-chart-1.png" alt="District size distribution"><div class="figcaption">District size distribution</div>
-</div>
-<hr>
-</div>
-<div class="section level3">
-<h3 id="id_14-the-top-10-most-diverse-large-districts">14. The top 10 most diverse large districts<a class="anchor" aria-label="anchor" href="#id_14-the-top-10-most-diverse-large-districts"></a>
-</h3>
-<p>Among districts with over 3,000 students, the least-white are Columbia Heights (13% white), North St. Paul-Maplewood (22%), St. Paul (22%), Burnsville (26%), Worthington (27%), and Richfield (29%). Several of these inner-ring suburbs diversified rapidly as immigrant and refugee families moved out of Minneapolis and St. Paul.</p>
-<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">diverse_large</span> <span class="op">&lt;-</span> <span class="va">enr</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
-<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">is_district</span>, <span class="va">subgroup</span> <span class="op">==</span> <span class="st">"white"</span>, <span class="va">grade_level</span> <span class="op">==</span> <span class="st">"TOTAL"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
-<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate-joins.html" class="external-link">left_join</a></span><span class="op">(</span></span>
-<span>    <span class="va">enr</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">is_district</span>, <span class="va">subgroup</span> <span class="op">==</span> <span class="st">"total_enrollment"</span>,</span>
-<span>                    <span class="va">grade_level</span> <span class="op">==</span> <span class="st">"TOTAL"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
-<span>      <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="va">district_name</span>, total <span class="op">=</span> <span class="va">n_students</span><span class="op">)</span>,</span>
-<span>    by <span class="op">=</span> <span class="st">"district_name"</span></span>
-<span>  <span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
-<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">total</span> <span class="op">&gt;</span> <span class="fl">3000</span>, <span class="op">!</span><span class="va">is_charter</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
-<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/arrange.html" class="external-link">arrange</a></span><span class="op">(</span><span class="va">pct</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
-<span>  <span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="fl">10</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
-<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="va">district_name</span>, <span class="va">n_students</span>, <span class="va">pct</span>, <span class="va">total</span><span class="op">)</span></span>
-<span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/stopifnot.html" class="external-link">stopifnot</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="va">diverse_large</span><span class="op">)</span> <span class="op">&gt;</span> <span class="fl">0</span><span class="op">)</span></span>
-<span><span class="va">diverse_large</span></span>
-<span><span class="co">#&gt; # A tibble: 10 x 4</span></span>
-<span><span class="co">#&gt;    district_name                        n_students   pct total</span></span>
-<span><span class="co">#&gt;    &lt;chr&gt;                                     &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;</span></span>
-<span><span class="co">#&gt;  1 COLUMBIA HEIGHTS PUBLIC SCHOOL DIST         448 0.130  3449</span></span>
-<span><span class="co">#&gt;  2 NORTH ST. PAUL-MAPLEWOOD OAKDALE           2387 0.224 10666</span></span>
-<span><span class="co">#&gt;  3 ST. PAUL PUBLIC SCHOOL DISTRICT            7348 0.224 32750</span></span>
-<span><span class="co">#&gt;  4 BURNSVILLE PUBLIC SCHOOL DISTRICT          1970 0.261  7536</span></span>
-<span><span class="co">#&gt;  5 WORTHINGTON PUBLIC SCHOOL DISTRICT         1083 0.274  3958</span></span>
-<span><span class="co">#&gt;  6 RICHFIELD PUBLIC SCHOOL DISTRICT           1147 0.288  3984</span></span>
-<span><span class="co">#&gt;  7 WILLMAR PUBLIC SCHOOL DISTRICT             1297 0.317  4091</span></span>
-<span><span class="co">#&gt;  8 ROBBINSDALE PUBLIC SCHOOL DISTRICT         3351 0.325 10326</span></span>
-<span><span class="co">#&gt;  9 ST. CLOUD PUBLIC SCHOOL DISTRICT           3462 0.338 10232</span></span>
-<span><span class="co">#&gt; 10 FARIBAULT PUBLIC SCHOOL DISTRICT           1075 0.346  3111</span></span></code></pre></div>
-<div class="float">
-<img src="https://almartin82.github.io/mnschooldata/articles/enrollment_hooks_files/figure-html/diverse-large-chart-1.png" alt="Most diverse large districts"><div class="figcaption">Most diverse large districts</div>
-</div>
-<hr>
-</div>
-<div class="section level3">
-<h3 id="id_15-outstate-districts-are-still-85-white">15. Outstate districts are still 85%+ white<a class="anchor" aria-label="anchor" href="#id_15-outstate-districts-are-still-85-white"></a>
-</h3>
-<p>While the Twin Cities metro diversified rapidly, outstate Minnesota districts remain overwhelmingly white. Among districts with 3,000+ students, New Prague (92%), Chisago Lakes (90%), Princeton (89%), and Alexandria (88%) have barely changed, creating a stark geographic divide in who Minnesota students learn alongside.</p>
-<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">whitest</span> <span class="op">&lt;-</span> <span class="va">enr</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
-<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">is_district</span>, <span class="va">subgroup</span> <span class="op">==</span> <span class="st">"white"</span>, <span class="va">grade_level</span> <span class="op">==</span> <span class="st">"TOTAL"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
-<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate-joins.html" class="external-link">left_join</a></span><span class="op">(</span></span>
-<span>    <span class="va">enr</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">is_district</span>, <span class="va">subgroup</span> <span class="op">==</span> <span class="st">"total_enrollment"</span>,</span>
-<span>                    <span class="va">grade_level</span> <span class="op">==</span> <span class="st">"TOTAL"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
-<span>      <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="va">district_name</span>, total <span class="op">=</span> <span class="va">n_students</span><span class="op">)</span>,</span>
-<span>    by <span class="op">=</span> <span class="st">"district_name"</span></span>
-<span>  <span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
-<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">total</span> <span class="op">&gt;</span> <span class="fl">3000</span>, <span class="op">!</span><span class="va">is_charter</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
-<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/arrange.html" class="external-link">arrange</a></span><span class="op">(</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/desc.html" class="external-link">desc</a></span><span class="op">(</span><span class="va">pct</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
-<span>  <span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="fl">10</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
-<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="va">district_name</span>, <span class="va">n_students</span>, <span class="va">pct</span>, <span class="va">total</span><span class="op">)</span></span>
-<span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/stopifnot.html" class="external-link">stopifnot</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="va">whitest</span><span class="op">)</span> <span class="op">&gt;</span> <span class="fl">0</span><span class="op">)</span></span>
-<span><span class="va">whitest</span></span>
-<span><span class="co">#&gt; # A tibble: 10 x 4</span></span>
-<span><span class="co">#&gt;    district_name                        n_students   pct total</span></span>
-<span><span class="co">#&gt;    &lt;chr&gt;                                     &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;</span></span>
-<span><span class="co">#&gt;  1 NEW PRAGUE AREA SCHOOLS                    3673 0.917  4007</span></span>
-<span><span class="co">#&gt;  2 CHISAGO LAKES SCHOOL DISTRICT              2929 0.903  3245</span></span>
-<span><span class="co">#&gt;  3 PRINCETON PUBLIC SCHOOL DISTRICT           3009 0.886  3396</span></span>
-<span><span class="co">#&gt;  4 ALEXANDRIA PUBLIC SCHOOL DISTRICT          3474 0.879  3951</span></span>
-<span><span class="co">#&gt;  5 WACONIA PUBLIC SCHOOL DISTRICT             3429 0.875  3917</span></span>
-<span><span class="co">#&gt;  6 BRAINERD PUBLIC SCHOOL DISTRICT            5163 0.873  5915</span></span>
-<span><span class="co">#&gt;  7 ORONO PUBLIC SCHOOL DISTRICT               2606 0.867  3005</span></span>
-<span><span class="co">#&gt;  8 BUFFALO-HANOVER-MONTROSE PUBLIC SCH        4381 0.856  5119</span></span>
-<span><span class="co">#&gt;  9 GRAND RAPIDS PUBLIC SCHOOL DISTRICT        3281 0.848  3870</span></span>
-<span><span class="co">#&gt; 10 SARTELL-ST. STEPHEN SCHOOL DISTRICT        3248 0.833  3901</span></span></code></pre></div>
-<div class="float">
-<img src="https://almartin82.github.io/mnschooldata/articles/enrollment_hooks_files/figure-html/whitest-large-chart-1.png" alt="Whitest large districts"><div class="figcaption">Whitest large districts</div>
-</div>
+<p><a href="https://almartin82.github.io/mnschooldata/articles/enrollment_hooks.html#red-lake-is-96-native-american">(source)</a></p>
 <hr>
 </div>
 </div>
 <div class="section level2">
-<h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
+<h2 id="data-taxonomy">Data Taxonomy<a class="anchor" aria-label="anchor" href="#data-taxonomy"></a>
 </h2>
-<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># install.packages("remotes")</span></span>
-<span><span class="fu">remotes</span><span class="fu">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html" class="external-link">install_github</a></span><span class="op">(</span><span class="st">"almartin82/mnschooldata"</span><span class="op">)</span></span></code></pre></div>
+<table class="table">
+<colgroup>
+<col width="27%">
+<col width="19%">
+<col width="27%">
+<col width="25%">
+</colgroup>
+<thead><tr class="header">
+<th>Category</th>
+<th>Years</th>
+<th>Function</th>
+<th>Details</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td><strong>Enrollment</strong></td>
+<td>2007-2024</td>
+<td>
+<code><a href="reference/fetch_enr.html">fetch_enr()</a></code> / <code><a href="reference/fetch_enr_multi.html">fetch_enr_multi()</a></code>
+</td>
+<td>State, district, school. Race, gender, FRPL, SpEd, LEP</td>
+</tr>
+<tr class="even">
+<td>Assessments</td>
+<td>–</td>
+<td>–</td>
+<td>Not yet available</td>
+</tr>
+<tr class="odd">
+<td>Graduation</td>
+<td>–</td>
+<td>–</td>
+<td>Not yet available</td>
+</tr>
+<tr class="even">
+<td>Directory</td>
+<td>–</td>
+<td>–</td>
+<td>Not yet available</td>
+</tr>
+<tr class="odd">
+<td>Per-Pupil Spending</td>
+<td>–</td>
+<td>–</td>
+<td>Not yet available</td>
+</tr>
+<tr class="even">
+<td>Accountability</td>
+<td>–</td>
+<td>–</td>
+<td>Not yet available</td>
+</tr>
+<tr class="odd">
+<td>Chronic Absence</td>
+<td>–</td>
+<td>–</td>
+<td>Not yet available</td>
+</tr>
+<tr class="even">
+<td>EL Progress</td>
+<td>–</td>
+<td>–</td>
+<td>Not yet available</td>
+</tr>
+<tr class="odd">
+<td>Special Ed</td>
+<td>–</td>
+<td>–</td>
+<td>Not yet available</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>See the full <a href="DATA-CATEGORY-TAXONOMY.html">data category taxonomy</a> for what each category covers.</p>
+</blockquote>
 </div>
 <div class="section level2">
-<h2 id="quick-start">Quick start<a class="anchor" aria-label="anchor" href="#quick-start"></a>
+<h2 id="quick-start">Quick Start<a class="anchor" aria-label="anchor" href="#quick-start"></a>
 </h2>
 <div class="section level3">
 <h3 id="r">R<a class="anchor" aria-label="anchor" href="#r"></a>
 </h3>
-<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://almartin82.github.io/mnschooldata">mnschooldata</a></span><span class="op">)</span></span>
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># install.packages("remotes")</span></span>
+<span><span class="fu">remotes</span><span class="fu">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html" class="external-link">install_github</a></span><span class="op">(</span><span class="st">"almartin82/mnschooldata"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://almartin82.github.io/mnschooldata">mnschooldata</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org" class="external-link">dplyr</a></span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># Fetch one year (requires network access to MDE)</span></span>
@@ -622,29 +289,34 @@
 <div class="section level3">
 <h3 id="python">Python<a class="anchor" aria-label="anchor" href="#python"></a>
 </h3>
-<div class="sourceCode" id="cb18"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" tabindex="-1"></a><span class="im">import</span> pymnschooldata <span class="im">as</span> mn</span>
-<span id="cb18-2"><a href="#cb18-2" tabindex="-1"></a></span>
-<span id="cb18-3"><a href="#cb18-3" tabindex="-1"></a><span class="co"># Check available years</span></span>
-<span id="cb18-4"><a href="#cb18-4" tabindex="-1"></a>years <span class="op">=</span> mn.get_available_years()</span>
-<span id="cb18-5"><a href="#cb18-5" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Data available from </span><span class="sc">{</span>years[<span class="st">'min_year'</span>]<span class="sc">}</span><span class="ss"> to </span><span class="sc">{</span>years[<span class="st">'max_year'</span>]<span class="sc">}</span><span class="ss">"</span>)</span>
-<span id="cb18-6"><a href="#cb18-6" tabindex="-1"></a></span>
-<span id="cb18-7"><a href="#cb18-7" tabindex="-1"></a><span class="co"># Fetch one year</span></span>
-<span id="cb18-8"><a href="#cb18-8" tabindex="-1"></a>enr_2023 <span class="op">=</span> mn.fetch_enr(<span class="dv">2023</span>)</span>
-<span id="cb18-9"><a href="#cb18-9" tabindex="-1"></a></span>
-<span id="cb18-10"><a href="#cb18-10" tabindex="-1"></a><span class="co"># State totals</span></span>
-<span id="cb18-11"><a href="#cb18-11" tabindex="-1"></a>state_total <span class="op">=</span> enr_2023[</span>
-<span id="cb18-12"><a href="#cb18-12" tabindex="-1"></a>    (enr_2023[<span class="st">'is_state'</span>] <span class="op">==</span> <span class="va">True</span>) <span class="op">&amp;</span></span>
-<span id="cb18-13"><a href="#cb18-13" tabindex="-1"></a>    (enr_2023[<span class="st">'subgroup'</span>] <span class="op">==</span> <span class="st">'total_enrollment'</span>) <span class="op">&amp;</span></span>
-<span id="cb18-14"><a href="#cb18-14" tabindex="-1"></a>    (enr_2023[<span class="st">'grade_level'</span>] <span class="op">==</span> <span class="st">'TOTAL'</span>)</span>
-<span id="cb18-15"><a href="#cb18-15" tabindex="-1"></a>]</span>
-<span id="cb18-16"><a href="#cb18-16" tabindex="-1"></a></span>
-<span id="cb18-17"><a href="#cb18-17" tabindex="-1"></a><span class="co"># Largest districts</span></span>
-<span id="cb18-18"><a href="#cb18-18" tabindex="-1"></a>districts <span class="op">=</span> enr_2023[</span>
-<span id="cb18-19"><a href="#cb18-19" tabindex="-1"></a>    (enr_2023[<span class="st">'is_district'</span>] <span class="op">==</span> <span class="va">True</span>) <span class="op">&amp;</span></span>
-<span id="cb18-20"><a href="#cb18-20" tabindex="-1"></a>    (enr_2023[<span class="st">'subgroup'</span>] <span class="op">==</span> <span class="st">'total_enrollment'</span>) <span class="op">&amp;</span></span>
-<span id="cb18-21"><a href="#cb18-21" tabindex="-1"></a>    (enr_2023[<span class="st">'grade_level'</span>] <span class="op">==</span> <span class="st">'TOTAL'</span>)</span>
-<span id="cb18-22"><a href="#cb18-22" tabindex="-1"></a>].sort_values(<span class="st">'n_students'</span>, ascending<span class="op">=</span><span class="va">False</span>).head(<span class="dv">15</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb6"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" tabindex="-1"></a><span class="im">import</span> pymnschooldata <span class="im">as</span> mn</span>
+<span id="cb6-2"><a href="#cb6-2" tabindex="-1"></a></span>
+<span id="cb6-3"><a href="#cb6-3" tabindex="-1"></a><span class="co"># Check available years</span></span>
+<span id="cb6-4"><a href="#cb6-4" tabindex="-1"></a>years <span class="op">=</span> mn.get_available_years()</span>
+<span id="cb6-5"><a href="#cb6-5" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Data available from </span><span class="sc">{</span>years[<span class="st">'min_year'</span>]<span class="sc">}</span><span class="ss"> to </span><span class="sc">{</span>years[<span class="st">'max_year'</span>]<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb6-6"><a href="#cb6-6" tabindex="-1"></a></span>
+<span id="cb6-7"><a href="#cb6-7" tabindex="-1"></a><span class="co"># Fetch one year</span></span>
+<span id="cb6-8"><a href="#cb6-8" tabindex="-1"></a>enr_2023 <span class="op">=</span> mn.fetch_enr(<span class="dv">2023</span>)</span>
+<span id="cb6-9"><a href="#cb6-9" tabindex="-1"></a></span>
+<span id="cb6-10"><a href="#cb6-10" tabindex="-1"></a><span class="co"># State totals</span></span>
+<span id="cb6-11"><a href="#cb6-11" tabindex="-1"></a>state_total <span class="op">=</span> enr_2023[</span>
+<span id="cb6-12"><a href="#cb6-12" tabindex="-1"></a>    (enr_2023[<span class="st">'is_state'</span>] <span class="op">==</span> <span class="va">True</span>) <span class="op">&amp;</span></span>
+<span id="cb6-13"><a href="#cb6-13" tabindex="-1"></a>    (enr_2023[<span class="st">'subgroup'</span>] <span class="op">==</span> <span class="st">'total_enrollment'</span>) <span class="op">&amp;</span></span>
+<span id="cb6-14"><a href="#cb6-14" tabindex="-1"></a>    (enr_2023[<span class="st">'grade_level'</span>] <span class="op">==</span> <span class="st">'TOTAL'</span>)</span>
+<span id="cb6-15"><a href="#cb6-15" tabindex="-1"></a>]</span>
+<span id="cb6-16"><a href="#cb6-16" tabindex="-1"></a></span>
+<span id="cb6-17"><a href="#cb6-17" tabindex="-1"></a><span class="co"># Largest districts</span></span>
+<span id="cb6-18"><a href="#cb6-18" tabindex="-1"></a>districts <span class="op">=</span> enr_2023[</span>
+<span id="cb6-19"><a href="#cb6-19" tabindex="-1"></a>    (enr_2023[<span class="st">'is_district'</span>] <span class="op">==</span> <span class="va">True</span>) <span class="op">&amp;</span></span>
+<span id="cb6-20"><a href="#cb6-20" tabindex="-1"></a>    (enr_2023[<span class="st">'subgroup'</span>] <span class="op">==</span> <span class="st">'total_enrollment'</span>) <span class="op">&amp;</span></span>
+<span id="cb6-21"><a href="#cb6-21" tabindex="-1"></a>    (enr_2023[<span class="st">'grade_level'</span>] <span class="op">==</span> <span class="st">'TOTAL'</span>)</span>
+<span id="cb6-22"><a href="#cb6-22" tabindex="-1"></a>].sort_values(<span class="st">'n_students'</span>, ascending<span class="op">=</span><span class="va">False</span>).head(<span class="dv">15</span>)</span></code></pre></div>
 </div>
+</div>
+<div class="section level2">
+<h2 id="explore-more">Explore More<a class="anchor" aria-label="anchor" href="#explore-more"></a>
+</h2>
+<p>Full analysis with 15 stories: - <a href="https://almartin82.github.io/mnschooldata/articles/enrollment_hooks.html">Enrollment trends</a> – 15 stories - <a href="https://almartin82.github.io/mnschooldata/reference/">Function reference</a></p>
 </div>
 <div class="section level2">
 <h2 id="data-notes">Data Notes<a class="anchor" aria-label="anchor" href="#data-notes"></a>
@@ -725,20 +397,430 @@
 </div>
 </div>
 <div class="section level2">
-<h2 id="part-of-the-state-schooldata-project">Part of the State Schooldata Project<a class="anchor" aria-label="anchor" href="#part-of-the-state-schooldata-project"></a>
+<h2 id="deeper-dive">Deeper Dive<a class="anchor" aria-label="anchor" href="#deeper-dive"></a>
 </h2>
-<p>A simple, consistent interface for accessing state-published school data in Python and R.</p>
-<p><strong>All 50 state packages:</strong> <a href="https://github.com/almartin82?tab=repositories&amp;q=schooldata" class="external-link">github.com/almartin82</a></p>
+<hr>
+<div class="section level3">
+<h3 id="id_4-minnesotas-873000-students-are-41-students-of-color">4. Minnesota’s 873,000 students are 41% students of color<a class="anchor" aria-label="anchor" href="#id_4-minnesotas-873000-students-are-41-students-of-color"></a>
+</h3>
+<p>Minnesota enrolled 873,175 students in 2022-23 across 389 districts. While still majority-white at 59%, the state’s schools are far more diverse than many assume – 41% of students identify as Black, Hispanic, Asian, Native American, multiracial, or Pacific Islander.</p>
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">state_demo</span> <span class="op">&lt;-</span> <span class="va">enr</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">is_state</span>, <span class="va">grade_level</span> <span class="op">==</span> <span class="st">"TOTAL"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="va">subgroup</span>, <span class="va">n_students</span>, <span class="va">pct</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/arrange.html" class="external-link">arrange</a></span><span class="op">(</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/desc.html" class="external-link">desc</a></span><span class="op">(</span><span class="va">n_students</span><span class="op">)</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/stopifnot.html" class="external-link">stopifnot</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="va">state_demo</span><span class="op">)</span> <span class="op">&gt;</span> <span class="fl">0</span><span class="op">)</span></span>
+<span><span class="va">state_demo</span></span>
+<span><span class="co">#&gt; # A tibble: 8 x 3</span></span>
+<span><span class="co">#&gt;   subgroup         n_students     pct</span></span>
+<span><span class="co">#&gt;   &lt;chr&gt;                 &lt;dbl&gt;   &lt;dbl&gt;</span></span>
+<span><span class="co">#&gt; 1 total_enrollment     873175 1</span></span>
+<span><span class="co">#&gt; 2 white                518783 0.594</span></span>
+<span><span class="co">#&gt; 3 black                110312 0.126</span></span>
+<span><span class="co">#&gt; 4 hispanic             105538 0.121</span></span>
+<span><span class="co">#&gt; 5 asian                 62538 0.0716</span></span>
+<span><span class="co">#&gt; 6 multiracial           59516 0.0682</span></span>
+<span><span class="co">#&gt; 7 native_american       15372 0.0176</span></span>
+<span><span class="co">#&gt; 8 pacific_islander       1116 0.00128</span></span></code></pre></div>
+<div class="float">
+<img src="https://almartin82.github.io/mnschooldata/articles/enrollment_hooks_files/figure-html/state-demographics-chart-1.png" alt="State demographics"><div class="figcaption">State demographics</div>
 </div>
-<div class="section level2">
-<h2 id="author">Author<a class="anchor" aria-label="anchor" href="#author"></a>
-</h2>
-<p><a href="https://github.com/almartin82" class="external-link">Andy Martin</a> (<a href="mailto:almartin@gmail.com" class="email">almartin@gmail.com</a>)</p>
+<p><a href="https://almartin82.github.io/mnschooldata/articles/enrollment_hooks.html#minnesotas-873000-students-are-41-students-of-color">(source)</a></p>
+<hr>
 </div>
-<div class="section level2">
-<h2 id="license">License<a class="anchor" aria-label="anchor" href="#license"></a>
-</h2>
-<p>MIT</p>
+<div class="section level3">
+<h3 id="id_5-st-paul-schools-are-28-asian--the-hmong-capital-of-america">5. St. Paul schools are 28% Asian – the Hmong capital of America<a class="anchor" aria-label="anchor" href="#id_5-st-paul-schools-are-28-asian--the-hmong-capital-of-america"></a>
+</h3>
+<p>St. Paul has the largest Hmong community in the United States. In the St. Paul Public School District, 9,022 students (27.5%) are Asian – more than any other racial group except Black (24.1%) and White (22.4%). Two charter schools, Hmong College Prep Academy (96% Asian, 2,456 students) and Prairie Seeds Academy (88% Asian, 942 students), serve primarily Hmong families.</p>
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">stpaul</span> <span class="op">&lt;-</span> <span class="va">enr</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">is_district</span>,</span>
+<span>         <span class="va">district_name</span> <span class="op">==</span> <span class="st">"ST. PAUL PUBLIC SCHOOL DISTRICT"</span>,</span>
+<span>         <span class="va">grade_level</span> <span class="op">==</span> <span class="st">"TOTAL"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="va">subgroup</span>, <span class="va">n_students</span>, <span class="va">pct</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/arrange.html" class="external-link">arrange</a></span><span class="op">(</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/desc.html" class="external-link">desc</a></span><span class="op">(</span><span class="va">n_students</span><span class="op">)</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/stopifnot.html" class="external-link">stopifnot</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="va">stpaul</span><span class="op">)</span> <span class="op">&gt;</span> <span class="fl">0</span><span class="op">)</span></span>
+<span><span class="va">stpaul</span></span>
+<span><span class="co">#&gt; # A tibble: 8 x 3</span></span>
+<span><span class="co">#&gt;   subgroup         n_students      pct</span></span>
+<span><span class="co">#&gt;   &lt;chr&gt;                 &lt;dbl&gt;    &lt;dbl&gt;</span></span>
+<span><span class="co">#&gt; 1 total_enrollment      32750 1</span></span>
+<span><span class="co">#&gt; 2 asian                  9022 0.275</span></span>
+<span><span class="co">#&gt; 3 black                  7886 0.241</span></span>
+<span><span class="co">#&gt; 4 white                  7348 0.224</span></span>
+<span><span class="co">#&gt; 5 hispanic               5077 0.155</span></span>
+<span><span class="co">#&gt; 6 multiracial            3155 0.0963</span></span>
+<span><span class="co">#&gt; 7 native_american         254 0.00776</span></span>
+<span><span class="co">#&gt; 8 pacific_islander          8 0.000244</span></span></code></pre></div>
+<div class="float">
+<img src="https://almartin82.github.io/mnschooldata/articles/enrollment_hooks_files/figure-html/stpaul-demographics-chart-1.png" alt="St. Paul demographics"><div class="figcaption">St. Paul demographics</div>
+</div>
+<p><a href="https://almartin82.github.io/mnschooldata/articles/enrollment_hooks.html#st.-paul-schools-are-28-asian----the-hmong-capital-of-america">(source)</a></p>
+<hr>
+</div>
+<div class="section level3">
+<h3 id="id_6-anoka-hennepin-is-minnesotas-largest-district-at-38336-students">6. Anoka-Hennepin is Minnesota’s largest district at 38,336 students<a class="anchor" aria-label="anchor" href="#id_6-anoka-hennepin-is-minnesotas-largest-district-at-38336-students"></a>
+</h3>
+<p>Anoka-Hennepin School District, north of Minneapolis, serves more students than any other Minnesota district. At 38,336 students, it is larger than Minneapolis (30,079) and St. Paul (32,750). The suburban district is 53.5% white, with growing Black (17.6%), Asian (11.6%), and multiracial (8.9%) populations.</p>
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">anoka</span> <span class="op">&lt;-</span> <span class="va">enr</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">is_district</span>,</span>
+<span>         <span class="fu"><a href="https://rdrr.io/r/base/grep.html" class="external-link">grepl</a></span><span class="op">(</span><span class="st">"ANOKA-HENNEPIN"</span>, <span class="va">district_name</span><span class="op">)</span>,</span>
+<span>         <span class="va">grade_level</span> <span class="op">==</span> <span class="st">"TOTAL"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="va">subgroup</span>, <span class="va">n_students</span>, <span class="va">pct</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/arrange.html" class="external-link">arrange</a></span><span class="op">(</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/desc.html" class="external-link">desc</a></span><span class="op">(</span><span class="va">n_students</span><span class="op">)</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/stopifnot.html" class="external-link">stopifnot</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="va">anoka</span><span class="op">)</span> <span class="op">&gt;</span> <span class="fl">0</span><span class="op">)</span></span>
+<span><span class="va">anoka</span></span>
+<span><span class="co">#&gt; # A tibble: 8 x 3</span></span>
+<span><span class="co">#&gt;   subgroup         n_students      pct</span></span>
+<span><span class="co">#&gt;   &lt;chr&gt;                 &lt;dbl&gt;    &lt;dbl&gt;</span></span>
+<span><span class="co">#&gt; 1 total_enrollment      38336 1</span></span>
+<span><span class="co">#&gt; 2 white                 20520 0.535</span></span>
+<span><span class="co">#&gt; 3 black                  6737 0.176</span></span>
+<span><span class="co">#&gt; 4 asian                  4437 0.116</span></span>
+<span><span class="co">#&gt; 5 multiracial            3405 0.0888</span></span>
+<span><span class="co">#&gt; 6 hispanic               3005 0.0784</span></span>
+<span><span class="co">#&gt; 7 native_american         207 0.00540</span></span>
+<span><span class="co">#&gt; 8 pacific_islander         25 0.000652</span></span></code></pre></div>
+<div class="float">
+<img src="https://almartin82.github.io/mnschooldata/articles/enrollment_hooks_files/figure-html/anoka-chart-1.png" alt="Anoka-Hennepin demographics"><div class="figcaption">Anoka-Hennepin demographics</div>
+</div>
+<p><a href="https://almartin82.github.io/mnschooldata/articles/enrollment_hooks.html#anoka-hennepin-is-minnesotas-largest-district-at-38336-students">(source)</a></p>
+<hr>
+</div>
+<div class="section level3">
+<h3 id="id_7-minneapolis-is-minority-majority-64-students-of-color">7. Minneapolis is minority-majority: 64% students of color<a class="anchor" aria-label="anchor" href="#id_7-minneapolis-is-minority-majority-64-students-of-color"></a>
+</h3>
+<p>Minneapolis Public Schools enrolled 30,079 students in 2022-23, with white students making up just 36%. Black students are the largest group at 27%, followed by Hispanic (22%), multiracial (8%), and Asian (3%). The city’s schools reflect decades of immigration from Somalia, Latin America, and Southeast Asia.</p>
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">mpls</span> <span class="op">&lt;-</span> <span class="va">enr</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">is_district</span>,</span>
+<span>         <span class="va">district_name</span> <span class="op">==</span> <span class="st">"MINNEAPOLIS PUBLIC SCHOOL DISTRICT"</span>,</span>
+<span>         <span class="va">grade_level</span> <span class="op">==</span> <span class="st">"TOTAL"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="va">subgroup</span>, <span class="va">n_students</span>, <span class="va">pct</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/arrange.html" class="external-link">arrange</a></span><span class="op">(</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/desc.html" class="external-link">desc</a></span><span class="op">(</span><span class="va">n_students</span><span class="op">)</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/stopifnot.html" class="external-link">stopifnot</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="va">mpls</span><span class="op">)</span> <span class="op">&gt;</span> <span class="fl">0</span><span class="op">)</span></span>
+<span><span class="va">mpls</span></span>
+<span><span class="co">#&gt; # A tibble: 8 x 3</span></span>
+<span><span class="co">#&gt;   subgroup         n_students      pct</span></span>
+<span><span class="co">#&gt;   &lt;chr&gt;                 &lt;dbl&gt;    &lt;dbl&gt;</span></span>
+<span><span class="co">#&gt; 1 total_enrollment      30079 1</span></span>
+<span><span class="co">#&gt; 2 white                 10935 0.364</span></span>
+<span><span class="co">#&gt; 3 black                  8056 0.268</span></span>
+<span><span class="co">#&gt; 4 hispanic               6723 0.224</span></span>
+<span><span class="co">#&gt; 5 multiracial            2326 0.0773</span></span>
+<span><span class="co">#&gt; 6 native_american        1080 0.0359</span></span>
+<span><span class="co">#&gt; 7 asian                   940 0.0313</span></span>
+<span><span class="co">#&gt; 8 pacific_islander         19 0.000632</span></span></code></pre></div>
+<div class="float">
+<img src="https://almartin82.github.io/mnschooldata/articles/enrollment_hooks_files/figure-html/mpls-demographics-chart-1.png" alt="Minneapolis demographics"><div class="figcaption">Minneapolis demographics</div>
+</div>
+<p><a href="https://almartin82.github.io/mnschooldata/articles/enrollment_hooks.html#minneapolis-is-minority-majority-64-students-of-color">(source)</a></p>
+<hr>
+</div>
+<div class="section level3">
+<h3 id="id_8-68-charter-schools-serve-37782-students">8. 68 charter schools serve 37,782 students<a class="anchor" aria-label="anchor" href="#id_8-68-charter-schools-serve-37782-students"></a>
+</h3>
+<p>Minnesota passed the nation’s first charter school law in 1991. Today 68 charter school districts serve 37,782 students (4.3% of the state total). The largest is Minnesota Transitions Charter School (6,425 students), followed by Hmong College Prep Academy (2,456). Many charters serve specific immigrant communities.</p>
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">charter</span> <span class="op">&lt;-</span> <span class="va">enr</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">is_charter</span>, <span class="va">subgroup</span> <span class="op">==</span> <span class="st">"total_enrollment"</span>,</span>
+<span>         <span class="va">grade_level</span> <span class="op">==</span> <span class="st">"TOTAL"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/arrange.html" class="external-link">arrange</a></span><span class="op">(</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/desc.html" class="external-link">desc</a></span><span class="op">(</span><span class="va">n_students</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="va">district_name</span>, <span class="va">n_students</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="fl">15</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/stopifnot.html" class="external-link">stopifnot</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="va">charter</span><span class="op">)</span> <span class="op">&gt;</span> <span class="fl">0</span><span class="op">)</span></span>
+<span><span class="va">charter</span></span>
+<span><span class="co">#&gt; # A tibble: 15 x 2</span></span>
+<span><span class="co">#&gt;    district_name                          n_students</span></span>
+<span><span class="co">#&gt;    &lt;chr&gt;                                       &lt;dbl&gt;</span></span>
+<span><span class="co">#&gt;  1 MINNESOTA TRANSITIONS CHARTER SCH            6425</span></span>
+<span><span class="co">#&gt;  2 HMONG COLLEGE PREP ACADEMY                   2456</span></span>
+<span><span class="co">#&gt;  3 HIAWATHA ACADEMIES                           1683</span></span>
+<span><span class="co">#&gt;  4 METRO SCHOOLS CHARTER                        1643</span></span>
+<span><span class="co">#&gt;  5 EAGLE RIDGE ACADEMY CHARTER SCHOOL           1538</span></span>
+<span><span class="co">#&gt;  6 PACT CHARTER SCHOOL                          1457</span></span>
+<span><span class="co">#&gt;  7 PARNASSUS PREPARATORY CHARTER SCH            1362</span></span>
+<span><span class="co">#&gt;  8 LAKES INTERNATIONAL LANGUAGE ACADEM          1315</span></span>
+<span><span class="co">#&gt;  9 ST. CROIX PREPARATORY ACADEMY                1229</span></span>
+<span><span class="co">#&gt; 10 HIGHER GROUND ACADEMY                        1177</span></span>
+<span><span class="co">#&gt; 11 NOVA CLASSICAL ACADEMY                       1032</span></span>
+<span><span class="co">#&gt; 12 SPECTRUM HIGH SCHOOL                          982</span></span>
+<span><span class="co">#&gt; 13 PRAIRIE SEEDS ACADEMY                         942</span></span>
+<span><span class="co">#&gt; 14 GREAT RIVER SCHOOL                            811</span></span>
+<span><span class="co">#&gt; 15 COMMUNITY OF PEACE ACADEMY                    803</span></span></code></pre></div>
+<div class="float">
+<img src="https://almartin82.github.io/mnschooldata/articles/enrollment_hooks_files/figure-html/charter-chart-1.png" alt="Largest charter schools"><div class="figcaption">Largest charter schools</div>
+</div>
+<p><a href="https://almartin82.github.io/mnschooldata/articles/enrollment_hooks.html#charter-schools-serve-37782-students">(source)</a></p>
+<hr>
+</div>
+<div class="section level3">
+<h3 id="id_9-the-suburban-ring-enrolls-211000-students">9. The suburban ring enrolls 211,000+ students<a class="anchor" aria-label="anchor" href="#id_9-the-suburban-ring-enrolls-211000-students"></a>
+</h3>
+<p>Thirteen suburban ring districts surrounding Minneapolis-St. Paul collectively enroll more than 211,000 students – nearly a quarter of the state total. Anoka-Hennepin (38,336), Rosemount-Apple Valley-Eagan (29,229), and Osseo (21,385) are the biggest, as families continue moving from the urban core to the suburbs.</p>
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">suburban_names</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span></span>
+<span>  <span class="st">"ANOKA-HENNEPIN SCHOOL DISTRICT"</span>,</span>
+<span>  <span class="st">"ROSEMOUNT-APPLE VALLEY-EAGAN"</span>,</span>
+<span>  <span class="st">"OSSEO PUBLIC SCHOOL DISTRICT"</span>,</span>
+<span>  <span class="st">"SOUTH WASHINGTON COUNTY SCHOOLS"</span>,</span>
+<span>  <span class="st">"ELK RIVER SCHOOL DISTRICT"</span>,</span>
+<span>  <span class="st">"WAYZATA PUBLIC SCHOOL DISTRICT"</span>,</span>
+<span>  <span class="st">"LAKEVILLE PUBLIC SCHOOL DISTRICT"</span>,</span>
+<span>  <span class="st">"MOUNDS VIEW PUBLIC SCHOOL DISTRICT"</span>,</span>
+<span>  <span class="st">"NORTH ST. PAUL-MAPLEWOOD OAKDALE"</span>,</span>
+<span>  <span class="st">"ROBBINSDALE PUBLIC SCHOOL DISTRICT"</span>,</span>
+<span>  <span class="st">"BLOOMINGTON PUBLIC SCHOOL DISTRICT"</span>,</span>
+<span>  <span class="st">"EDEN PRAIRIE PUBLIC SCHOOL DISTRICT"</span>,</span>
+<span>  <span class="st">"EASTERN CARVER COUNTY PUBLIC SCHOOL"</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">suburban</span> <span class="op">&lt;-</span> <span class="va">enr</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">is_district</span>, <span class="va">district_name</span> <span class="op"><a href="https://rdrr.io/r/base/match.html" class="external-link">%in%</a></span> <span class="va">suburban_names</span>,</span>
+<span>         <span class="va">subgroup</span> <span class="op">==</span> <span class="st">"total_enrollment"</span>, <span class="va">grade_level</span> <span class="op">==</span> <span class="st">"TOTAL"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/arrange.html" class="external-link">arrange</a></span><span class="op">(</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/desc.html" class="external-link">desc</a></span><span class="op">(</span><span class="va">n_students</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="va">district_name</span>, <span class="va">n_students</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/stopifnot.html" class="external-link">stopifnot</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="va">suburban</span><span class="op">)</span> <span class="op">&gt;</span> <span class="fl">0</span><span class="op">)</span></span>
+<span><span class="va">suburban</span></span>
+<span><span class="co">#&gt; # A tibble: 13 x 2</span></span>
+<span><span class="co">#&gt;    district_name                       n_students</span></span>
+<span><span class="co">#&gt;    &lt;chr&gt;                                    &lt;dbl&gt;</span></span>
+<span><span class="co">#&gt;  1 ANOKA-HENNEPIN SCHOOL DISTRICT           38336</span></span>
+<span><span class="co">#&gt;  2 ROSEMOUNT-APPLE VALLEY-EAGAN             29229</span></span>
+<span><span class="co">#&gt;  3 OSSEO PUBLIC SCHOOL DISTRICT             21385</span></span>
+<span><span class="co">#&gt;  4 SOUTH WASHINGTON COUNTY SCHOOLS          19705</span></span>
+<span><span class="co">#&gt;  5 ELK RIVER SCHOOL DISTRICT                14785</span></span>
+<span><span class="co">#&gt;  6 WAYZATA PUBLIC SCHOOL DISTRICT           13217</span></span>
+<span><span class="co">#&gt;  7 LAKEVILLE PUBLIC SCHOOL DISTRICT         12105</span></span>
+<span><span class="co">#&gt;  8 MOUNDS VIEW PUBLIC SCHOOL DISTRICT       11935</span></span>
+<span><span class="co">#&gt;  9 NORTH ST. PAUL-MAPLEWOOD OAKDALE         10666</span></span>
+<span><span class="co">#&gt; 10 ROBBINSDALE PUBLIC SCHOOL DISTRICT       10326</span></span>
+<span><span class="co">#&gt; 11 BLOOMINGTON PUBLIC SCHOOL DISTRICT       10317</span></span>
+<span><span class="co">#&gt; 12 EDEN PRAIRIE PUBLIC SCHOOL DISTRICT       9681</span></span>
+<span><span class="co">#&gt; 13 EASTERN CARVER COUNTY PUBLIC SCHOOL       9195</span></span></code></pre></div>
+<div class="float">
+<img src="https://almartin82.github.io/mnschooldata/articles/enrollment_hooks_files/figure-html/suburban-chart-1.png" alt="Suburban ring districts"><div class="figcaption">Suburban ring districts</div>
+</div>
+<p><a href="https://almartin82.github.io/mnschooldata/articles/enrollment_hooks.html#the-suburban-ring-enrolls-211000-students">(source)</a></p>
+<hr>
+</div>
+<div class="section level3">
+<h3 id="id_10-rochesters-17320-students-reflect-mayo-clinics-global-draw">10. Rochester’s 17,320 students reflect Mayo Clinic’s global draw<a class="anchor" aria-label="anchor" href="#id_10-rochesters-17320-students-reflect-mayo-clinics-global-draw"></a>
+</h3>
+<p>Rochester Public Schools, anchored by the Mayo Clinic, enrolled 17,320 students in 2022-23. The district is remarkably diverse for an outstate city: 51% white, 17% Black, 13% Hispanic, 9% Asian, and 9% multiracial. Mayo Clinic’s global workforce brings families from around the world to southeast Minnesota.</p>
+<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">rochester</span> <span class="op">&lt;-</span> <span class="va">enr</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">is_district</span>,</span>
+<span>         <span class="va">district_name</span> <span class="op">==</span> <span class="st">"ROCHESTER PUBLIC SCHOOL DISTRICT"</span>,</span>
+<span>         <span class="va">grade_level</span> <span class="op">==</span> <span class="st">"TOTAL"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="va">subgroup</span>, <span class="va">n_students</span>, <span class="va">pct</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/arrange.html" class="external-link">arrange</a></span><span class="op">(</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/desc.html" class="external-link">desc</a></span><span class="op">(</span><span class="va">n_students</span><span class="op">)</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/stopifnot.html" class="external-link">stopifnot</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="va">rochester</span><span class="op">)</span> <span class="op">&gt;</span> <span class="fl">0</span><span class="op">)</span></span>
+<span><span class="va">rochester</span></span>
+<span><span class="co">#&gt; # A tibble: 8 x 3</span></span>
+<span><span class="co">#&gt;   subgroup         n_students     pct</span></span>
+<span><span class="co">#&gt;   &lt;chr&gt;                 &lt;dbl&gt;   &lt;dbl&gt;</span></span>
+<span><span class="co">#&gt; 1 total_enrollment      17320 1</span></span>
+<span><span class="co">#&gt; 2 white                  8821 0.509</span></span>
+<span><span class="co">#&gt; 3 black                  2981 0.172</span></span>
+<span><span class="co">#&gt; 4 hispanic               2299 0.133</span></span>
+<span><span class="co">#&gt; 5 multiracial            1644 0.0949</span></span>
+<span><span class="co">#&gt; 6 asian                  1486 0.0858</span></span>
+<span><span class="co">#&gt; 7 native_american          73 0.00421</span></span>
+<span><span class="co">#&gt; 8 pacific_islander         16 0.000924</span></span></code></pre></div>
+<div class="float">
+<img src="https://almartin82.github.io/mnschooldata/articles/enrollment_hooks_files/figure-html/rochester-chart-1.png" alt="Rochester demographics"><div class="figcaption">Rochester demographics</div>
+</div>
+<p><a href="https://almartin82.github.io/mnschooldata/articles/enrollment_hooks.html#rochesters-17320-students-reflect-mayo-clinics-global-draw">(source)</a></p>
+<hr>
+</div>
+<div class="section level3">
+<h3 id="id_11-duluth-75-white-but-diversifying-in-the-northland">11. Duluth: 75% white, but diversifying in the Northland<a class="anchor" aria-label="anchor" href="#id_11-duluth-75-white-but-diversifying-in-the-northland"></a>
+</h3>
+<p>Duluth Public Schools enrolled 8,807 students in 2022-23 in Minnesota’s third-largest city. At 75% white, it is the least diverse of the state’s large districts, but multiracial students (10.6%) are now the second-largest group, reflecting changing demographics in northern Minnesota.</p>
+<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">duluth</span> <span class="op">&lt;-</span> <span class="va">enr</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">is_district</span>,</span>
+<span>         <span class="fu"><a href="https://rdrr.io/r/base/grep.html" class="external-link">grepl</a></span><span class="op">(</span><span class="st">"DULUTH PUBLIC"</span>, <span class="va">district_name</span><span class="op">)</span>,</span>
+<span>         <span class="va">grade_level</span> <span class="op">==</span> <span class="st">"TOTAL"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="va">subgroup</span>, <span class="va">n_students</span>, <span class="va">pct</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/arrange.html" class="external-link">arrange</a></span><span class="op">(</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/desc.html" class="external-link">desc</a></span><span class="op">(</span><span class="va">n_students</span><span class="op">)</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/stopifnot.html" class="external-link">stopifnot</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="va">duluth</span><span class="op">)</span> <span class="op">&gt;</span> <span class="fl">0</span><span class="op">)</span></span>
+<span><span class="va">duluth</span></span>
+<span><span class="co">#&gt; # A tibble: 8 x 3</span></span>
+<span><span class="co">#&gt;   subgroup         n_students      pct</span></span>
+<span><span class="co">#&gt;   &lt;chr&gt;                 &lt;dbl&gt;    &lt;dbl&gt;</span></span>
+<span><span class="co">#&gt; 1 total_enrollment       8807 1</span></span>
+<span><span class="co">#&gt; 2 white                  6646 0.755</span></span>
+<span><span class="co">#&gt; 3 multiracial             933 0.106</span></span>
+<span><span class="co">#&gt; 4 black                   419 0.0476</span></span>
+<span><span class="co">#&gt; 5 hispanic                386 0.0438</span></span>
+<span><span class="co">#&gt; 6 native_american         338 0.0384</span></span>
+<span><span class="co">#&gt; 7 asian                    77 0.00874</span></span>
+<span><span class="co">#&gt; 8 pacific_islander          8 0.000908</span></span></code></pre></div>
+<div class="float">
+<img src="https://almartin82.github.io/mnschooldata/articles/enrollment_hooks_files/figure-html/duluth-chart-1.png" alt="Duluth demographics"><div class="figcaption">Duluth demographics</div>
+</div>
+<p><a href="https://almartin82.github.io/mnschooldata/articles/enrollment_hooks.html#duluth-75-white-but-diversifying-in-the-northland">(source)</a></p>
+<hr>
+</div>
+<div class="section level3">
+<h3 id="id_12-columbia-heights-51-hispanic-26-black-in-a-tiny-suburb">12. Columbia Heights: 51% Hispanic, 26% Black in a tiny suburb<a class="anchor" aria-label="anchor" href="#id_12-columbia-heights-51-hispanic-26-black-in-a-tiny-suburb"></a>
+</h3>
+<p>Columbia Heights Public Schools, a small inner-ring suburb of Minneapolis, enrolled 3,449 students with a majority-Hispanic student body: 51% Hispanic, 26% Black, 13% white, 6% multiracial, and 3% Asian. The district reflects the immigrant and refugee communities that have settled in Minneapolis’s first-ring suburbs.</p>
+<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">colhts</span> <span class="op">&lt;-</span> <span class="va">enr</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">is_district</span>,</span>
+<span>         <span class="fu"><a href="https://rdrr.io/r/base/grep.html" class="external-link">grepl</a></span><span class="op">(</span><span class="st">"COLUMBIA HEIGHTS"</span>, <span class="va">district_name</span><span class="op">)</span>,</span>
+<span>         <span class="va">grade_level</span> <span class="op">==</span> <span class="st">"TOTAL"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="va">subgroup</span>, <span class="va">n_students</span>, <span class="va">pct</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/arrange.html" class="external-link">arrange</a></span><span class="op">(</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/desc.html" class="external-link">desc</a></span><span class="op">(</span><span class="va">n_students</span><span class="op">)</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/stopifnot.html" class="external-link">stopifnot</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="va">colhts</span><span class="op">)</span> <span class="op">&gt;</span> <span class="fl">0</span><span class="op">)</span></span>
+<span><span class="va">colhts</span></span>
+<span><span class="co">#&gt; # A tibble: 8 x 3</span></span>
+<span><span class="co">#&gt;   subgroup         n_students       pct</span></span>
+<span><span class="co">#&gt;   &lt;chr&gt;                 &lt;dbl&gt;     &lt;dbl&gt;</span></span>
+<span><span class="co">#&gt; 1 total_enrollment       3449 1</span></span>
+<span><span class="co">#&gt; 2 hispanic               1774 0.514</span></span>
+<span><span class="co">#&gt; 3 black                   901 0.261</span></span>
+<span><span class="co">#&gt; 4 white                   448 0.130</span></span>
+<span><span class="co">#&gt; 5 multiracial             205 0.0594</span></span>
+<span><span class="co">#&gt; 6 asian                   107 0.0310</span></span>
+<span><span class="co">#&gt; 7 native_american          13 0.00377</span></span>
+<span><span class="co">#&gt; 8 pacific_islander          1 0.000290</span></span></code></pre></div>
+<div class="float">
+<img src="https://almartin82.github.io/mnschooldata/articles/enrollment_hooks_files/figure-html/columbia-heights-chart-1.png" alt="Columbia Heights demographics"><div class="figcaption">Columbia Heights demographics</div>
+</div>
+<p><a href="https://almartin82.github.io/mnschooldata/articles/enrollment_hooks.html#columbia-heights-51-hispanic-26-black-in-a-tiny-suburb">(source)</a></p>
+<hr>
+</div>
+<div class="section level3">
+<h3 id="id_13-55-districts-have-fewer-than-250-students">13. 55 districts have fewer than 250 students<a class="anchor" aria-label="anchor" href="#id_13-55-districts-have-fewer-than-250-students"></a>
+</h3>
+<p>Rural Minnesota continues to consolidate. Fifty-five districts enroll fewer than 250 students, while 16 districts have over 10,000. The 16 largest districts serve 294,000 students (34% of the state), while the 55 smallest collectively serve just 8,052.</p>
+<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">size_dist</span> <span class="op">&lt;-</span> <span class="va">enr</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">is_district</span>, <span class="va">subgroup</span> <span class="op">==</span> <span class="st">"total_enrollment"</span>,</span>
+<span>         <span class="va">grade_level</span> <span class="op">==</span> <span class="st">"TOTAL"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>size_cat <span class="op">=</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/case-and-replace-when.html" class="external-link">case_when</a></span><span class="op">(</span></span>
+<span>    <span class="va">n_students</span> <span class="op">&lt;</span> <span class="fl">250</span> <span class="op">~</span> <span class="st">"Under 250"</span>,</span>
+<span>    <span class="va">n_students</span> <span class="op">&lt;</span> <span class="fl">500</span> <span class="op">~</span> <span class="st">"250-499"</span>,</span>
+<span>    <span class="va">n_students</span> <span class="op">&lt;</span> <span class="fl">1000</span> <span class="op">~</span> <span class="st">"500-999"</span>,</span>
+<span>    <span class="va">n_students</span> <span class="op">&lt;</span> <span class="fl">5000</span> <span class="op">~</span> <span class="st">"1,000-4,999"</span>,</span>
+<span>    <span class="va">n_students</span> <span class="op">&lt;</span> <span class="fl">10000</span> <span class="op">~</span> <span class="st">"5,000-9,999"</span>,</span>
+<span>    <span class="cn">TRUE</span> <span class="op">~</span> <span class="st">"10,000+"</span></span>
+<span>  <span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html" class="external-link">group_by</a></span><span class="op">(</span><span class="va">size_cat</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/summarise.html" class="external-link">summarize</a></span><span class="op">(</span></span>
+<span>    n_districts <span class="op">=</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/context.html" class="external-link">n</a></span><span class="op">(</span><span class="op">)</span>,</span>
+<span>    total_students <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="va">n_students</span><span class="op">)</span>,</span>
+<span>    .groups <span class="op">=</span> <span class="st">"drop"</span></span>
+<span>  <span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/stopifnot.html" class="external-link">stopifnot</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="va">size_dist</span><span class="op">)</span> <span class="op">&gt;</span> <span class="fl">0</span><span class="op">)</span></span>
+<span><span class="va">size_dist</span></span>
+<span><span class="co">#&gt; # A tibble: 6 x 3</span></span>
+<span><span class="co">#&gt;   size_cat    n_districts total_students</span></span>
+<span><span class="co">#&gt;   &lt;chr&gt;             &lt;int&gt;          &lt;dbl&gt;</span></span>
+<span><span class="co">#&gt; 1 1,000-4,999         119         253651</span></span>
+<span><span class="co">#&gt; 2 10,000+              16         293943</span></span>
+<span><span class="co">#&gt; 3 250-499              66          24322</span></span>
+<span><span class="co">#&gt; 4 5,000-9,999          24         172196</span></span>
+<span><span class="co">#&gt; 5 500-999             109          78015</span></span>
+<span><span class="co">#&gt; 6 Under 250            55           8052</span></span></code></pre></div>
+<div class="float">
+<img src="https://almartin82.github.io/mnschooldata/articles/enrollment_hooks_files/figure-html/size-distribution-chart-1.png" alt="District size distribution"><div class="figcaption">District size distribution</div>
+</div>
+<p><a href="https://almartin82.github.io/mnschooldata/articles/enrollment_hooks.html#districts-have-fewer-than-250-students">(source)</a></p>
+<hr>
+</div>
+<div class="section level3">
+<h3 id="id_14-the-top-10-most-diverse-large-districts">14. The top 10 most diverse large districts<a class="anchor" aria-label="anchor" href="#id_14-the-top-10-most-diverse-large-districts"></a>
+</h3>
+<p>Among districts with over 3,000 students, the least-white are Columbia Heights (13% white), North St. Paul-Maplewood (22%), St. Paul (22%), Burnsville (26%), Worthington (27%), and Richfield (29%). Several of these inner-ring suburbs diversified rapidly as immigrant and refugee families moved out of Minneapolis and St. Paul.</p>
+<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">diverse_large</span> <span class="op">&lt;-</span> <span class="va">enr</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">is_district</span>, <span class="va">subgroup</span> <span class="op">==</span> <span class="st">"white"</span>, <span class="va">grade_level</span> <span class="op">==</span> <span class="st">"TOTAL"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate-joins.html" class="external-link">left_join</a></span><span class="op">(</span></span>
+<span>    <span class="va">enr</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">is_district</span>, <span class="va">subgroup</span> <span class="op">==</span> <span class="st">"total_enrollment"</span>,</span>
+<span>                    <span class="va">grade_level</span> <span class="op">==</span> <span class="st">"TOTAL"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>      <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="va">district_name</span>, total <span class="op">=</span> <span class="va">n_students</span><span class="op">)</span>,</span>
+<span>    by <span class="op">=</span> <span class="st">"district_name"</span></span>
+<span>  <span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">total</span> <span class="op">&gt;</span> <span class="fl">3000</span>, <span class="op">!</span><span class="va">is_charter</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/arrange.html" class="external-link">arrange</a></span><span class="op">(</span><span class="va">pct</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="fl">10</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="va">district_name</span>, <span class="va">n_students</span>, <span class="va">pct</span>, <span class="va">total</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/stopifnot.html" class="external-link">stopifnot</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="va">diverse_large</span><span class="op">)</span> <span class="op">&gt;</span> <span class="fl">0</span><span class="op">)</span></span>
+<span><span class="va">diverse_large</span></span>
+<span><span class="co">#&gt; # A tibble: 10 x 4</span></span>
+<span><span class="co">#&gt;    district_name                        n_students   pct total</span></span>
+<span><span class="co">#&gt;    &lt;chr&gt;                                     &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;</span></span>
+<span><span class="co">#&gt;  1 COLUMBIA HEIGHTS PUBLIC SCHOOL DIST         448 0.130  3449</span></span>
+<span><span class="co">#&gt;  2 NORTH ST. PAUL-MAPLEWOOD OAKDALE           2387 0.224 10666</span></span>
+<span><span class="co">#&gt;  3 ST. PAUL PUBLIC SCHOOL DISTRICT            7348 0.224 32750</span></span>
+<span><span class="co">#&gt;  4 BURNSVILLE PUBLIC SCHOOL DISTRICT          1970 0.261  7536</span></span>
+<span><span class="co">#&gt;  5 WORTHINGTON PUBLIC SCHOOL DISTRICT         1083 0.274  3958</span></span>
+<span><span class="co">#&gt;  6 RICHFIELD PUBLIC SCHOOL DISTRICT           1147 0.288  3984</span></span>
+<span><span class="co">#&gt;  7 WILLMAR PUBLIC SCHOOL DISTRICT             1297 0.317  4091</span></span>
+<span><span class="co">#&gt;  8 ROBBINSDALE PUBLIC SCHOOL DISTRICT         3351 0.325 10326</span></span>
+<span><span class="co">#&gt;  9 ST. CLOUD PUBLIC SCHOOL DISTRICT           3462 0.338 10232</span></span>
+<span><span class="co">#&gt; 10 FARIBAULT PUBLIC SCHOOL DISTRICT           1075 0.346  3111</span></span></code></pre></div>
+<div class="float">
+<img src="https://almartin82.github.io/mnschooldata/articles/enrollment_hooks_files/figure-html/diverse-large-chart-1.png" alt="Most diverse large districts"><div class="figcaption">Most diverse large districts</div>
+</div>
+<p><a href="https://almartin82.github.io/mnschooldata/articles/enrollment_hooks.html#the-top-10-most-diverse-large-districts">(source)</a></p>
+<hr>
+</div>
+<div class="section level3">
+<h3 id="id_15-outstate-districts-are-still-85-white">15. Outstate districts are still 85%+ white<a class="anchor" aria-label="anchor" href="#id_15-outstate-districts-are-still-85-white"></a>
+</h3>
+<p>While the Twin Cities metro diversified rapidly, outstate Minnesota districts remain overwhelmingly white. Among districts with 3,000+ students, New Prague (92%), Chisago Lakes (90%), Princeton (89%), and Alexandria (88%) have barely changed, creating a stark geographic divide in who Minnesota students learn alongside.</p>
+<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">whitest</span> <span class="op">&lt;-</span> <span class="va">enr</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">is_district</span>, <span class="va">subgroup</span> <span class="op">==</span> <span class="st">"white"</span>, <span class="va">grade_level</span> <span class="op">==</span> <span class="st">"TOTAL"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate-joins.html" class="external-link">left_join</a></span><span class="op">(</span></span>
+<span>    <span class="va">enr</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">is_district</span>, <span class="va">subgroup</span> <span class="op">==</span> <span class="st">"total_enrollment"</span>,</span>
+<span>                    <span class="va">grade_level</span> <span class="op">==</span> <span class="st">"TOTAL"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>      <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="va">district_name</span>, total <span class="op">=</span> <span class="va">n_students</span><span class="op">)</span>,</span>
+<span>    by <span class="op">=</span> <span class="st">"district_name"</span></span>
+<span>  <span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">total</span> <span class="op">&gt;</span> <span class="fl">3000</span>, <span class="op">!</span><span class="va">is_charter</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/arrange.html" class="external-link">arrange</a></span><span class="op">(</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/desc.html" class="external-link">desc</a></span><span class="op">(</span><span class="va">pct</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="fl">10</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="va">district_name</span>, <span class="va">n_students</span>, <span class="va">pct</span>, <span class="va">total</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/stopifnot.html" class="external-link">stopifnot</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="va">whitest</span><span class="op">)</span> <span class="op">&gt;</span> <span class="fl">0</span><span class="op">)</span></span>
+<span><span class="va">whitest</span></span>
+<span><span class="co">#&gt; # A tibble: 10 x 4</span></span>
+<span><span class="co">#&gt;    district_name                        n_students   pct total</span></span>
+<span><span class="co">#&gt;    &lt;chr&gt;                                     &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;</span></span>
+<span><span class="co">#&gt;  1 NEW PRAGUE AREA SCHOOLS                    3673 0.917  4007</span></span>
+<span><span class="co">#&gt;  2 CHISAGO LAKES SCHOOL DISTRICT              2929 0.903  3245</span></span>
+<span><span class="co">#&gt;  3 PRINCETON PUBLIC SCHOOL DISTRICT           3009 0.886  3396</span></span>
+<span><span class="co">#&gt;  4 ALEXANDRIA PUBLIC SCHOOL DISTRICT          3474 0.879  3951</span></span>
+<span><span class="co">#&gt;  5 WACONIA PUBLIC SCHOOL DISTRICT             3429 0.875  3917</span></span>
+<span><span class="co">#&gt;  6 BRAINERD PUBLIC SCHOOL DISTRICT            5163 0.873  5915</span></span>
+<span><span class="co">#&gt;  7 ORONO PUBLIC SCHOOL DISTRICT               2606 0.867  3005</span></span>
+<span><span class="co">#&gt;  8 BUFFALO-HANOVER-MONTROSE PUBLIC SCH        4381 0.856  5119</span></span>
+<span><span class="co">#&gt;  9 GRAND RAPIDS PUBLIC SCHOOL DISTRICT        3281 0.848  3870</span></span>
+<span><span class="co">#&gt; 10 SARTELL-ST. STEPHEN SCHOOL DISTRICT        3248 0.833  3901</span></span></code></pre></div>
+<div class="float">
+<img src="https://almartin82.github.io/mnschooldata/articles/enrollment_hooks_files/figure-html/whitest-large-chart-1.png" alt="Whitest large districts"><div class="figcaption">Whitest large districts</div>
+</div>
+<p><a href="https://almartin82.github.io/mnschooldata/articles/enrollment_hooks.html#outstate-districts-are-still-85-white">(source)</a></p>
+</div>
 </div>
 </div>
   </main><aside class="col-md-3"><div class="links">
