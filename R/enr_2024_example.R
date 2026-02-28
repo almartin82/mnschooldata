@@ -1,15 +1,12 @@
-#' Example 2024 enrollment data
+#' Example enrollment data (2023)
 #'
-#' @name enr_2024_example
+#' Real enrollment data from the Minnesota Department of Education for the
+#' 2022-23 school year. Contains district-level enrollment by race/ethnicity
+#' for all 389 Minnesota districts (including 68 charter schools).
+#'
+#' @name enr_2023_example
 #' @docType data
-#'
-#' A minimal example dataset for vignette illustration.
-#' Contains enrollment data for Minneapolis and Saint Paul public schools,
-#' plus Minnesota state totals.
-#'
-#' @format A data frame with 15 rows and 9 columns
-#' @examples
-#' data(enr_2024_example)
-#' head(enr_2024_example)
+#' @format A data frame with enrollment data
+#' @source Minnesota Department of Education, MARSS enrollment data
 #' @keywords internal
 NULL

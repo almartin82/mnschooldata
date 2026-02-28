@@ -1,0 +1,677 @@
+---
+title: "Minnesota Enrollment Stories"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Minnesota Enrollment Stories}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  fig.width = 10,
+  fig.height = 6,
+  out.width = "100%",
+  message = FALSE,
+  warning = FALSE,
+  cache = TRUE
+)
+```
+
+```{r load-packages}
+library(mnschooldata)
+library(ggplot2)
+library(dplyr)
+library(scales)
+```
+
+```{r theme}
+theme_mn <- function() {
+  theme_minimal(base_size = 14) +
+    theme(
+      plot.title = element_text(face = "bold", size = 16),
+      plot.subtitle = element_text(color = "gray40"),
+      panel.grid.minor = element_blank(),
+      legend.position = "bottom"
+    )
+}
+
+mn_colors <- c(
+  "white" = "#3498DB", "black" = "#E74C3C", "hispanic" = "#F39C12",
+  "asian" = "#9B59B6", "native_american" = "#1ABC9C", "multiracial" = "#E67E22",
+  "pacific_islander" = "#95A5A6", "total" = "#2C3E50"
+)
+```
+
+```{r load-data}
+data("enr_multi_example", package = "mnschooldata")
+enr <- enr_multi_example
+```
+
+## 1. Minnesota's 873,000 students are 41% students of color
+
+Minnesota enrolled 873,175 students in 2022-23 across 389 districts. While still majority-white at 59%, the state's schools are far more diverse than many assume -- 41% of students identify as Black, Hispanic, Asian, Native American, multiracial, or Pacific Islander.
+
+```{r state-demographics-data}
+state_demo <- enr %>%
+  filter(is_state, grade_level == "TOTAL") %>%
+  select(subgroup, n_students, pct) %>%
+  arrange(desc(n_students))
+
+stopifnot(nrow(state_demo) > 0)
+state_demo
+```
+
+```{r state-demographics-chart}
+state_plot <- state_demo %>%
+  filter(subgroup != "total_enrollment") %>%
+  mutate(
+    label = paste0(subgroup, " (", comma(n_students), ")"),
+    subgroup_label = reorder(label, n_students)
+  )
+
+stopifnot(nrow(state_plot) > 0)
+
+ggplot(state_plot, aes(x = subgroup_label, y = n_students, fill = subgroup)) +
+  geom_col() +
+  coord_flip() +
+  scale_fill_manual(values = mn_colors, guide = "none") +
+  scale_y_continuous(labels = comma) +
+  labs(
+    title = "Minnesota Enrollment by Race/Ethnicity (2022-23)",
+    subtitle = "873,175 students across 389 districts",
+    x = "", y = "Students"
+  ) +
+  theme_mn()
+```
+
+## 2. St. Paul schools are 28% Asian -- the Hmong capital of America
+
+St. Paul has the largest Hmong community in the United States. In the St. Paul Public School District, 9,022 students (27.5%) are Asian -- more than any other racial group except Black (24.1%) and White (22.4%). Two charter schools, Hmong College Prep Academy (96% Asian, 2,456 students) and Prairie Seeds Academy (88% Asian, 942 students), serve primarily Hmong families.
+
+```{r stpaul-demographics-data}
+stpaul <- enr %>%
+  filter(is_district,
+         district_name == "ST. PAUL PUBLIC SCHOOL DISTRICT",
+         grade_level == "TOTAL") %>%
+  select(subgroup, n_students, pct) %>%
+  arrange(desc(n_students))
+
+stopifnot(nrow(stpaul) > 0)
+stpaul
+```
+
+```{r stpaul-demographics-chart}
+stpaul_plot <- stpaul %>%
+  filter(subgroup != "total_enrollment") %>%
+  mutate(
+    pct_label = paste0(round(pct * 100, 1), "%"),
+    subgroup_label = reorder(subgroup, n_students)
+  )
+
+stopifnot(nrow(stpaul_plot) > 0)
+
+ggplot(stpaul_plot, aes(x = subgroup_label, y = n_students, fill = subgroup)) +
+  geom_col() +
+  geom_text(aes(label = pct_label), hjust = -0.1, size = 4) +
+  coord_flip() +
+  scale_fill_manual(values = mn_colors, guide = "none") +
+  scale_y_continuous(labels = comma, expand = expansion(mult = c(0, 0.15))) +
+  labs(
+    title = "St. Paul Public Schools Demographics (2022-23)",
+    subtitle = "Largest Hmong student population in the United States",
+    x = "", y = "Students"
+  ) +
+  theme_mn()
+```
+
+## 3. St. Cloud is 43% Black -- Somali refugees reshaped a rural city
+
+St. Cloud, a city of 70,000 in central Minnesota, saw dramatic demographic change as Somali refugees settled there starting in the late 1990s. Today 4,399 Black students make up 43% of the district's enrollment of 10,232, making it one of the most demographically transformed districts in the country.
+
+```{r stcloud-demographics-data}
+stcloud <- enr %>%
+  filter(is_district,
+         grepl("ST. CLOUD PUBLIC", district_name),
+         grade_level == "TOTAL") %>%
+  select(subgroup, n_students, pct) %>%
+  arrange(desc(n_students))
+
+stopifnot(nrow(stcloud) > 0)
+stcloud
+```
+
+```{r stcloud-demographics-chart}
+stcloud_plot <- stcloud %>%
+  filter(subgroup != "total_enrollment") %>%
+  mutate(
+    pct_label = paste0(round(pct * 100, 1), "%"),
+    subgroup_label = reorder(subgroup, n_students)
+  )
+
+stopifnot(nrow(stcloud_plot) > 0)
+
+ggplot(stcloud_plot, aes(x = subgroup_label, y = n_students, fill = subgroup)) +
+  geom_col() +
+  geom_text(aes(label = pct_label), hjust = -0.1, size = 4) +
+  coord_flip() +
+  scale_fill_manual(values = mn_colors, guide = "none") +
+  scale_y_continuous(labels = comma, expand = expansion(mult = c(0, 0.15))) +
+  labs(
+    title = "St. Cloud Public Schools Demographics (2022-23)",
+    subtitle = "Somali refugees transformed a central Minnesota city",
+    x = "", y = "Students"
+  ) +
+  theme_mn()
+```
+
+## 4. Anoka-Hennepin is Minnesota's largest district at 38,336 students
+
+Anoka-Hennepin School District, north of Minneapolis, serves more students than any other Minnesota district. At 38,336 students, it is larger than Minneapolis (30,079) and St. Paul (32,750). The suburban district is 53.5% white, with growing Black (17.6%), Asian (11.6%), and multiracial (8.9%) populations.
+
+```{r anoka-data}
+anoka <- enr %>%
+  filter(is_district,
+         grepl("ANOKA-HENNEPIN", district_name),
+         grade_level == "TOTAL") %>%
+  select(subgroup, n_students, pct) %>%
+  arrange(desc(n_students))
+
+stopifnot(nrow(anoka) > 0)
+anoka
+```
+
+```{r anoka-chart}
+anoka_plot <- anoka %>%
+  filter(subgroup != "total_enrollment") %>%
+  mutate(
+    pct_label = paste0(round(pct * 100, 1), "%"),
+    subgroup_label = reorder(subgroup, n_students)
+  )
+
+stopifnot(nrow(anoka_plot) > 0)
+
+ggplot(anoka_plot, aes(x = subgroup_label, y = n_students, fill = subgroup)) +
+  geom_col() +
+  geom_text(aes(label = pct_label), hjust = -0.1, size = 4) +
+  coord_flip() +
+  scale_fill_manual(values = mn_colors, guide = "none") +
+  scale_y_continuous(labels = comma, expand = expansion(mult = c(0, 0.15))) +
+  labs(
+    title = "Anoka-Hennepin: Minnesota's Largest District (2022-23)",
+    subtitle = "38,336 students -- larger than Minneapolis or St. Paul",
+    x = "", y = "Students"
+  ) +
+  theme_mn()
+```
+
+## 5. Worthington is 57% Hispanic -- meatpacking built a new Minnesota
+
+Worthington, a city of 14,000 in southwest Minnesota, is home to a JBS pork processing plant that attracted immigrants from Latin America and East Africa. Today 57% of the district's 3,958 students are Hispanic, making it one of the most Latino school districts in the Upper Midwest.
+
+```{r worthington-data}
+worthington <- enr %>%
+  filter(is_district,
+         grepl("WORTHINGTON", district_name),
+         grade_level == "TOTAL") %>%
+  select(subgroup, n_students, pct) %>%
+  arrange(desc(n_students))
+
+stopifnot(nrow(worthington) > 0)
+worthington
+```
+
+```{r worthington-chart}
+worth_plot <- worthington %>%
+  filter(subgroup != "total_enrollment") %>%
+  mutate(
+    pct_label = paste0(round(pct * 100, 1), "%"),
+    subgroup_label = reorder(subgroup, n_students)
+  )
+
+stopifnot(nrow(worth_plot) > 0)
+
+ggplot(worth_plot, aes(x = subgroup_label, y = n_students, fill = subgroup)) +
+  geom_col() +
+  geom_text(aes(label = pct_label), hjust = -0.1, size = 4) +
+  coord_flip() +
+  scale_fill_manual(values = mn_colors, guide = "none") +
+  scale_y_continuous(labels = comma, expand = expansion(mult = c(0, 0.15))) +
+  labs(
+    title = "Worthington Public Schools Demographics (2022-23)",
+    subtitle = "Meatpacking jobs drew immigrant families to southwest Minnesota",
+    x = "", y = "Students"
+  ) +
+  theme_mn()
+```
+
+## 6. Minneapolis is minority-majority: 64% students of color
+
+Minneapolis Public Schools enrolled 30,079 students in 2022-23, with white students making up just 36%. Black students are the largest group at 27%, followed by Hispanic (22%), multiracial (8%), and Asian (3%). The city's schools reflect decades of immigration from Somalia, Latin America, and Southeast Asia.
+
+```{r mpls-demographics-data}
+mpls <- enr %>%
+  filter(is_district,
+         district_name == "MINNEAPOLIS PUBLIC SCHOOL DISTRICT",
+         grade_level == "TOTAL") %>%
+  select(subgroup, n_students, pct) %>%
+  arrange(desc(n_students))
+
+stopifnot(nrow(mpls) > 0)
+mpls
+```
+
+```{r mpls-demographics-chart}
+mpls_plot <- mpls %>%
+  filter(subgroup != "total_enrollment") %>%
+  mutate(
+    pct_label = paste0(round(pct * 100, 1), "%"),
+    subgroup_label = reorder(subgroup, n_students)
+  )
+
+stopifnot(nrow(mpls_plot) > 0)
+
+ggplot(mpls_plot, aes(x = subgroup_label, y = n_students, fill = subgroup)) +
+  geom_col() +
+  geom_text(aes(label = pct_label), hjust = -0.1, size = 4) +
+  coord_flip() +
+  scale_fill_manual(values = mn_colors, guide = "none") +
+  scale_y_continuous(labels = comma, expand = expansion(mult = c(0, 0.15))) +
+  labs(
+    title = "Minneapolis Public Schools Demographics (2022-23)",
+    subtitle = "64% students of color in Minnesota's second-largest city",
+    x = "", y = "Students"
+  ) +
+  theme_mn()
+```
+
+## 7. Red Lake is 96% Native American
+
+Red Lake Public School District, on the Red Lake Band of Chippewa reservation in northern Minnesota, enrolls 1,517 students -- 1,455 of whom (96%) are Native American. Nearby Cass Lake-Bena (94% Native American) and Waubun-Ogema-White Earth (81%) serve similarly concentrated Indigenous communities. Together, 15,372 Native American students attend Minnesota schools statewide.
+
+```{r native-data}
+native <- enr %>%
+  filter(is_district, subgroup == "native_american",
+         grade_level == "TOTAL") %>%
+  left_join(
+    enr %>% filter(is_district, subgroup == "total_enrollment",
+                    grade_level == "TOTAL") %>%
+      select(district_name, total = n_students),
+    by = "district_name"
+  ) %>%
+  filter(total > 100) %>%
+  arrange(desc(pct)) %>%
+  head(10) %>%
+  select(district_name, n_students, pct, total)
+
+stopifnot(nrow(native) > 0)
+native
+```
+
+```{r native-chart}
+native_plot <- native %>%
+  mutate(
+    pct_label = paste0(round(pct * 100, 1), "%"),
+    district_label = reorder(district_name, pct)
+  )
+
+stopifnot(nrow(native_plot) > 0)
+
+ggplot(native_plot, aes(x = district_label, y = pct * 100)) +
+  geom_col(fill = mn_colors["native_american"]) +
+  geom_text(aes(label = pct_label), hjust = -0.1, size = 3.5) +
+  coord_flip() +
+  scale_y_continuous(expand = expansion(mult = c(0, 0.15))) +
+  labs(
+    title = "Highest Native American Student Populations (2022-23)",
+    subtitle = "Red Lake, Cass Lake-Bena, and White Earth reservation districts lead",
+    x = "", y = "Percent Native American"
+  ) +
+  theme_mn()
+```
+
+## 8. 68 charter schools serve 37,782 students
+
+Minnesota passed the nation's first charter school law in 1991. Today 68 charter school districts serve 37,782 students (4.3% of the state total). The largest is Minnesota Transitions Charter School (6,425 students), followed by Hmong College Prep Academy (2,456). Many charters serve specific immigrant communities.
+
+```{r charter-data}
+charter <- enr %>%
+  filter(is_charter, subgroup == "total_enrollment",
+         grade_level == "TOTAL") %>%
+  arrange(desc(n_students)) %>%
+  select(district_name, n_students) %>%
+  head(15)
+
+stopifnot(nrow(charter) > 0)
+charter
+```
+
+```{r charter-chart}
+charter_plot <- charter %>%
+  mutate(district_label = reorder(district_name, n_students))
+
+stopifnot(nrow(charter_plot) > 0)
+
+ggplot(charter_plot, aes(x = district_label, y = n_students)) +
+  geom_col(fill = mn_colors["total"]) +
+  coord_flip() +
+  scale_y_continuous(labels = comma) +
+  labs(
+    title = "Largest Charter Schools in Minnesota (2022-23)",
+    subtitle = "68 charter districts serve 37,782 students statewide",
+    x = "", y = "Students"
+  ) +
+  theme_mn()
+```
+
+## 9. The suburban ring enrolls 211,000+ students
+
+Thirteen suburban ring districts surrounding Minneapolis-St. Paul collectively enroll more than 211,000 students -- nearly a quarter of the state total. Anoka-Hennepin (38,336), Rosemount-Apple Valley-Eagan (29,229), and Osseo (21,385) are the biggest, as families continue moving from the urban core to the suburbs.
+
+```{r suburban-data}
+suburban_names <- c(
+  "ANOKA-HENNEPIN SCHOOL DISTRICT",
+  "ROSEMOUNT-APPLE VALLEY-EAGAN",
+  "OSSEO PUBLIC SCHOOL DISTRICT",
+  "SOUTH WASHINGTON COUNTY SCHOOLS",
+  "ELK RIVER SCHOOL DISTRICT",
+  "WAYZATA PUBLIC SCHOOL DISTRICT",
+  "LAKEVILLE PUBLIC SCHOOL DISTRICT",
+  "MOUNDS VIEW PUBLIC SCHOOL DISTRICT",
+  "NORTH ST. PAUL-MAPLEWOOD OAKDALE",
+  "ROBBINSDALE PUBLIC SCHOOL DISTRICT",
+  "BLOOMINGTON PUBLIC SCHOOL DISTRICT",
+  "EDEN PRAIRIE PUBLIC SCHOOL DISTRICT",
+  "EASTERN CARVER COUNTY PUBLIC SCHOOL"
+)
+
+suburban <- enr %>%
+  filter(is_district, district_name %in% suburban_names,
+         subgroup == "total_enrollment", grade_level == "TOTAL") %>%
+  arrange(desc(n_students)) %>%
+  select(district_name, n_students)
+
+stopifnot(nrow(suburban) > 0)
+suburban
+```
+
+```{r suburban-chart}
+suburban_plot <- suburban %>%
+  mutate(district_label = reorder(district_name, n_students))
+
+stopifnot(nrow(suburban_plot) > 0)
+
+ggplot(suburban_plot, aes(x = district_label, y = n_students)) +
+  geom_col(fill = mn_colors["total"]) +
+  coord_flip() +
+  scale_y_continuous(labels = comma) +
+  labs(
+    title = "Suburban Ring Districts (2022-23)",
+    subtitle = paste0("13 districts collectively enroll ", comma(sum(suburban$n_students)), " students"),
+    x = "", y = "Students"
+  ) +
+  theme_mn()
+```
+
+## 10. Rochester's 17,320 students reflect Mayo Clinic's global draw
+
+Rochester Public Schools, anchored by the Mayo Clinic, enrolled 17,320 students in 2022-23. The district is remarkably diverse for an outstate city: 51% white, 17% Black, 13% Hispanic, 9% Asian, and 9% multiracial. Mayo Clinic's global workforce brings families from around the world to southeast Minnesota.
+
+```{r rochester-data}
+rochester <- enr %>%
+  filter(is_district,
+         district_name == "ROCHESTER PUBLIC SCHOOL DISTRICT",
+         grade_level == "TOTAL") %>%
+  select(subgroup, n_students, pct) %>%
+  arrange(desc(n_students))
+
+stopifnot(nrow(rochester) > 0)
+rochester
+```
+
+```{r rochester-chart}
+roch_plot <- rochester %>%
+  filter(subgroup != "total_enrollment") %>%
+  mutate(
+    pct_label = paste0(round(pct * 100, 1), "%"),
+    subgroup_label = reorder(subgroup, n_students)
+  )
+
+stopifnot(nrow(roch_plot) > 0)
+
+ggplot(roch_plot, aes(x = subgroup_label, y = n_students, fill = subgroup)) +
+  geom_col() +
+  geom_text(aes(label = pct_label), hjust = -0.1, size = 4) +
+  coord_flip() +
+  scale_fill_manual(values = mn_colors, guide = "none") +
+  scale_y_continuous(labels = comma, expand = expansion(mult = c(0, 0.15))) +
+  labs(
+    title = "Rochester Public Schools Demographics (2022-23)",
+    subtitle = "Mayo Clinic brings global diversity to southeast Minnesota",
+    x = "", y = "Students"
+  ) +
+  theme_mn()
+```
+
+## 11. Duluth: 75% white, but diversifying in the Northland
+
+Duluth Public Schools enrolled 8,807 students in 2022-23 in Minnesota's third-largest city. At 75% white, it is the least diverse of the state's large districts, but multiracial students (10.6%) are now the second-largest group, reflecting changing demographics in northern Minnesota.
+
+```{r duluth-data}
+duluth <- enr %>%
+  filter(is_district,
+         grepl("DULUTH PUBLIC", district_name),
+         grade_level == "TOTAL") %>%
+  select(subgroup, n_students, pct) %>%
+  arrange(desc(n_students))
+
+stopifnot(nrow(duluth) > 0)
+duluth
+```
+
+```{r duluth-chart}
+duluth_plot <- duluth %>%
+  filter(subgroup != "total_enrollment") %>%
+  mutate(
+    pct_label = paste0(round(pct * 100, 1), "%"),
+    subgroup_label = reorder(subgroup, n_students)
+  )
+
+stopifnot(nrow(duluth_plot) > 0)
+
+ggplot(duluth_plot, aes(x = subgroup_label, y = n_students, fill = subgroup)) +
+  geom_col() +
+  geom_text(aes(label = pct_label), hjust = -0.1, size = 4) +
+  coord_flip() +
+  scale_fill_manual(values = mn_colors, guide = "none") +
+  scale_y_continuous(labels = comma, expand = expansion(mult = c(0, 0.15))) +
+  labs(
+    title = "Duluth Public Schools Demographics (2022-23)",
+    subtitle = "Northern Minnesota's largest city, 75% white but diversifying",
+    x = "", y = "Students"
+  ) +
+  theme_mn()
+```
+
+## 12. Columbia Heights: 51% Hispanic, 26% Black in a tiny suburb
+
+Columbia Heights Public Schools, a small inner-ring suburb of Minneapolis, enrolled 3,449 students with a majority-Hispanic student body: 51% Hispanic, 26% Black, 13% white, 6% multiracial, and 3% Asian. The district reflects the immigrant and refugee communities that have settled in Minneapolis's first-ring suburbs.
+
+```{r columbia-heights-data}
+colhts <- enr %>%
+  filter(is_district,
+         grepl("COLUMBIA HEIGHTS", district_name),
+         grade_level == "TOTAL") %>%
+  select(subgroup, n_students, pct) %>%
+  arrange(desc(n_students))
+
+stopifnot(nrow(colhts) > 0)
+colhts
+```
+
+```{r columbia-heights-chart}
+colhts_plot <- colhts %>%
+  filter(subgroup != "total_enrollment") %>%
+  mutate(
+    pct_label = paste0(round(pct * 100, 1), "%"),
+    subgroup_label = reorder(subgroup, n_students)
+  )
+
+stopifnot(nrow(colhts_plot) > 0)
+
+ggplot(colhts_plot, aes(x = subgroup_label, y = n_students, fill = subgroup)) +
+  geom_col() +
+  geom_text(aes(label = pct_label), hjust = -0.1, size = 4) +
+  coord_flip() +
+  scale_fill_manual(values = mn_colors, guide = "none") +
+  scale_y_continuous(labels = comma, expand = expansion(mult = c(0, 0.15))) +
+  labs(
+    title = "Columbia Heights Demographics (2022-23)",
+    subtitle = "3,449 students -- 51% Hispanic, 26% Black",
+    x = "", y = "Students"
+  ) +
+  theme_mn()
+```
+
+## 13. 55 districts have fewer than 250 students
+
+Rural Minnesota continues to consolidate. Fifty-five districts enroll fewer than 250 students, while 16 districts have over 10,000. The 16 largest districts serve 294,000 students (34% of the state), while the 55 smallest collectively serve just 8,052.
+
+```{r size-distribution-data}
+size_dist <- enr %>%
+  filter(is_district, subgroup == "total_enrollment",
+         grade_level == "TOTAL") %>%
+  mutate(size_cat = case_when(
+    n_students < 250 ~ "Under 250",
+    n_students < 500 ~ "250-499",
+    n_students < 1000 ~ "500-999",
+    n_students < 5000 ~ "1,000-4,999",
+    n_students < 10000 ~ "5,000-9,999",
+    TRUE ~ "10,000+"
+  )) %>%
+  group_by(size_cat) %>%
+  summarize(
+    n_districts = n(),
+    total_students = sum(n_students),
+    .groups = "drop"
+  )
+
+stopifnot(nrow(size_dist) > 0)
+size_dist
+```
+
+```{r size-distribution-chart}
+size_plot <- size_dist %>%
+  mutate(size_cat = factor(size_cat,
+    levels = c("Under 250", "250-499", "500-999",
+               "1,000-4,999", "5,000-9,999", "10,000+")))
+
+stopifnot(nrow(size_plot) > 0)
+
+ggplot(size_plot, aes(x = size_cat, y = n_districts)) +
+  geom_col(fill = mn_colors["total"]) +
+  geom_text(aes(label = n_districts), vjust = -0.5, size = 4) +
+  labs(
+    title = "Minnesota District Size Distribution (2022-23)",
+    subtitle = "55 districts have fewer than 250 students",
+    x = "District Size (students)", y = "Number of Districts"
+  ) +
+  theme_mn()
+```
+
+## 14. The top 10 most diverse large districts
+
+Among districts with over 3,000 students, the least-white are Columbia Heights (13% white), North St. Paul-Maplewood (22%), St. Paul (22%), Burnsville (26%), Worthington (27%), and Richfield (29%). Several of these inner-ring suburbs diversified rapidly as immigrant and refugee families moved out of Minneapolis and St. Paul.
+
+```{r diverse-large-data}
+diverse_large <- enr %>%
+  filter(is_district, subgroup == "white", grade_level == "TOTAL") %>%
+  left_join(
+    enr %>% filter(is_district, subgroup == "total_enrollment",
+                    grade_level == "TOTAL") %>%
+      select(district_name, total = n_students),
+    by = "district_name"
+  ) %>%
+  filter(total > 3000, !is_charter) %>%
+  arrange(pct) %>%
+  head(10) %>%
+  select(district_name, n_students, pct, total)
+
+stopifnot(nrow(diverse_large) > 0)
+diverse_large
+```
+
+```{r diverse-large-chart}
+diverse_plot <- diverse_large %>%
+  mutate(
+    pct_label = paste0(round(pct * 100, 1), "%"),
+    district_label = reorder(district_name, -pct)
+  )
+
+stopifnot(nrow(diverse_plot) > 0)
+
+ggplot(diverse_plot, aes(x = district_label, y = pct * 100)) +
+  geom_col(fill = mn_colors["white"]) +
+  geom_text(aes(label = pct_label), hjust = -0.1, size = 3.5) +
+  coord_flip() +
+  scale_y_continuous(expand = expansion(mult = c(0, 0.15))) +
+  labs(
+    title = "Most Diverse Large Districts in Minnesota (2022-23)",
+    subtitle = "Percent white among districts with 3,000+ students",
+    x = "", y = "Percent White"
+  ) +
+  theme_mn()
+```
+
+## 15. Outstate districts are still 85%+ white
+
+While the Twin Cities metro diversified rapidly, outstate Minnesota districts remain overwhelmingly white. Among districts with 3,000+ students, New Prague (92%), Chisago Lakes (90%), Princeton (89%), and Alexandria (88%) have barely changed, creating a stark geographic divide in who Minnesota students learn alongside.
+
+```{r whitest-large-data}
+whitest <- enr %>%
+  filter(is_district, subgroup == "white", grade_level == "TOTAL") %>%
+  left_join(
+    enr %>% filter(is_district, subgroup == "total_enrollment",
+                    grade_level == "TOTAL") %>%
+      select(district_name, total = n_students),
+    by = "district_name"
+  ) %>%
+  filter(total > 3000, !is_charter) %>%
+  arrange(desc(pct)) %>%
+  head(10) %>%
+  select(district_name, n_students, pct, total)
+
+stopifnot(nrow(whitest) > 0)
+whitest
+```
+
+```{r whitest-large-chart}
+whitest_plot <- whitest %>%
+  mutate(
+    pct_label = paste0(round(pct * 100, 1), "%"),
+    district_label = reorder(district_name, pct)
+  )
+
+stopifnot(nrow(whitest_plot) > 0)
+
+ggplot(whitest_plot, aes(x = district_label, y = pct * 100)) +
+  geom_col(fill = mn_colors["white"]) +
+  geom_text(aes(label = pct_label), hjust = -0.1, size = 3.5) +
+  coord_flip() +
+  scale_y_continuous(expand = expansion(mult = c(0, 0.15)),
+                     limits = c(0, 100)) +
+  labs(
+    title = "Whitest Large Districts in Minnesota (2022-23)",
+    subtitle = "Percent white among districts with 3,000+ students",
+    x = "", y = "Percent White"
+  ) +
+  theme_mn()
+```
+
+## Session Info
+
+```{r session-info}
+sessionInfo()
+```

@@ -29,22 +29,25 @@ remotes::install_github("almartin82/mnschooldata")
 
 ## Quick Example
 
-Fetch the most recent year of Minnesota enrollment data:
+Fetch Minnesota enrollment data:
 
 ```{r fetch-data, eval = FALSE}
 library(mnschooldata)
 library(dplyr)
 
-# Fetch 2024 enrollment data
-enr <- fetch_enr(2024, use_cache = TRUE)
+# Fetch 2023 enrollment data
+enr <- fetch_enr(2023, use_cache = TRUE)
 
 head(enr)
 ```
 
 ```{r load-cached-data, eval = TRUE}
-# For vignette building, use cached data to avoid network calls
-data("enr_2024_example", package = "mnschooldata")
-enr <- enr_2024_example
+# For vignette building, use bundled example data
+library(mnschooldata)
+library(dplyr)
+
+data("enr_2023_example", package = "mnschooldata")
+enr <- enr_2023_example
 head(enr)
 ```
 
@@ -53,12 +56,12 @@ head(enr)
 The data is returned in **tidy (long) format** by default:
 
 - Each row is one subgroup for one school/district/state
-- `subgroup` identifies the demographic group (e.g., "total_enrollment", "white", "black", "hispanic", "econ_disadv")
+- `subgroup` identifies the demographic group (e.g., "total_enrollment", "white", "black", "hispanic")
 - `grade_level` shows the grade ("TOTAL", "K", "01", "02", etc.)
 - `n_students` is the enrollment count
 - `pct` is the percentage of total enrollment
 
-```{r data-structure, eval = FALSE}
+```{r data-structure}
 enr %>%
   filter(is_state) %>%
   select(end_year, type, subgroup, grade_level, n_students) %>%
@@ -69,23 +72,19 @@ enr %>%
 
 Use the aggregation flags to filter data:
 
-```{r filter-levels, eval = FALSE}
+```{r filter-levels}
 # State totals
 state <- enr %>% filter(is_state, subgroup == "total_enrollment", grade_level == "TOTAL")
 state %>% select(end_year, n_students)
 
 # All districts
 districts <- enr %>% filter(is_district, subgroup == "total_enrollment", grade_level == "TOTAL")
-nrow(districts)
-
-# All schools
-schools <- enr %>% filter(is_school, subgroup == "total_enrollment", grade_level == "TOTAL")
-nrow(schools)
+cat("Number of districts:", nrow(districts), "\n")
 ```
 
 ## Simple Analysis: Top 10 Districts
 
-```{r top-districts, eval = FALSE}
+```{r top-districts}
 enr %>%
   filter(is_district, subgroup == "total_enrollment", grade_level == "TOTAL") %>%
   arrange(desc(n_students)) %>%
@@ -95,11 +94,11 @@ enr %>%
 
 ## Demographic Analysis
 
-```{r demographics, eval = FALSE}
+```{r demographics}
 # State demographics
 enr %>%
   filter(is_state, grade_level == "TOTAL",
-         subgroup %in% c("white", "black", "hispanic", "asian")) %>%
+         subgroup %in% c("white", "black", "hispanic", "asian", "multiracial", "native_american")) %>%
   select(subgroup, n_students, pct) %>%
   mutate(pct = round(pct * 100, 1))
 ```
@@ -109,48 +108,33 @@ enr %>%
 If you prefer wide format (one column per demographic), set `tidy = FALSE`:
 
 ```{r wide-format, eval = FALSE}
-enr_wide <- fetch_enr(2024, tidy = FALSE, use_cache = TRUE)
+enr_wide <- fetch_enr(2023, tidy = FALSE, use_cache = TRUE)
 
 enr_wide %>%
   filter(type == "State") %>%
-  select(end_year, row_total, white, black, hispanic, asian, econ_disadv)
-```
-
-## Historical Data
-
-Fetch multiple years to analyze trends:
-
-```{r multi-year, eval = FALSE}
-# Fetch 5 years of data
-enr_multi <- fetch_enr_multi(2020:2024, use_cache = TRUE)
-
-# State enrollment trend
-enr_multi %>%
-  filter(is_state, subgroup == "total_enrollment", grade_level == "TOTAL") %>%
-  select(end_year, n_students)
+  select(end_year, row_total, white, black, hispanic, asian)
 ```
 
 ## Minnesota-Specific Features
 
 Minnesota has several unique district types:
 
-```{r district-types, eval = FALSE}
+```{r district-types}
 enr %>%
   filter(is_district, subgroup == "total_enrollment", grade_level == "TOTAL") %>%
-  mutate(district_type = case_when(
-    grepl("^01", district_id) ~ "Independent School District",
-    grepl("^03", district_id) ~ "Special School District (e.g., Minneapolis, St. Paul)",
-    grepl("^06", district_id) ~ "Intermediate School District",
-    grepl("^07", district_id) ~ "Charter School",
+  mutate(district_type_label = case_when(
+    district_type == "01" ~ "Independent School District",
+    district_type == "03" ~ "Special School District",
+    district_type == "07" ~ "Charter School",
     TRUE ~ "Other"
   )) %>%
-  count(district_type) %>%
+  count(district_type_label) %>%
   arrange(desc(n))
 ```
 
 ## Next Steps
 
-- See `vignette("enrollment-trends")` for 15 stories Minnesota enrollment data
+- See `vignette("enrollment_hooks")` for 15 stories from Minnesota enrollment data
 - Use `?fetch_enr` for full function documentation
 
 ## Session Info
