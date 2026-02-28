@@ -7,21 +7,13 @@
 [![Lifecycle: experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://lifecycle.r-lib.org/articles/stages.html#experimental)
 <!-- badges: end -->
 
-**[Documentation](https://almartin82.github.io/mnschooldata/)** | **[Getting Started](https://almartin82.github.io/mnschooldata/articles/quickstart.html)** | **[Enrollment Stories](https://almartin82.github.io/mnschooldata/articles/enrollment_hooks.html)**
+**873,175 students. 389 districts. 68 charter schools.** Minnesota is far more diverse than most people think -- 41% students of color, major Hmong and Somali communities, meatpacking towns that are majority-Hispanic, and tribal schools that are 96% Native American.
 
-Fetch and analyze Minnesota school enrollment data from the Minnesota Department of Education (MDE) in R or Python.
+Part of the [njschooldata](https://github.com/almartin82/njschooldata) family.
 
-This package is part of the [state-schooldata project](https://github.com/almartin82?tab=repositories&q=schooldata), inspired by [njschooldata](https://github.com/almartin82/njschooldata) -- providing a simple, consistent interface for accessing state-published school data across all 50 states.
+**[Full documentation](https://almartin82.github.io/mnschooldata/)** -- all 15 stories with interactive charts, getting-started guide, and complete function reference.
 
-## What can you find with mnschooldata?
-
-**873,175 students. 389 districts. 68 charter schools.** Minnesota is far more diverse than most people think -- 41% students of color, major Hmong and Somali communities, meatpacking towns that are majority-Hispanic, and tribal schools that are 96% Native American. Here are fifteen stories hiding in the numbers:
-
----
-
-### 1. Minnesota's 873,000 students are 41% students of color
-
-Minnesota enrolled 873,175 students in 2022-23 across 389 districts. While still majority-white at 59%, the state's schools are far more diverse than many assume -- 41% of students identify as Black, Hispanic, Asian, Native American, multiracial, or Pacific Islander.
+## Highlights
 
 ```r
 library(mnschooldata)
@@ -31,63 +23,11 @@ library(scales)
 
 data("enr_multi_example", package = "mnschooldata")
 enr <- enr_multi_example
-
-state_demo <- enr %>%
-  filter(is_state, grade_level == "TOTAL") %>%
-  select(subgroup, n_students, pct) %>%
-  arrange(desc(n_students))
-
-stopifnot(nrow(state_demo) > 0)
-state_demo
-#> # A tibble: 8 x 3
-#>   subgroup         n_students     pct
-#>   <chr>                 <dbl>   <dbl>
-#> 1 total_enrollment     873175 1      
-#> 2 white                518783 0.594  
-#> 3 black                110312 0.126  
-#> 4 hispanic             105538 0.121  
-#> 5 asian                 62538 0.0716 
-#> 6 multiracial           59516 0.0682 
-#> 7 native_american       15372 0.0176 
-#> 8 pacific_islander       1116 0.00128
 ```
-
-![State demographics](https://almartin82.github.io/mnschooldata/articles/enrollment_hooks_files/figure-html/state-demographics-chart-1.png)
 
 ---
 
-### 2. St. Paul schools are 28% Asian -- the Hmong capital of America
-
-St. Paul has the largest Hmong community in the United States. In the St. Paul Public School District, 9,022 students (27.5%) are Asian -- more than any other racial group except Black (24.1%) and White (22.4%). Two charter schools, Hmong College Prep Academy (96% Asian, 2,456 students) and Prairie Seeds Academy (88% Asian, 942 students), serve primarily Hmong families.
-
-```r
-stpaul <- enr %>%
-  filter(is_district,
-         district_name == "ST. PAUL PUBLIC SCHOOL DISTRICT",
-         grade_level == "TOTAL") %>%
-  select(subgroup, n_students, pct) %>%
-  arrange(desc(n_students))
-
-stopifnot(nrow(stpaul) > 0)
-stpaul
-#> # A tibble: 8 x 3
-#>   subgroup         n_students      pct
-#>   <chr>                 <dbl>    <dbl>
-#> 1 total_enrollment      32750 1       
-#> 2 asian                  9022 0.275   
-#> 3 black                  7886 0.241   
-#> 4 white                  7348 0.224   
-#> 5 hispanic               5077 0.155   
-#> 6 multiracial            3155 0.0963  
-#> 7 native_american         254 0.00776 
-#> 8 pacific_islander          8 0.000244
-```
-
-![St. Paul demographics](https://almartin82.github.io/mnschooldata/articles/enrollment_hooks_files/figure-html/stpaul-demographics-chart-1.png)
-
----
-
-### 3. St. Cloud is 43% Black -- Somali refugees reshaped a rural city
+### 1. St. Cloud is 43% Black -- Somali refugees reshaped a rural city
 
 St. Cloud, a city of 70,000 in central Minnesota, saw dramatic demographic change as Somali refugees settled there starting in the late 1990s. Today 4,399 Black students make up 43% of the district's enrollment of 10,232, making it one of the most demographically transformed districts in the country.
 
@@ -104,52 +44,23 @@ stcloud
 #> # A tibble: 8 x 3
 #>   subgroup         n_students     pct
 #>   <chr>                 <dbl>   <dbl>
-#> 1 total_enrollment      10232 1      
-#> 2 black                  4399 0.430  
-#> 3 white                  3462 0.338  
-#> 4 hispanic               1248 0.122  
-#> 5 multiracial             800 0.0782 
-#> 6 asian                   245 0.0239 
+#> 1 total_enrollment      10232 1
+#> 2 black                  4399 0.430
+#> 3 white                  3462 0.338
+#> 4 hispanic               1248 0.122
+#> 5 multiracial             800 0.0782
+#> 6 asian                   245 0.0239
 #> 7 native_american          47 0.00459
 #> 8 pacific_islander         31 0.00303
 ```
 
 ![St. Cloud demographics](https://almartin82.github.io/mnschooldata/articles/enrollment_hooks_files/figure-html/stcloud-demographics-chart-1.png)
 
----
-
-### 4. Anoka-Hennepin is Minnesota's largest district at 38,336 students
-
-Anoka-Hennepin School District, north of Minneapolis, serves more students than any other Minnesota district. At 38,336 students, it is larger than Minneapolis (30,079) and St. Paul (32,750). The suburban district is 53.5% white, with growing Black (17.6%), Asian (11.6%), and multiracial (8.9%) populations.
-
-```r
-anoka <- enr %>%
-  filter(is_district,
-         grepl("ANOKA-HENNEPIN", district_name),
-         grade_level == "TOTAL") %>%
-  select(subgroup, n_students, pct) %>%
-  arrange(desc(n_students))
-
-stopifnot(nrow(anoka) > 0)
-anoka
-#> # A tibble: 8 x 3
-#>   subgroup         n_students      pct
-#>   <chr>                 <dbl>    <dbl>
-#> 1 total_enrollment      38336 1       
-#> 2 white                 20520 0.535   
-#> 3 black                  6737 0.176   
-#> 4 asian                  4437 0.116   
-#> 5 multiracial            3405 0.0888  
-#> 6 hispanic               3005 0.0784  
-#> 7 native_american         207 0.00540 
-#> 8 pacific_islander         25 0.000652
-```
-
-![Anoka-Hennepin demographics](https://almartin82.github.io/mnschooldata/articles/enrollment_hooks_files/figure-html/anoka-chart-1.png)
+[(source)](https://almartin82.github.io/mnschooldata/articles/enrollment_hooks.html#st.-cloud-is-43-black----somali-refugees-reshaped-a-rural-city)
 
 ---
 
-### 5. Worthington is 57% Hispanic -- meatpacking built a new Minnesota
+### 2. Worthington is 57% Hispanic -- meatpacking built a new Minnesota
 
 Worthington, a city of 14,000 in southwest Minnesota, is home to a JBS pork processing plant that attracted immigrants from Latin America and East Africa. Today 57% of the district's 3,958 students are Hispanic, making it one of the most Latino school districts in the Upper Midwest.
 
@@ -166,52 +77,23 @@ worthington
 #> # A tibble: 8 x 3
 #>   subgroup         n_students      pct
 #>   <chr>                 <dbl>    <dbl>
-#> 1 total_enrollment       3958 1       
-#> 2 hispanic               2263 0.572   
-#> 3 white                  1083 0.274   
-#> 4 asian                   281 0.0710  
-#> 5 black                   196 0.0495  
-#> 6 multiracial             106 0.0268  
-#> 7 pacific_islander         26 0.00657 
+#> 1 total_enrollment       3958 1
+#> 2 hispanic               2263 0.572
+#> 3 white                  1083 0.274
+#> 4 asian                   281 0.0710
+#> 5 black                   196 0.0495
+#> 6 multiracial             106 0.0268
+#> 7 pacific_islander         26 0.00657
 #> 8 native_american           3 0.000758
 ```
 
 ![Worthington demographics](https://almartin82.github.io/mnschooldata/articles/enrollment_hooks_files/figure-html/worthington-chart-1.png)
 
----
-
-### 6. Minneapolis is minority-majority: 64% students of color
-
-Minneapolis Public Schools enrolled 30,079 students in 2022-23, with white students making up just 36%. Black students are the largest group at 27%, followed by Hispanic (22%), multiracial (8%), and Asian (3%). The city's schools reflect decades of immigration from Somalia, Latin America, and Southeast Asia.
-
-```r
-mpls <- enr %>%
-  filter(is_district,
-         district_name == "MINNEAPOLIS PUBLIC SCHOOL DISTRICT",
-         grade_level == "TOTAL") %>%
-  select(subgroup, n_students, pct) %>%
-  arrange(desc(n_students))
-
-stopifnot(nrow(mpls) > 0)
-mpls
-#> # A tibble: 8 x 3
-#>   subgroup         n_students      pct
-#>   <chr>                 <dbl>    <dbl>
-#> 1 total_enrollment      30079 1       
-#> 2 white                 10935 0.364   
-#> 3 black                  8056 0.268   
-#> 4 hispanic               6723 0.224   
-#> 5 multiracial            2326 0.0773  
-#> 6 native_american        1080 0.0359  
-#> 7 asian                   940 0.0313  
-#> 8 pacific_islander         19 0.000632
-```
-
-![Minneapolis demographics](https://almartin82.github.io/mnschooldata/articles/enrollment_hooks_files/figure-html/mpls-demographics-chart-1.png)
+[(source)](https://almartin82.github.io/mnschooldata/articles/enrollment_hooks.html#worthington-is-57-hispanic----meatpacking-built-a-new-minnesota)
 
 ---
 
-### 7. Red Lake is 96% Native American
+### 3. Red Lake is 96% Native American
 
 Red Lake Public School District, on the Red Lake Band of Chippewa reservation in northern Minnesota, enrolls 1,517 students -- 1,455 of whom (96%) are Native American. Nearby Cass Lake-Bena (94% Native American) and Waubun-Ogema-White Earth (81%) serve similarly concentrated Indigenous communities. Together, 15,372 Native American students attend Minnesota schools statewide.
 
@@ -248,6 +130,264 @@ native
 ```
 
 ![Native American concentrations](https://almartin82.github.io/mnschooldata/articles/enrollment_hooks_files/figure-html/native-chart-1.png)
+
+[(source)](https://almartin82.github.io/mnschooldata/articles/enrollment_hooks.html#red-lake-is-96-native-american)
+
+---
+
+## Data Taxonomy
+
+| Category | Years | Function | Details |
+|----------|-------|----------|---------|
+| **Enrollment** | 2007-2024 | `fetch_enr()` / `fetch_enr_multi()` | State, district, school. Race, gender, FRPL, SpEd, LEP |
+| Assessments | -- | -- | Not yet available |
+| Graduation | -- | -- | Not yet available |
+| Directory | -- | -- | Not yet available |
+| Per-Pupil Spending | -- | -- | Not yet available |
+| Accountability | -- | -- | Not yet available |
+| Chronic Absence | -- | -- | Not yet available |
+| EL Progress | -- | -- | Not yet available |
+| Special Ed | -- | -- | Not yet available |
+
+> See the full [data category taxonomy](DATA-CATEGORY-TAXONOMY.md) for what each category covers.
+
+## Quick Start
+
+### R
+
+```r
+# install.packages("remotes")
+remotes::install_github("almartin82/mnschooldata")
+
+library(mnschooldata)
+library(dplyr)
+
+# Fetch one year (requires network access to MDE)
+enr_2023 <- fetch_enr(2023, use_cache = TRUE)
+
+# State totals
+enr_2023 %>%
+  filter(is_state, subgroup == "total_enrollment", grade_level == "TOTAL")
+
+# Largest districts
+enr_2023 %>%
+  filter(is_district, subgroup == "total_enrollment", grade_level == "TOTAL") %>%
+  arrange(desc(n_students)) %>%
+  head(15)
+
+# Minneapolis demographics
+enr_2023 %>%
+  filter(grepl("MINNEAPOLIS", district_name), grade_level == "TOTAL",
+         subgroup %in% c("white", "black", "hispanic", "asian")) %>%
+  select(subgroup, n_students, pct)
+```
+
+### Python
+
+```python
+import pymnschooldata as mn
+
+# Check available years
+years = mn.get_available_years()
+print(f"Data available from {years['min_year']} to {years['max_year']}")
+
+# Fetch one year
+enr_2023 = mn.fetch_enr(2023)
+
+# State totals
+state_total = enr_2023[
+    (enr_2023['is_state'] == True) &
+    (enr_2023['subgroup'] == 'total_enrollment') &
+    (enr_2023['grade_level'] == 'TOTAL')
+]
+
+# Largest districts
+districts = enr_2023[
+    (enr_2023['is_district'] == True) &
+    (enr_2023['subgroup'] == 'total_enrollment') &
+    (enr_2023['grade_level'] == 'TOTAL')
+].sort_values('n_students', ascending=False).head(15)
+```
+
+## Explore More
+
+Full analysis with 15 stories:
+- [Enrollment trends](https://almartin82.github.io/mnschooldata/articles/enrollment_hooks.html) -- 15 stories
+- [Function reference](https://almartin82.github.io/mnschooldata/reference/)
+
+## Data Notes
+
+### Source
+
+Data is sourced from the Minnesota Department of Education (MDE):
+- MDEAnalytics Portal: https://pub.education.mn.gov/MDEAnalytics/Data.jsp
+- MN Report Card: https://rc.education.mn.gov/
+
+### Available Years
+
+| Years | Source | Notes |
+|-------|--------|-------|
+| **2007-2024** | MDE MARSS | Requires successful download from MDE portal |
+
+**Note:** MDE uses a WebFOCUS (ibi_apps) portal that does not provide stable direct-download URLs. Data availability depends on portal accessibility. The bundled example data contains verified 2022-23 enrollment from a successful download.
+
+### Census Day
+
+All enrollment data represents **October 1 official counts** (Census Day), reported via MARSS (Minnesota Automated Reporting Student System).
+
+### Suppression Rules
+
+- Small cell sizes (typically <10 students) may be suppressed for privacy
+- Suppressed values appear as `NA` in the data
+
+### What's Included
+
+- **Levels:** State, District (~389)
+- **Demographics:** White, Black, Hispanic, Asian, Native American, Pacific Islander, Multiracial
+- **District types:** Independent (01), Special (03 -- Minneapolis, South St. Paul), Charter (07)
+- **Grade levels:** TOTAL (grade-level breakdowns available when MDE portal provides them)
+
+### Minnesota-Specific Notes
+
+- **District Types:**
+  - 01: Independent School Districts (300 districts)
+  - 03: Special School Districts (Minneapolis, South St. Paul)
+  - 07: Charter Schools (68 charters)
+- **MARSS:** Minnesota Automated Reporting Student System
+- **Hmong community:** St. Paul has the largest Hmong population in the US (27.5% of St. Paul Public Schools)
+- **Somali community:** Significant populations in Minneapolis, St. Cloud, and Faribault
+
+## Deeper Dive
+
+---
+
+### 4. Minnesota's 873,000 students are 41% students of color
+
+Minnesota enrolled 873,175 students in 2022-23 across 389 districts. While still majority-white at 59%, the state's schools are far more diverse than many assume -- 41% of students identify as Black, Hispanic, Asian, Native American, multiracial, or Pacific Islander.
+
+```r
+state_demo <- enr %>%
+  filter(is_state, grade_level == "TOTAL") %>%
+  select(subgroup, n_students, pct) %>%
+  arrange(desc(n_students))
+
+stopifnot(nrow(state_demo) > 0)
+state_demo
+#> # A tibble: 8 x 3
+#>   subgroup         n_students     pct
+#>   <chr>                 <dbl>   <dbl>
+#> 1 total_enrollment     873175 1
+#> 2 white                518783 0.594
+#> 3 black                110312 0.126
+#> 4 hispanic             105538 0.121
+#> 5 asian                 62538 0.0716
+#> 6 multiracial           59516 0.0682
+#> 7 native_american       15372 0.0176
+#> 8 pacific_islander       1116 0.00128
+```
+
+![State demographics](https://almartin82.github.io/mnschooldata/articles/enrollment_hooks_files/figure-html/state-demographics-chart-1.png)
+
+[(source)](https://almartin82.github.io/mnschooldata/articles/enrollment_hooks.html#minnesotas-873000-students-are-41-students-of-color)
+
+---
+
+### 5. St. Paul schools are 28% Asian -- the Hmong capital of America
+
+St. Paul has the largest Hmong community in the United States. In the St. Paul Public School District, 9,022 students (27.5%) are Asian -- more than any other racial group except Black (24.1%) and White (22.4%). Two charter schools, Hmong College Prep Academy (96% Asian, 2,456 students) and Prairie Seeds Academy (88% Asian, 942 students), serve primarily Hmong families.
+
+```r
+stpaul <- enr %>%
+  filter(is_district,
+         district_name == "ST. PAUL PUBLIC SCHOOL DISTRICT",
+         grade_level == "TOTAL") %>%
+  select(subgroup, n_students, pct) %>%
+  arrange(desc(n_students))
+
+stopifnot(nrow(stpaul) > 0)
+stpaul
+#> # A tibble: 8 x 3
+#>   subgroup         n_students      pct
+#>   <chr>                 <dbl>    <dbl>
+#> 1 total_enrollment      32750 1
+#> 2 asian                  9022 0.275
+#> 3 black                  7886 0.241
+#> 4 white                  7348 0.224
+#> 5 hispanic               5077 0.155
+#> 6 multiracial            3155 0.0963
+#> 7 native_american         254 0.00776
+#> 8 pacific_islander          8 0.000244
+```
+
+![St. Paul demographics](https://almartin82.github.io/mnschooldata/articles/enrollment_hooks_files/figure-html/stpaul-demographics-chart-1.png)
+
+[(source)](https://almartin82.github.io/mnschooldata/articles/enrollment_hooks.html#st.-paul-schools-are-28-asian----the-hmong-capital-of-america)
+
+---
+
+### 6. Anoka-Hennepin is Minnesota's largest district at 38,336 students
+
+Anoka-Hennepin School District, north of Minneapolis, serves more students than any other Minnesota district. At 38,336 students, it is larger than Minneapolis (30,079) and St. Paul (32,750). The suburban district is 53.5% white, with growing Black (17.6%), Asian (11.6%), and multiracial (8.9%) populations.
+
+```r
+anoka <- enr %>%
+  filter(is_district,
+         grepl("ANOKA-HENNEPIN", district_name),
+         grade_level == "TOTAL") %>%
+  select(subgroup, n_students, pct) %>%
+  arrange(desc(n_students))
+
+stopifnot(nrow(anoka) > 0)
+anoka
+#> # A tibble: 8 x 3
+#>   subgroup         n_students      pct
+#>   <chr>                 <dbl>    <dbl>
+#> 1 total_enrollment      38336 1
+#> 2 white                 20520 0.535
+#> 3 black                  6737 0.176
+#> 4 asian                  4437 0.116
+#> 5 multiracial            3405 0.0888
+#> 6 hispanic               3005 0.0784
+#> 7 native_american         207 0.00540
+#> 8 pacific_islander         25 0.000652
+```
+
+![Anoka-Hennepin demographics](https://almartin82.github.io/mnschooldata/articles/enrollment_hooks_files/figure-html/anoka-chart-1.png)
+
+[(source)](https://almartin82.github.io/mnschooldata/articles/enrollment_hooks.html#anoka-hennepin-is-minnesotas-largest-district-at-38336-students)
+
+---
+
+### 7. Minneapolis is minority-majority: 64% students of color
+
+Minneapolis Public Schools enrolled 30,079 students in 2022-23, with white students making up just 36%. Black students are the largest group at 27%, followed by Hispanic (22%), multiracial (8%), and Asian (3%). The city's schools reflect decades of immigration from Somalia, Latin America, and Southeast Asia.
+
+```r
+mpls <- enr %>%
+  filter(is_district,
+         district_name == "MINNEAPOLIS PUBLIC SCHOOL DISTRICT",
+         grade_level == "TOTAL") %>%
+  select(subgroup, n_students, pct) %>%
+  arrange(desc(n_students))
+
+stopifnot(nrow(mpls) > 0)
+mpls
+#> # A tibble: 8 x 3
+#>   subgroup         n_students      pct
+#>   <chr>                 <dbl>    <dbl>
+#> 1 total_enrollment      30079 1
+#> 2 white                 10935 0.364
+#> 3 black                  8056 0.268
+#> 4 hispanic               6723 0.224
+#> 5 multiracial            2326 0.0773
+#> 6 native_american        1080 0.0359
+#> 7 asian                   940 0.0313
+#> 8 pacific_islander         19 0.000632
+```
+
+![Minneapolis demographics](https://almartin82.github.io/mnschooldata/articles/enrollment_hooks_files/figure-html/mpls-demographics-chart-1.png)
+
+[(source)](https://almartin82.github.io/mnschooldata/articles/enrollment_hooks.html#minneapolis-is-minority-majority-64-students-of-color)
 
 ---
 
@@ -286,6 +426,8 @@ charter
 ```
 
 ![Largest charter schools](https://almartin82.github.io/mnschooldata/articles/enrollment_hooks_files/figure-html/charter-chart-1.png)
+
+[(source)](https://almartin82.github.io/mnschooldata/articles/enrollment_hooks.html#charter-schools-serve-37782-students)
 
 ---
 
@@ -338,6 +480,8 @@ suburban
 
 ![Suburban ring districts](https://almartin82.github.io/mnschooldata/articles/enrollment_hooks_files/figure-html/suburban-chart-1.png)
 
+[(source)](https://almartin82.github.io/mnschooldata/articles/enrollment_hooks.html#the-suburban-ring-enrolls-211000-students)
+
 ---
 
 ### 10. Rochester's 17,320 students reflect Mayo Clinic's global draw
@@ -357,17 +501,19 @@ rochester
 #> # A tibble: 8 x 3
 #>   subgroup         n_students     pct
 #>   <chr>                 <dbl>   <dbl>
-#> 1 total_enrollment      17320 1      
-#> 2 white                  8821 0.509  
-#> 3 black                  2981 0.172  
-#> 4 hispanic               2299 0.133  
-#> 5 multiracial            1644 0.0949 
-#> 6 asian                  1486 0.0858 
+#> 1 total_enrollment      17320 1
+#> 2 white                  8821 0.509
+#> 3 black                  2981 0.172
+#> 4 hispanic               2299 0.133
+#> 5 multiracial            1644 0.0949
+#> 6 asian                  1486 0.0858
 #> 7 native_american          73 0.00421
 #> 8 pacific_islander         16 0.000924
 ```
 
 ![Rochester demographics](https://almartin82.github.io/mnschooldata/articles/enrollment_hooks_files/figure-html/rochester-chart-1.png)
+
+[(source)](https://almartin82.github.io/mnschooldata/articles/enrollment_hooks.html#rochesters-17320-students-reflect-mayo-clinics-global-draw)
 
 ---
 
@@ -388,17 +534,19 @@ duluth
 #> # A tibble: 8 x 3
 #>   subgroup         n_students      pct
 #>   <chr>                 <dbl>    <dbl>
-#> 1 total_enrollment       8807 1       
-#> 2 white                  6646 0.755   
-#> 3 multiracial             933 0.106   
-#> 4 black                   419 0.0476  
-#> 5 hispanic                386 0.0438  
-#> 6 native_american         338 0.0384  
-#> 7 asian                    77 0.00874 
+#> 1 total_enrollment       8807 1
+#> 2 white                  6646 0.755
+#> 3 multiracial             933 0.106
+#> 4 black                   419 0.0476
+#> 5 hispanic                386 0.0438
+#> 6 native_american         338 0.0384
+#> 7 asian                    77 0.00874
 #> 8 pacific_islander          8 0.000908
 ```
 
 ![Duluth demographics](https://almartin82.github.io/mnschooldata/articles/enrollment_hooks_files/figure-html/duluth-chart-1.png)
+
+[(source)](https://almartin82.github.io/mnschooldata/articles/enrollment_hooks.html#duluth-75-white-but-diversifying-in-the-northland)
 
 ---
 
@@ -430,6 +578,8 @@ colhts
 ```
 
 ![Columbia Heights demographics](https://almartin82.github.io/mnschooldata/articles/enrollment_hooks_files/figure-html/columbia-heights-chart-1.png)
+
+[(source)](https://almartin82.github.io/mnschooldata/articles/enrollment_hooks.html#columbia-heights-51-hispanic-26-black-in-a-tiny-suburb)
 
 ---
 
@@ -471,6 +621,8 @@ size_dist
 
 ![District size distribution](https://almartin82.github.io/mnschooldata/articles/enrollment_hooks_files/figure-html/size-distribution-chart-1.png)
 
+[(source)](https://almartin82.github.io/mnschooldata/articles/enrollment_hooks.html#districts-have-fewer-than-250-students)
+
 ---
 
 ### 14. The top 10 most diverse large districts
@@ -509,6 +661,8 @@ diverse_large
 ```
 
 ![Most diverse large districts](https://almartin82.github.io/mnschooldata/articles/enrollment_hooks_files/figure-html/diverse-large-chart-1.png)
+
+[(source)](https://almartin82.github.io/mnschooldata/articles/enrollment_hooks.html#the-top-10-most-diverse-large-districts)
 
 ---
 
@@ -549,122 +703,4 @@ whitest
 
 ![Whitest large districts](https://almartin82.github.io/mnschooldata/articles/enrollment_hooks_files/figure-html/whitest-large-chart-1.png)
 
----
-
-## Installation
-
-```r
-# install.packages("remotes")
-remotes::install_github("almartin82/mnschooldata")
-```
-
-## Quick start
-
-### R
-
-```r
-library(mnschooldata)
-library(dplyr)
-
-# Fetch one year (requires network access to MDE)
-enr_2023 <- fetch_enr(2023, use_cache = TRUE)
-
-# State totals
-enr_2023 %>%
-  filter(is_state, subgroup == "total_enrollment", grade_level == "TOTAL")
-
-# Largest districts
-enr_2023 %>%
-  filter(is_district, subgroup == "total_enrollment", grade_level == "TOTAL") %>%
-  arrange(desc(n_students)) %>%
-  head(15)
-
-# Minneapolis demographics
-enr_2023 %>%
-  filter(grepl("MINNEAPOLIS", district_name), grade_level == "TOTAL",
-         subgroup %in% c("white", "black", "hispanic", "asian")) %>%
-  select(subgroup, n_students, pct)
-```
-
-### Python
-
-```python
-import pymnschooldata as mn
-
-# Check available years
-years = mn.get_available_years()
-print(f"Data available from {years['min_year']} to {years['max_year']}")
-
-# Fetch one year
-enr_2023 = mn.fetch_enr(2023)
-
-# State totals
-state_total = enr_2023[
-    (enr_2023['is_state'] == True) &
-    (enr_2023['subgroup'] == 'total_enrollment') &
-    (enr_2023['grade_level'] == 'TOTAL')
-]
-
-# Largest districts
-districts = enr_2023[
-    (enr_2023['is_district'] == True) &
-    (enr_2023['subgroup'] == 'total_enrollment') &
-    (enr_2023['grade_level'] == 'TOTAL')
-].sort_values('n_students', ascending=False).head(15)
-```
-
-## Data Notes
-
-### Source
-
-Data is sourced from the Minnesota Department of Education (MDE):
-- MDEAnalytics Portal: https://pub.education.mn.gov/MDEAnalytics/Data.jsp
-- MN Report Card: https://rc.education.mn.gov/
-
-### Available Years
-
-| Years | Source | Notes |
-|-------|--------|-------|
-| **2007-2024** | MDE MARSS | Requires successful download from MDE portal |
-
-**Note:** MDE uses a WebFOCUS (ibi_apps) portal that does not provide stable direct-download URLs. Data availability depends on portal accessibility. The bundled example data contains verified 2022-23 enrollment from a successful download.
-
-### Census Day
-
-All enrollment data represents **October 1 official counts** (Census Day), reported via MARSS (Minnesota Automated Reporting Student System).
-
-### Suppression Rules
-
-- Small cell sizes (typically <10 students) may be suppressed for privacy
-- Suppressed values appear as `NA` in the data
-
-### What's Included
-
-- **Levels:** State, District (~389)
-- **Demographics:** White, Black, Hispanic, Asian, Native American, Pacific Islander, Multiracial
-- **District types:** Independent (01), Special (03 -- Minneapolis, South St. Paul), Charter (07)
-- **Grade levels:** TOTAL (grade-level breakdowns available when MDE portal provides them)
-
-### Minnesota-Specific Notes
-
-- **District Types:**
-  - 01: Independent School Districts (300 districts)
-  - 03: Special School Districts (Minneapolis, South St. Paul)
-  - 07: Charter Schools (68 charters)
-- **MARSS:** Minnesota Automated Reporting Student System
-- **Hmong community:** St. Paul has the largest Hmong population in the US (27.5% of St. Paul Public Schools)
-- **Somali community:** Significant populations in Minneapolis, St. Cloud, and Faribault
-
-## Part of the State Schooldata Project
-
-A simple, consistent interface for accessing state-published school data in Python and R.
-
-**All 50 state packages:** [github.com/almartin82](https://github.com/almartin82?tab=repositories&q=schooldata)
-
-## Author
-
-[Andy Martin](https://github.com/almartin82) (almartin@gmail.com)
-
-## License
-
-MIT
+[(source)](https://almartin82.github.io/mnschooldata/articles/enrollment_hooks.html#outstate-districts-are-still-85-white)
