@@ -218,10 +218,17 @@ process_assessment_level <- function(df, end_year, type) {
 standardize_test_name <- function(x) {
   x <- toupper(trimws(as.character(x)))
 
-  # MCA variants
+  # MCA variants — order matters: check IV first, then III, then II.
+
+  # Each replacement uses negative lookahead-style anchoring to avoid
+  # "III" being re-matched by the "II" pattern. After each gsub the
+  # value becomes the canonical label (e.g. "MCA-III") which must NOT
+  # match subsequent patterns.
   x <- gsub(".*MCA.*IV.*|.*MCA-IV.*|.*MCA 4.*", "MCA-IV", x)
   x <- gsub(".*MCA.*III.*|.*MCA-III.*|.*MCA 3.*", "MCA-III", x)
-  x <- gsub(".*MCA.*II.*|.*MCA-II.*|.*MCA 2.*", "MCA-II", x)
+  # Only match II when NOT already "MCA-III" or "MCA-IV"
+  ii_idx <- grepl("II", x) & !grepl("MCA-III|MCA-IV", x)
+  x[ii_idx] <- gsub(".*MCA.*II.*|.*MCA-II.*|.*MCA 2.*", "MCA-II", x[ii_idx])
 
   # Generic MCA (when version not specified)
   x <- gsub("^MCA$|^MINNESOTA COMPREHENSIVE ASSESSMENT.*", "MCA", x)
@@ -272,6 +279,8 @@ standardize_grade <- function(x) {
   x <- gsub("^GRADE\\s*", "", x)
 
   # Handle ordinal formats
+  x <- gsub("^1ST$", "01", x)
+  x <- gsub("^2ND$", "02", x)
   x <- gsub("^3RD$", "03", x)
   x <- gsub("^4TH$", "04", x)
   x <- gsub("^5TH$", "05", x)
@@ -282,8 +291,8 @@ standardize_grade <- function(x) {
   x <- gsub("^10TH$", "10", x)
   x <- gsub("^11TH$", "11", x)
 
-  # Pad single digits
-  x <- gsub("^([3-9])$", "0\\1", x)
+  # Pad single digits (1-9)
+  x <- gsub("^([1-9])$", "0\\1", x)
 
   # HS indicators
   x <- gsub("^HS$|^HIGH.*SCHOOL$|^10$", "10", x)
