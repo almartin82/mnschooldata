@@ -8,7 +8,8 @@ NULL
 # Global variables used in dplyr pipelines
 utils::globalVariables(c(
 
-"grade_level", "n_students", "row_total", "subgroup", "type"
+"grade_level", "n_students", "row_total", "subgroup", "type",
+"district_type", "charter_flag"
 ))
 
 #' mnschooldata: Fetch and Process Minnesota School Data

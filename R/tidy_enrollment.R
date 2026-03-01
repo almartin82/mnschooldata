@@ -26,7 +26,8 @@ tidy_enr <- function(df) {
     "end_year", "type",
     "district_id", "campus_id",
     "district_name", "campus_name",
-    "county"
+    "county",
+    "district_type", "charter_flag"
   )
   invariants <- invariants[invariants %in% names(df)]
 
@@ -62,7 +63,7 @@ tidy_enr <- function(df) {
           dplyr::select(dplyr::all_of(c(invariants, "n_students", "row_total"))) |>
           dplyr::mutate(
             subgroup = .x,
-            pct = n_students / row_total,
+            pct = dplyr::if_else(row_total > 0, n_students / row_total, NA_real_),
             grade_level = "TOTAL"
           ) |>
           dplyr::select(dplyr::all_of(c(invariants, "grade_level", "subgroup", "n_students", "pct")))
@@ -79,7 +80,7 @@ tidy_enr <- function(df) {
       dplyr::mutate(
         n_students = row_total,
         subgroup = "total_enrollment",
-        pct = 1.0,
+        pct = dplyr::if_else(row_total > 0, 1.0, NA_real_),
         grade_level = "TOTAL"
       ) |>
       dplyr::select(dplyr::all_of(c(invariants, "grade_level", "subgroup", "n_students", "pct")))
@@ -117,7 +118,7 @@ tidy_enr <- function(df) {
           dplyr::select(dplyr::all_of(c(invariants, "n_students", "row_total"))) |>
           dplyr::mutate(
             subgroup = "total_enrollment",
-            pct = n_students / row_total,
+            pct = dplyr::if_else(row_total > 0, n_students / row_total, NA_real_),
             grade_level = gl
           ) |>
           dplyr::select(dplyr::all_of(c(invariants, "grade_level", "subgroup", "n_students", "pct")))
@@ -147,7 +148,7 @@ tidy_enr <- function(df) {
 #' table(tidy_data$is_state, tidy_data$is_district, tidy_data$is_campus)
 #' }
 id_enr_aggs <- function(df) {
-  df |>
+  result <- df |>
     dplyr::mutate(
       # State level: Type == "State"
       is_state = type == "State",
@@ -165,6 +166,18 @@ id_enr_aggs <- function(df) {
         TRUE ~ "state"
       )
     )
+
+  # Add is_charter flag if district_type or charter_flag is available
+  # Minnesota district type 07 = charter school
+  if ("district_type" %in% names(result)) {
+    result$is_charter <- !is.na(result$district_type) &
+                         result$district_type == "07"
+  } else if ("charter_flag" %in% names(result)) {
+    result$is_charter <- !is.na(result$charter_flag) &
+                         result$charter_flag %in% c("Y", "Yes", "TRUE", "1")
+  }
+
+  result
 }
 
 
