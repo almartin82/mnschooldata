@@ -142,7 +142,7 @@ native
 | **Enrollment** | 2007-2024 | `fetch_enr()` / `fetch_enr_multi()` | State, district, school. Race, gender, FRPL, SpEd, LEP |
 | Assessments | -- | -- | Not yet available |
 | Graduation | -- | -- | Not yet available |
-| Directory | -- | -- | Not yet available |
+| **Directory** | Current | `fetch_directory()` / `fetch_district_directory()` | School, district. Principal, superintendent contacts |
 | Per-Pupil Spending | -- | -- | Not yet available |
 | Accountability | -- | -- | Not yet available |
 | Chronic Absence | -- | -- | Not yet available |

@@ -33,6 +33,12 @@ reference:
   - fetch_school_assessment
   - get_available_assessment_years
 
+- title: Fetch Directory Data
+  desc: Functions for downloading school/district directory data from MDE-ORG
+  contents:
+  - fetch_directory
+  - fetch_district_directory
+
 - title: Transform Data
   desc: Functions for reshaping and annotating data
   contents:
@@ -50,6 +56,7 @@ reference:
   - cache_status
   - clear_cache
   - clear_assessment_cache
+  - clear_directory_cache
 
 - title: Package
   contents:

@@ -410,3 +410,36 @@ Grade aggregates from `enr_grade_aggs()`: `K8`, `HS`, `K12`
 Entity types in `type` column: `"State"`, `"District"`, `"Campus"`
 
 **Note:** `is_charter` is derived from the `charter_flag` column (values `"Y"`, `"Yes"`, `"TRUE"`, `"1"`).
+
+---
+
+## Directory Data Implementation
+
+**Status:** IMPLEMENTED
+**Last Updated:** 2026-03-01
+
+### Data Source
+
+**Portal:** MDE-ORG (MDE Organization Reference Glossary)
+**Base URL:** `https://pub.education.mn.gov/MdeOrgView/`
+**File Format:** CSV via extract endpoints
+**Access Method:** Direct HTTP GET, no authentication required
+
+### Extract Endpoints
+
+- Schools: `https://pub.education.mn.gov/MdeOrgView/tag/extractContacts/MDEORG_SCHOOL?description=`
+- Districts/LEAs: `https://pub.education.mn.gov/MdeOrgView/tag/extractContacts/MDEORG_LEA?description=`
+
+### Key Details
+
+- MDE-ORG is a **live directory** (no historical year parameter)
+- School extract: ~2,400 rows with principal contacts, grades, classification
+- District extract: ~530 rows with superintendent contacts
+- CSV columns: District Number, District Type, School Number, Organization, Title, Name, First Name, Last Name, Phone, Email, Physical/Mailing addresses, County, Grades, School Classification, NCES ID, StateOrganizationId
+- State org ID format: DDDD-TT-SSS (district-type-school) or DDDD-TT (district-type)
+
+### Functions
+
+- `fetch_directory(end_year, tidy, use_cache)` -- combined school+district data
+- `fetch_district_directory(end_year, use_cache)` -- district-only data
+- `clear_directory_cache(end_year)` -- cache management
