@@ -381,7 +381,39 @@ enr_multi &lt;- fetch_enr_multi(2020:2024, use_cache = TRUE)</code></pre>
 <p><code>is_state</code>, <code>is_district</code>, <code>is_campus</code>, <code>is_charter</code></p>
 <p>Entity types in <code>type</code> column: <code>"State"</code>, <code>"District"</code>, <code>"Campus"</code></p>
 <p><strong>Note:</strong> <code>is_charter</code> is derived from the <code>charter_flag</code> column (values <code>"Y"</code>, <code>"Yes"</code>, <code>"TRUE"</code>, <code>"1"</code>).</p>
+<hr></div>
 </div>
+<div class="section level2">
+<h2 id="directory-data-implementation">Directory Data Implementation<a class="anchor" aria-label="anchor" href="#directory-data-implementation"></a></h2>
+<p><strong>Status:</strong> IMPLEMENTED <strong>Last Updated:</strong> 2026-03-01</p>
+<div class="section level3">
+<h3 id="data-source">Data Source<a class="anchor" aria-label="anchor" href="#data-source"></a></h3>
+<p><strong>Portal:</strong> MDE-ORG (MDE Organization Reference Glossary) <strong>Base URL:</strong> <code>https://pub.education.mn.gov/MdeOrgView/</code> <strong>File Format:</strong> CSV via extract endpoints <strong>Access Method:</strong> Direct HTTP GET, no authentication required</p>
+</div>
+<div class="section level3">
+<h3 id="extract-endpoints">Extract Endpoints<a class="anchor" aria-label="anchor" href="#extract-endpoints"></a></h3>
+<ul><li>Schools: <code>https://pub.education.mn.gov/MdeOrgView/tag/extractContacts/MDEORG_SCHOOL?description=</code>
+</li>
+<li>Districts/LEAs: <code>https://pub.education.mn.gov/MdeOrgView/tag/extractContacts/MDEORG_LEA?description=</code>
+</li>
+</ul></div>
+<div class="section level3">
+<h3 id="key-details">Key Details<a class="anchor" aria-label="anchor" href="#key-details"></a></h3>
+<ul><li>MDE-ORG is a <strong>live directory</strong> (no historical year parameter)</li>
+<li>School extract: ~2,400 rows with principal contacts, grades, classification</li>
+<li>District extract: ~530 rows with superintendent contacts</li>
+<li>CSV columns: District Number, District Type, School Number, Organization, Title, Name, First Name, Last Name, Phone, Email, Physical/Mailing addresses, County, Grades, School Classification, NCES ID, StateOrganizationId</li>
+<li>State org ID format: DDDD-TT-SSS (district-type-school) or DDDD-TT (district-type)</li>
+</ul></div>
+<div class="section level3">
+<h3 id="functions">Functions<a class="anchor" aria-label="anchor" href="#functions"></a></h3>
+<ul><li>
+<code>fetch_directory(end_year, tidy, use_cache)</code> – combined school+district data</li>
+<li>
+<code>fetch_district_directory(end_year, use_cache)</code> – district-only data</li>
+<li>
+<code>clear_directory_cache(end_year)</code> – cache management</li>
+</ul></div>
 </div>
 </div>
 

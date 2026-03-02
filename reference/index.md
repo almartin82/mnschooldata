@@ -26,6 +26,15 @@ Functions for downloading MCA assessment data from MDE
 - [`get_available_assessment_years()`](https://almartin82.github.io/mnschooldata/reference/get_available_assessment_years.md)
   : Get available assessment years
 
+## Fetch Directory Data
+
+Functions for downloading school/district directory data from MDE-ORG
+
+- [`fetch_directory()`](https://almartin82.github.io/mnschooldata/reference/fetch_directory.md)
+  : Fetch Minnesota school directory data
+- [`fetch_district_directory()`](https://almartin82.github.io/mnschooldata/reference/fetch_district_directory.md)
+  : Fetch Minnesota district directory data
+
 ## Transform Data
 
 Functions for reshaping and annotating data
@@ -55,6 +64,8 @@ Functions for managing locally cached data
   : Clear the mnschooldata cache
 - [`clear_assessment_cache()`](https://almartin82.github.io/mnschooldata/reference/clear_assessment_cache.md)
   : Clear assessment cache
+- [`clear_directory_cache()`](https://almartin82.github.io/mnschooldata/reference/clear_directory_cache.md)
+  : Clear directory data cache
 
 ## Package
 
